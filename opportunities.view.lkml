@@ -718,10 +718,10 @@ view: opportunities {
   }
 
 
-
   measure: cr3 {
     type: number
-    sql: ${won_opportunities} / ${done_demos} ;; }
+    value_format: "0.00\%"
+    sql: ${won_opportunities}*1.0 / NULLIF(${done_demos},0) ;; }
 
 
   measure: won_opportunities  {
@@ -736,7 +736,7 @@ view: opportunities {
     sql: ${id} ;;
     filters: {
       field: check_demo_done_c
-      value: "true" } }
+      value: "yes" } }
 
 
 
