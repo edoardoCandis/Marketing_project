@@ -712,6 +712,33 @@ view: opportunities {
     type: count
     drill_fields: [detail*]
   }
+  measure: datediff_demo_to_close {
+    type: sum
+    sql: ${close_date}- ${demo_done_date_c_date} ;;
+  }
+
+
+
+  measure: cr3 {
+    type: number
+    sql: ${won_opportunities} / ${done_demos} ;; }
+
+
+  measure: won_opportunities  {
+    type: count_distinct
+    sql: ${id} ;;
+    filters: {
+      field: stage_name
+      value: "Closed Won" } }
+
+  measure: done_demos  {
+    type: count_distinct
+    sql: ${id} ;;
+    filters: {
+      field: check_demo_done_c
+      value: "true" } }
+
+
 
   # ----- Sets of fields for drilling ------
   set: detail {

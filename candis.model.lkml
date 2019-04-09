@@ -31,4 +31,9 @@ explore: opportunities {
     relationship: many_to_one
     sql_on: ${opportunities.account_id} = ${accounts.id} ;;
   }
+  join: users {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${opportunities.owner_id} = ${users.id} ;;
+  }
 }
