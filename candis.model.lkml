@@ -1,4 +1,4 @@
-connection: "connection_name"
+connection: "candis_redshift"
 
 include: "*.view.lkml"                       # include all views in this project
 # include: "my_dashboard.dashboard.lookml"   # include a LookML dashboard called my_dashboard
@@ -17,3 +17,18 @@ include: "*.view.lkml"                       # include all views in this project
 #     sql_on: ${users.id} = ${orders.user_id} ;;
 #   }
 # }
+
+explore: opportunities {
+  label: "Salesforce"
+  join: cb_subscriptions {
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${opportunities.subscription_id_c} = ${cb_subscriptions.id} ;;
+  }
+
+  join: accounts {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${opportunities.account_id} = ${accounts.id} ;;
+  }
+}
