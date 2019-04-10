@@ -19,7 +19,8 @@ include: "*.view.lkml"                       # include all views in this project
 # }
 
 explore: opportunities {
-  label: "Salesforce"
+  sql_always_where: ${close_date}>='2019-01-01' AND ${name} NOT LIKE '%test%'  ;;
+  label: "New Customers"
   join: cb_subscriptions {
     type: left_outer
     relationship: one_to_one

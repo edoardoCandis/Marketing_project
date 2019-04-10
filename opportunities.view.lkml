@@ -708,6 +708,8 @@ view: opportunities {
     sql: ${TABLE}.uuid_ts ;;
   }
 
+# calculations for measures
+
   measure: count {
     type: count
     drill_fields: [detail*]
@@ -717,11 +719,28 @@ view: opportunities {
     sql: ${close_date}- ${demo_done_date_c_date} ;;
   }
 
+#--- Conversionrate definitions
 
-  measure: cr3 {
+
+  measure: cr_3 {
     type: number
     value_format: "0.00\%"
     sql: ${won_opportunities}*1.0 / NULLIF(${done_demos},0) ;; }
+
+  measure: cr_2 {
+    type: number
+    value_format: "0.00\%"
+    sql: ${done_demos}*1.0 / NULLIF(${booked_demos},0) ;; }
+
+  measure: cr_1 {
+    type: number
+    value_format: "0.00\%"
+    sql: ${booked_demos}*1.0 / NULLIF(${count},0) ;; }
+
+  measure: cr_total {
+    type: number
+    value_format: "0.00\%"
+    sql: ${won_opportunities}*1.0 / NULLIF(${count},0) ;; }
 
 
   measure: won_opportunities  {
@@ -737,6 +756,15 @@ view: opportunities {
     filters: {
       field: check_demo_done_c
       value: "yes" } }
+
+  measure: booked_demos  {
+    type: count_distinct
+    sql: ${id} ;;
+    filters: {
+      field: demo_booked_c
+      value: "yes" } }
+
+
 
 
 
