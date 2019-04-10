@@ -161,13 +161,13 @@ view: opportunities {
     ]
     sql: ${TABLE}.created_date ;;
   }
+#the exact number of days shouldnt matter-> the buckets should suffice
+  #dimension: daysin_opportunity_funnel_c {
+   # type: number
+    #sql: ${TABLE}.daysin_opportunity_funnel_c ;;
+  #}
 
-  dimension: daysin_opportunity_funnel_c {
-    type: number
-    sql: ${TABLE}.daysin_opportunity_funnel_c ;;
-  }
-
-  dimension: weeks_in_opportunity_funnel {
+  dimension: days_in_opportunity_funnel {
     type: tier
     tiers: [ 0,7,14,21,28,]
     style: integer
