@@ -39,7 +39,8 @@ view: opportunities {
   }
 
   dimension: amount {
-    type: string
+    type: number
+    label: "Gross MRR"
     sql: ${TABLE}.amount ;;
   }
 
