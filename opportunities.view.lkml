@@ -720,6 +720,11 @@ view: opportunities {
     sql: ${close_date}- ${demo_done_date_c_date} ;;
   }
 
+  measure: gross_mrr {
+    type: sum
+    sql: ${amount};;
+  }
+
 #--- Conversionrate definitions
 
 
