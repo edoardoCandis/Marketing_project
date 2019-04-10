@@ -167,6 +167,12 @@ view: opportunities {
     sql: ${TABLE}.daysin_opportunity_funnel_c ;;
   }
 
+  dimension: weeks_in_opportunity_funnel {
+    type: tier
+    tiers: [ 0,7,14,21,28,]
+    style: integer
+    sql: ${TABLE}.daysin_opportunity_funnel_c ;;
+  }
   dimension: decision_process_c {
     type: string
     sql: ${TABLE}.decision_process_c ;;
@@ -720,11 +726,23 @@ view: opportunities {
     sql: ${close_date}- ${demo_done_date_c_date} ;;
   }
 
-  measure: gross_mrr {
+  measure: gross_mrr_won_sum {
     type: sum
+    label: "Gross MRR Won"
     sql: ${amount};;
+    filters: {
+      field: stage_name
+      value: "Closed Won" }
   }
 
+  measure: gross_mrr_won_avg {
+    type: average
+    label: "Gross MRR Won/Opportunity"
+    sql: ${amount};;
+    filters: {
+      field: stage_name
+      value: "Closed Won" }
+  }
 #--- Conversionrate definitions
 
 
