@@ -749,22 +749,22 @@ view: opportunities {
   measure: cr_3 {
     type: number
     value_format: "0.00\%"
-    sql: ${won_opportunities}*1.0 / NULLIF(${done_demos},0) ;; }
+    sql: ${won_opportunities}*100.0 / NULLIF(${done_demos},0) ;; }
 
   measure: cr_2 {
     type: number
     value_format: "0.00\%"
-    sql: ${done_demos}*1.0 / NULLIF(${booked_demos},0) ;; }
+    sql: ${done_demos}*100.0 / NULLIF(${booked_demos},0) ;; }
 
   measure: cr_1 {
     type: number
     value_format: "0.00\%"
-    sql: ${booked_demos}*1.0 / NULLIF(${count},0) ;; }
+    sql: ${booked_demos}*100.0 / NULLIF(${count},0) ;; }
 
   measure: cr_total {
     type: number
     value_format: "0.00\%"
-    sql: ${won_opportunities}*1.0 / NULLIF(${count},0) ;; }
+    sql: ${won_opportunities}*100.0 / NULLIF(${count},0) ;; }
 
 
   measure: won_opportunities  {
