@@ -238,6 +238,13 @@ view: opportunities {
     sql: ${TABLE}.employees_c ;;
   }
 
+  dimension: company_size{
+    type: tier
+    tiers: [ 25,100,200]
+    style: integer
+    sql: ${TABLE}.employees_c ;;
+  }
+
   dimension: fiscal {
     type: string
     sql: ${TABLE}.fiscal ;;
@@ -767,6 +774,20 @@ view: opportunities {
     value_format: "0.00\%"
     sql: ${won_opportunities}*100.0 / NULLIF(${count},0) ;; }
 
+  measure: cr_4 {
+    type: number
+    value_format: "0.00\%"
+    sql: ${opportunities_out_of_moneyback}*100.0 / NULLIF(${won_opportunities},0) ;; }
+
+  measure: opportunities_out_of_moneyback  {
+    type: count_distinct
+    sql: ${id} ;;
+    filters: {
+      field: subscription_out_of_moneyback_c
+      value: "yes" }
+    filters: {
+      field: stage_name
+      value: "Closed Won" }}
 
   measure: won_opportunities  {
     type: count_distinct

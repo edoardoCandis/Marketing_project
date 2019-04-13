@@ -19,7 +19,10 @@ include: "*.view.lkml"                       # include all views in this project
 # }
 
 explore: opportunities {
-  sql_always_where: ${close_date}>='2019-01-01' AND ${name} NOT LIKE '%test%' AND ${users.user_role_id}='Salesrep'  ;;
+  sql_always_where: ${close_date}>='2019-01-01'
+                    AND ${name} NOT LIKE '%test%'
+                    AND ${users.user_role_id}='Salesrep'
+                    AND ${is_deleted}<>"true";;
   label: "New Customers"
   join: cb_subscriptions {
     type: left_outer
