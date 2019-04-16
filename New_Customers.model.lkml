@@ -40,4 +40,9 @@ explore: opportunities {
     relationship: many_to_one
     sql_on: ${opportunities.owner_id} = ${users.id} ;;
   }
+  join: fact_demos_done_monthly {
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${users.name} = ${fact_demos_done_monthly.name} AND ${opportunities.demo_done_date_c_month}=${fact_demos_done_monthly.demo_done_date_c_month} ;;
+  }
 }

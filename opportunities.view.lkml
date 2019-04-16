@@ -174,6 +174,13 @@ view: opportunities {
     style: integer
     sql: ${TABLE}.daysin_opportunity_funnel_c ;;
   }
+
+  dimension: weeks_to_close_after_demo {
+    type: tier
+    tiers: [ 0,7,14,21,28,35,42]
+    style: integer
+    sql: : ${close_date}- ${demo_done_date_c_date} ;;
+  }
   dimension: decision_process_c {
     type: string
     sql: ${TABLE}.decision_process_c ;;
