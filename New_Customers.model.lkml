@@ -23,6 +23,7 @@ explore: opportunities {
                     AND ${name} NOT LIKE '%test%'
                     AND ${users.user_role_id}='Salesrep'
                     AND ${is_deleted}<>true;;
+  group_label: "Growth Metrics"
   label: "New Customers"
   join: cb_subscriptions {
     type: left_outer
