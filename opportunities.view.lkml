@@ -162,18 +162,25 @@ view: opportunities {
     ]
     sql: ${TABLE}.created_date ;;
   }
-#the exact number of days shouldnt matter-> the buckets should suffice
-  #dimension: daysin_opportunity_funnel_c {
-   # type: number
-    #sql: ${TABLE}.daysin_opportunity_funnel_c ;;
-  #}
 
-  dimension: days_in_opportunity_funnel {
+  dimension: daysin_opportunity_funnel_c {
+    type: number
+    sql: ${TABLE}.daysin_opportunity_funnel_c ;;
+  }
+
+  dimension: days_in_opportunity_funnel_bucket {
     type: tier
     tiers: [ 0,7,14,21,28,]
     style: integer
-    sql: ${TABLE}.daysin_opportunity_funnel_c ;;
+    sql: ${daysin_opportunity_funnel_c} ;;
   }
+
+  dimension: days_to_close_after_demo {
+    type: number
+    sql:  ${close_date}- ${demo_done_date_c_date} ;;
+
+  }
+
 
   dimension: weeks_to_close_after_demo {
     type: tier
@@ -818,6 +825,17 @@ view: opportunities {
       value: "yes" } }
 
 
+measure: average_funneltime {
+  label: "Funneltime"
+  type: average
+  sql: ${daysin_opportunity_funnel_c} ;;
+  filters: {
+    field: is_won
+    value: "true"
+  }
+}
+
+
 # -------Period Over Period Analysis
 
   parameter: previous_period_comparison_granularity {
@@ -837,6 +855,8 @@ view: opportunities {
       value: "365"
     }
   }
+
+# -------------- DEFINITION OF FILTERS  -----------
 
   filter: previous_period_filter {
     label: "Previous Period/This Period filter Range"

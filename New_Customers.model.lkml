@@ -25,6 +25,7 @@ explore: opportunities {
                     AND ${is_deleted}<>true;;
   group_label: "Growth Metrics"
   label: "New Customers"
+  description: "This Explore contains all Information about new Sales"
   join: cb_subscriptions {
     type: left_outer
     relationship: one_to_one
@@ -37,6 +38,7 @@ explore: opportunities {
     sql_on: ${opportunities.account_id} = ${accounts.id} ;;
   }
   join: users {
+    view_label: "Salesrep"
     type: left_outer
     relationship: many_to_one
     sql_on: ${opportunities.owner_id} = ${users.id} ;;
