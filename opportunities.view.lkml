@@ -201,6 +201,7 @@ view: opportunities {
       time,
       date,
       week,
+      week_of_year,
       month,
       quarter,
       year
@@ -732,6 +733,16 @@ view: opportunities {
   measure: datediff_demo_to_close {
     type: sum
     sql: ${close_date}- ${demo_done_date_c_date} ;;
+  }
+
+  dimension: days_demo_to_close {
+    type: number
+    sql: DATEDIFF('DAY', ${demo_done_date_c_date}, ${close_date});;
+  }
+
+  dimension: weeks_demo_to_close {
+    type: number
+    sql: DATEDIFF('WEEK', ${demo_done_date_c_date}, ${close_date});;
   }
 
   measure: gross_mrr_won_sum {
