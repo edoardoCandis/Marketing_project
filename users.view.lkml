@@ -5,16 +5,19 @@ view: users {
     primary_key: yes
     type: string
     sql: ${TABLE}.id ;;
+    hidden: yes
   }
 
   dimension: email {
     type: string
     sql: ${TABLE}.email ;;
+    hidden: yes
   }
 
   dimension: first_name {
     type: string
     sql: ${TABLE}.first_name ;;
+    hidden: yes
   }
 
 
@@ -33,19 +36,23 @@ view: users {
 
   dimension: user_role_id {
     type: string
+    label: "User Role"
     sql: CASE WHEN ${TABLE}.user_role_id='00E1t000000cVzBEAU' THEN 'Salesrep'
               WHEN  ${TABLE}.user_role_id='00E1t000000ca3qEAA' THEN 'Successrep' ELSE 'Other'END ;;
+
   }
 
   dimension: username {
     type: string
     sql: ${TABLE}.username ;;
+    hidden: yes
   }
 
   dimension: uuid {
     type: number
     value_format_name: id
     sql: ${TABLE}.uuid ;;
+    hidden: yes
   }
 
   dimension_group: uuid_ts {
