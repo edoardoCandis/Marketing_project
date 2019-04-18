@@ -18,6 +18,11 @@ include: "*.view.lkml"                       # include all views in this project
 #   }
 # }
 
+datagroup: new_opportunities {
+  sql_trigger: SELECT COUNT(*) FROM salesforce.opportunities ;;
+  max_cache_age: "24 hours"
+}
+persist_with: new_opportunities
 explore: opportunities {
   sql_always_where: ${close_date}>='2019-01-01'
                     AND ${name} NOT LIKE '%test%'
@@ -27,6 +32,7 @@ explore: opportunities {
   label: "New Customers"
   description: "This Explore contains all Information about new Sales"
   join: cb_subscriptions {
+  fields: [] #excluding all fields for now
     type: left_outer
     relationship: one_to_one
     sql_on: ${opportunities.subscription_id_c} = ${cb_subscriptions.id} ;;
