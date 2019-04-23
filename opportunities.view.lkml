@@ -290,10 +290,6 @@ view: opportunities {
     sql: ${TABLE}.forecast_category_name ;;
   }
 
-  dimension: funnel_value_c {
-    type: string
-    sql: ${TABLE}.funnel_value_c ;;
-  }
 
   dimension: get_my_invoices_c {
     type: string
@@ -762,6 +758,7 @@ view: opportunities {
   measure: gross_mrr_won_sum {
     type: sum
     label: "Gross MRR Won"
+    value_format: "0.00\€"
     sql: ${amount};;
     filters: {
       field: stage_name
@@ -771,10 +768,23 @@ view: opportunities {
   measure: gross_mrr_won_avg {
     type: average
     label: "Gross MRR Won/Opportunity"
+    value_format: "0.00\€"
     sql: ${amount};;
     filters: {
       field: stage_name
       value: "Closed Won" }
+  }
+
+  measure: funnel_value_c {
+    label: "Funnel Value"
+    description: "Probability x Gross MRR (excluding Won Opportunities)"
+    type: sum
+    value_format: "0.00\€"
+    sql: ${TABLE}.funnel_value_c ;;
+    filters: {
+      field: is_won
+      value: "false"
+    }
   }
 #--- Conversionrate definitions
 
