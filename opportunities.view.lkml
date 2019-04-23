@@ -737,6 +737,7 @@ view: opportunities {
 # calculations for measures
 
   measure: count {
+    label: "Created Opportunities"
     type: count
     drill_fields: [detail*]
   }
