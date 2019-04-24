@@ -23,6 +23,7 @@ datagroup: new_opportunities {
   max_cache_age: "24 hours"
 }
 persist_with: new_opportunities
+
 explore: opportunities {
   # technically we need to think about only including salesreps:  AND ${users.user_role_id}='Salesrep' but this leads to problems at the start of the funnel.
   sql_always_where: ${close_date}>='2019-01-01'
@@ -55,4 +56,17 @@ explore: opportunities {
     relationship: one_to_one
     sql_on: ${users.name} = ${fact_demos_done_monthly.name} AND ${opportunities.demo_done_date_c_month}=${fact_demos_done_monthly.demo_done_date_c_month} ;;
   }
+  join: meetings  {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${opportunities.id}=${meetings.what_id} ;;
+    #only join Webdemos that where not deleted
+    sql_where:  ${meetings.subject} LIKE '%webdemo%'
+                AND ${meetings.is_deleted}<>true;;
+  }
+}
+
+explore: meetings {
+  sql_always_where:  ${subject} ='Webdemo'
+                      AND ${is_deleted}<>true;;
 }
