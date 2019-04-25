@@ -1,0 +1,43 @@
+view: bwa_costs {
+  sql_table_name: financials.bwa_costs ;;
+
+
+  dimension: cost_center {
+    type: string
+    sql: ${TABLE}.cost_center ;;
+  }
+
+  dimension: expense_account {
+    type: string
+    sql: ${TABLE}.expense_account ;;
+  }
+
+  dimension: expense_account_number {
+    type: number
+    sql: ${TABLE}.expense_account_number ;;
+  }
+
+  dimension: month {
+    label: "Month"
+    type: date_month
+    sql: ${TABLE}.month ;;
+  }
+
+  dimension: uniqueid {
+    type: string
+    sql: ${TABLE}.uniqueid ;;
+  }
+
+#--------- measures here ---------------
+
+  measure: count {
+    type: count
+    drill_fields: []
+  }
+
+  measure: amount {
+    type: number
+    value_format: "0.00€"
+    sql: ${TABLE}.amount;;
+  }
+}
