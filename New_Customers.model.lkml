@@ -56,6 +56,11 @@ explore: opportunities {
     relationship: one_to_one
     sql_on: ${users.name} = ${fact_demos_done_monthly.name} AND ${opportunities.demo_done_date_c_month}=${fact_demos_done_monthly.demo_done_date_c_month} ;;
   }
+  join: cohort_week {
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${opportunities.created_week} = ${cohort_week.cohort_week} ;;
+  }
   join: meetings  {
     type: left_outer
     relationship: many_to_one
@@ -69,4 +74,5 @@ explore: opportunities {
 explore: meetings {
   sql_always_where:  ${subject} ='Webdemo'
                       AND ${is_deleted}<>true;;
+
 }

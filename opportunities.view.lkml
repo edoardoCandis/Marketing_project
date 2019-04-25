@@ -158,6 +158,7 @@ view: opportunities {
       week,
       month,
       quarter,
+      quarter_of_year,
       year
     ]
     sql: ${TABLE}.created_date ;;
@@ -790,28 +791,39 @@ view: opportunities {
 #--- Conversionrate definitions
 
 
+  measure: pct_of_cohort_converted {
+    type: number
+    value_format: "0.00\%"
+    sql: 1.0 * ${won_opportunities} / NULLIF(${cohort_week.cohort_size},0) ;;
+  }
+
   measure: cr_3 {
     type: number
+    group_label: "Conversion Metrics"
     value_format: "0.00\%"
     sql: ${won_opportunities}*100.0 / NULLIF(${done_demos},0) ;; }
 
   measure: cr_2 {
     type: number
+    group_label: "Conversion Metrics"
     value_format: "0.00\%"
     sql: ${done_demos}*100.0 / NULLIF(${booked_demos},0) ;; }
 
   measure: cr_1 {
     type: number
+    group_label: "Conversion Metrics"
     value_format: "0.00\%"
     sql: ${booked_demos}*100.0 / NULLIF(${count},0) ;; }
 
   measure: cr_total {
     type: number
+    group_label: "Conversion Metrics"
     value_format: "0.00\%"
     sql: ${won_opportunities}*100.0 / NULLIF(${count},0) ;; }
 
   measure: cr_4 {
     type: number
+    group_label: "Conversion Metrics"
     value_format: "0.00\%"
     sql: ${opportunities_out_of_moneyback}*100.0 / NULLIF(${won_opportunities},0) ;; }
 
