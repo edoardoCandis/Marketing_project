@@ -78,6 +78,12 @@ view: cb_credit_notes {
     sql: ${TABLE}.name ;;
   }
 
+  dimension: chargebeeapps_reason_code_c {
+    label: "Credit Note Reason"
+    type: string
+    sql: ${TABLE}.chargebeeapps_reason_code_c ;;
+  }
+
 # ------------ measures start here ------------
 
   measure: count {
@@ -97,11 +103,6 @@ view: cb_credit_notes {
     sql: ${TABLE}.chargebeeapps_total_c ;;
   }
 
-  measure: chargebeeapps_reason_code_c {
-    label: "Credit Note Reason"
-    type: sum
-    sql: ${TABLE}.chargebeeapps_reason_code_c ;;
-  }
 
   measure: chargebeeapps_refunded_amount_c {
     label: "Amount refunded"

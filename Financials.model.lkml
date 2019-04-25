@@ -28,11 +28,20 @@ datagroup: new_opportunities {
 persist_with: new_opportunities
 
 explore: cb_invoices {
+  view_label: "Invoices"
+  sql_always_where: ${cb_invoices.chargebeeapps_invoice_date_c_month}>='2019-01-01'
+                    AND ${is_deleted}<>true ;;
+  label: "Financials"
+  description: "All Information regarding Invoices, Credit Notes & PL Costs"
+
   join: cb_credit_notes {
+    view_label: "Credit Notes"
     relationship: one_to_one
-    sql_on: ${cb_invoices.id}=${cb_credit_notes.chargebeeapps_invoice_c} ;;
+    sql_on: ${cb_invoices.id}=${cb_credit_notes.chargebeeapps_invoice_c};;
+    sql_where: ${cb_credit_notes.is_deleted}<>true ;;
   }
 join: bwa_costs {
+  view_label: "Cost Data"
   relationship: many_to_many
   sql_on: ${cb_invoices.chargebeeapps_invoice_date_c_month}=${bwa_costs.month} ;;
 }

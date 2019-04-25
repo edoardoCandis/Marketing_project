@@ -19,7 +19,7 @@ view: bwa_costs {
 
   dimension: month {
     label: "Month"
-    type: date_month
+    type: string
     sql: ${TABLE}.month ;;
   }
 
@@ -36,7 +36,7 @@ view: bwa_costs {
   }
 
   measure: amount {
-    type: number
+    type: sum
     value_format: "0.00€"
     sql: ${TABLE}.amount;;
   }
