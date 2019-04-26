@@ -791,11 +791,11 @@ view: opportunities {
 #--- Conversionrate definitions
 
 
-  measure: pct_of_cohort_converted {
-    type: number
-    value_format: "0.00\%"
-    sql: 1.0 * ${won_opportunities} / NULLIF(${cohort_week.cohort_size},0) ;;
-  }
+ # measure: pct_of_cohort_converted {
+  #  type: number
+   # value_format: "0.00\%"
+    #sql: 1.0 * ${won_opportunities} / NULLIF(${cohort_week.cohort_size},0) ;;
+  #}
 
   measure: cr_3 {
     type: number

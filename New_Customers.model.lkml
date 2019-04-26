@@ -31,8 +31,8 @@ explore: opportunities {
                     AND ${users.user_role_id}='Salesrep'
                     AND ${is_deleted}<>true;;
   group_label: "Growth Metrics"
-  label: "New Customers"
-  description: "This Explore contains all Information about new Sales"
+  label: "Sales Funnel View"
+  description: "This Explore contains all Information about New Sales Opportunities"
   join: cb_subscriptions {
   fields: [] #excluding all fields for now
     type: left_outer
@@ -56,11 +56,13 @@ explore: opportunities {
     relationship: one_to_one
     sql_on: ${users.name} = ${fact_demos_done_monthly.name} AND ${opportunities.demo_done_date_c_month}=${fact_demos_done_monthly.demo_done_date_c_month} ;;
   }
+
   join: cohort_week {
     type: left_outer
-    relationship: one_to_one
-    sql_on: ${opportunities.created_week} = ${cohort_week.cohort_week} ;;
+    relationship: one_to_many
+    sql_on:  ;;
   }
+
   join: meetings  {
     type: left_outer
     relationship: many_to_one
@@ -71,8 +73,20 @@ explore: opportunities {
   }
 }
 
+
 explore: meetings {
-  sql_always_where:  ${subject} ='Webdemo'
+  sql_always_where:  ${subject} ='webdemo'
                       AND ${is_deleted}<>true;;
 
 }
+
+explore: all_opportunities{
+  from: opportunities
+
+  group_label: "Growth Metrics"
+  label: "Total Funnel View"
+  description: "This Explore contains all Opportunity Information (not filtered by Salesreps)."
+
+  }
+
+# Check everything on top of the Funnel (not applying the Salesrep condition
