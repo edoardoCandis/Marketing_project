@@ -149,13 +149,13 @@ view: cb_invoices {
   measure: chargebeeapps_amount_c {
     label: "Invoice Amount incl. VAT"
     type: sum
-    sql: ${TABLE}.chargebeeapps_amount_c ;;
+    sql: ${TABLE}.chargebeeapps_amount_c::decimal ;;
   }
 
   measure: chargebeeapps_sub_total_c {
     label: "Invoice Amount excl. VAT"
     type: sum
-    sql: ${TABLE}.chargebeeapps_sub_total_c ;;
+    sql: ${TABLE}.chargebeeapps_sub_total_c::decimal ;;
   }
 
   measure: total_invoice_discount_applied_c {
