@@ -1,6 +1,11 @@
 view: bwa_costs {
   sql_table_name: financials.bwa_costs ;;
 
+  dimension: uniqueid {
+    primary_key: yes
+    type: string
+    sql: ${TABLE}.uniqueid ;;
+  }
 
   dimension: cost_center {
     type: string
@@ -23,10 +28,7 @@ view: bwa_costs {
     sql: ${TABLE}.month ;;
   }
 
-  dimension: uniqueid {
-    type: string
-    sql: ${TABLE}.uniqueid ;;
-  }
+
 
 #--------- measures here ---------------
 
