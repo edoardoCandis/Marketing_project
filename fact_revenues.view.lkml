@@ -20,6 +20,11 @@ view: fact_revenues {
     type: number
     sql: ${TABLE}.count_workflows_subscriptions ;;
   }
+  dimension: date {
+    type: date
+    sql:${TABLE}.date ;;
+    primary_key: yes
+  }
 
   dimension_group: date {
     type: time
@@ -32,8 +37,15 @@ view: fact_revenues {
       year
     ]
     convert_tz: no
+
     datatype: date
     sql: ${TABLE}.date ;;
+  }
+
+  dimension: is_last_day_of_month {
+    type: yesno
+    # take the last day of the month, or yesterday
+    sql: EXTRACT( day from DATEADD(day,1,${date_date}) ) = 1 OR DATEADD('Day',1,${date_date})=current_date::date;;
   }
 
   dimension: net_mrr_smartbooks {
@@ -71,8 +83,8 @@ view: fact_revenues {
     sql: ${TABLE}.total_moneyback_mrr ;;
   }
 
-  measure: total_trial_mrr {
-    type: max
+  dimension: total_trial_mrr {
+    type: number
     sql: ${TABLE}.total_trial_mrr ;;
   }
 
@@ -80,4 +92,14 @@ view: fact_revenues {
     type: count
     drill_fields: []
   }
+
+measure: total_mrr {
+  type: sum
+  sql: ${total_customer_mrr}+${total_trial_mrr}+${total_moneyback_mrr} ;;
+  filters: {
+    field: is_last_day_of_month
+    value: "yes"
+  }
+}
+
 }
