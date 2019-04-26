@@ -75,7 +75,7 @@ explore: opportunities {
 
 
 explore: meetings {
-  sql_always_where:  ${subject} ='webdemo'
+  sql_always_where:  ${subject} LIKE '%webdemo%'
                       AND ${is_deleted}<>true;;
 
 }
