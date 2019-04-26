@@ -173,6 +173,7 @@ dimension: is_cancelled{
       raw,
       time,
       hour,
+      hour_of_day,
       date,
       week,
       month,
