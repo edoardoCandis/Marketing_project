@@ -1,6 +1,7 @@
 view: opportunities {
   sql_table_name: salesforce.opportunities ;;
 
+ # ------- Dimensions hidden --------------
   dimension: id {
     primary_key: yes
     type: string
@@ -9,82 +10,162 @@ view: opportunities {
 
   dimension: account_id {
     type: string
-    # hidden: yes
+    hidden: yes
     sql: ${TABLE}.account_id ;;
   }
 
+  dimension: last_modified_by_id {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.last_modified_by_id ;;
+  }
+
+  dimension_group: last_modified {
+    hidden: yes
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.last_modified_date ;;
+  }
+
+  dimension: multiplier_account_c {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.multiplier_account_c ;;
+  }
+
+  dimension: description {
+    hidden: yes
+    #field not used
+    type: string
+    sql: ${TABLE}.description ;;
+  }
+
+  dimension: duocliends_c {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.duocliends_c ;;
+  }
+
+  dimension: duoexperience_c {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.duoexperience_c ;;
+  }
+
+  dimension: email_c {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.email_c ;;
+  }
+  dimension: forecast_category {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.forecast_category ;;
+  }
+
+  dimension: forecast_category_name {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.forecast_category_name ;;
+  }
+
+
+  # ------- Dimensions in use --------------
+
   dimension: account_lead_engagement_c {
+    group_label: "Marketing Information"
+    label: "Interest Category"
     type: string
     sql: ${TABLE}.account_lead_engagement_c ;;
   }
 
   dimension: account_lead_method_c {
+    group_label: "Marketing Information"
+    label: "Lead Method"
     type: string
     sql: ${TABLE}.account_lead_method_c ;;
   }
 
   dimension: accounting_tool_in_use_c {
+    group_label: "Company Information"
+    label: "Accounting Tool in use"
     type: string
     sql: ${TABLE}.accounting_tool_in_use_c ;;
   }
 
   dimension: accounts_payable_process_c {
+    group_label: "Company Information"
+    label: "Accounts Payable Process"
     type: string
     sql: ${TABLE}.accounts_payable_process_c ;;
   }
 
   dimension: additional_company_names_c {
+    hidden: yes
     type: string
     sql: ${TABLE}.additional_company_names_c ;;
   }
 
-  dimension: amount {
-    type: number
-    label: "Gross MRR"
-    sql: ${TABLE}.amount ;;
-  }
 
   dimension: approval_workflow_c {
+    group_label: "Company Information"
+    label: "Approval Workflow"
     type: string
     sql: ${TABLE}.approval_workflow_c ;;
   }
 
   dimension: bank_accounts_c {
+    group_label: "Company Information"
+    label: "Bank Information"
     type: string
     sql: ${TABLE}.bank_accounts_c ;;
   }
 
   dimension: blocking_features_c {
+    group_label: "Sales Process Information"
+    label: "Blocking Features"
     type: string
     sql: ${TABLE}.blocking_features_c ;;
   }
 
   dimension: blocking_features_notes_c {
+    group_label: "Sales Process Information"
+    label: "Blocking Features Notes"
     type: string
     sql: ${TABLE}.blocking_features_notes_c ;;
   }
 
   dimension: bob_folder_clients_c {
+    hidden: yes
+    # this is only interesting for multiplier sales
     type: number
     sql: ${TABLE}.bob_folder_clients_c ;;
   }
 
   dimension: buying_advantages_for_customer_c {
+    group_label: "Sales Process Information"
+    label: "Buying Advantages for Customer"
     type: string
     sql: ${TABLE}.buying_advantages_for_customer_c ;;
   }
 
-  dimension: calendly_created_c {
-    type: yesno
-    sql: ${TABLE}.calendly_created_c ;;
-  }
 
   dimension: cash_ledger_c {
+    hidden: yes
     type: string
     sql: ${TABLE}.cash_ledger_c ;;
   }
 
   dimension: check_demo_done_c {
+    label: "Demo is done?"
     type: yesno
     sql: ${TABLE}.check_demo_done_c ;;
   }
@@ -105,19 +186,19 @@ view: opportunities {
   }
 
   dimension: close_lost_reason_c {
+    group_label: "Sales Process Information"
+    label: "Close lost reason"
     type: string
     sql: ${TABLE}.close_lost_reason_c ;;
   }
 
   dimension: company_details_structure_c {
+    group_label: "Company Information"
+    label: "Company Structure Details"
     type: string
     sql: ${TABLE}.company_details_structure_c ;;
   }
 
-  dimension: company_name_c {
-    type: string
-    sql: ${TABLE}.company_name_c ;;
-  }
 
   dimension: company_size_score_c {
     type: number
@@ -125,11 +206,15 @@ view: opportunities {
   }
 
   dimension: competition_knowledge_c {
+    group_label: "Sales Process Information"
+    label: "Competition Knowledge"
     type: string
     sql: ${TABLE}.competition_knowledge_c ;;
   }
 
   dimension: competition_notes_c {
+    group_label: "Sales Process Information"
+    label: "Competition Knowledge Notes"
     type: string
     sql: ${TABLE}.competition_notes_c ;;
   }
@@ -145,11 +230,13 @@ view: opportunities {
   }
 
   dimension: created_by_id {
+    hidden: yes
     type: string
     sql: ${TABLE}.created_by_id ;;
   }
 
   dimension_group: created {
+    label: "Opportunity Created"
     type: time
     timeframes: [
       raw,
@@ -182,7 +269,6 @@ view: opportunities {
 
   }
 
-
   dimension: weeks_to_close_after_demo {
     type: tier
     tiers: [ 0,7,14,21,28,35,42]
@@ -190,6 +276,8 @@ view: opportunities {
     sql: : ${close_date}- ${demo_done_date_c_date} ;;
   }
   dimension: decision_process_c {
+    group_label: "Sales Process Information"
+    label: "Decision Process"
     type: string
     sql: ${TABLE}.decision_process_c ;;
   }
@@ -200,11 +288,14 @@ view: opportunities {
   }
 
   dimension: demo_booked_c {
+    label: "Demo is booked ?"
     type: yesno
     sql: ${TABLE}.demo_booked_c ;;
   }
 
   dimension: demo_conclusion_c {
+    group_label: "Sales Process Information"
+    label: "Demo Conclusions"
     type: string
     sql: ${TABLE}.demo_conclusion_c ;;
   }
@@ -217,6 +308,7 @@ view: opportunities {
       date,
       week,
       week_of_year,
+      day_of_month,
       month,
       quarter,
       year
@@ -225,72 +317,34 @@ view: opportunities {
   }
 
   dimension: demo_notes_c {
+    group_label: "Sales Process Information"
+    label: "Demo Notes"
     type: string
     sql: ${TABLE}.demo_notes_c ;;
   }
 
-  dimension: description {
-    type: string
-    sql: ${TABLE}.description ;;
-  }
 
-  dimension: duocliends_c {
-    type: number
-    sql: ${TABLE}.duocliends_c ;;
-  }
-
-  dimension: duoexperience_c {
-    type: string
-    sql: ${TABLE}.duoexperience_c ;;
-  }
-
-  dimension: email_c {
-    type: string
-    sql: ${TABLE}.email_c ;;
-  }
 
   dimension: employees_c {
+    group_label: "Company Information"
+    label: "Employees"
     type: number
     sql: ${TABLE}.employees_c ;;
   }
 
   dimension: company_size{
+    group_label: "Company Information"
+    label: "Employee Groups"
     type: tier
     tiers: [ 25,100,200]
     style: integer
     sql: ${TABLE}.employees_c ;;
   }
 
-  dimension: fiscal {
-    type: string
-    sql: ${TABLE}.fiscal ;;
-  }
-
-  dimension: fiscal_quarter {
-    type: number
-    sql: ${TABLE}.fiscal_quarter ;;
-  }
-
-  dimension: fiscal_year {
-    type: number
-    sql: ${TABLE}.fiscal_year ;;
-  }
-
   dimension: followup_owner_c {
     type: string
     sql: ${TABLE}.followup_owner_c ;;
   }
-
-  dimension: forecast_category {
-    type: string
-    sql: ${TABLE}.forecast_category ;;
-  }
-
-  dimension: forecast_category_name {
-    type: string
-    sql: ${TABLE}.forecast_category_name ;;
-  }
-
 
   dimension: get_my_invoices_c {
     type: string
@@ -303,6 +357,7 @@ view: opportunities {
   }
 
   dimension: gmiaccount_email_c {
+    hidden: yes
     type: string
     sql: ${TABLE}.gmiaccount_email_c ;;
   }
@@ -323,46 +378,45 @@ view: opportunities {
   }
 
   dimension: hrneed_for_new_employees_c {
+    hidden: yes
     type: string
     sql: ${TABLE}.hrneed_for_new_employees_c ;;
   }
 
   dimension: incoming_invoices_per_month_c {
+    group_label: "Company Information"
+    label: "Incoming Invoices Monthly"
     type: string
     sql: ${TABLE}.incoming_invoices_per_month_c ;;
   }
 
-  dimension: incoming_invoices_per_month_legacy_c {
-    type: string
-    sql: ${TABLE}.incoming_invoices_per_month_legacy_c ;;
-  }
-
   dimension: industry_c {
+    group_label: "Company Information"
+    label: "Industry"
     type: string
     sql: ${TABLE}.industry_c ;;
   }
 
   dimension: information_request_responsibility_c {
+    group_label: "Company Information"
     type: string
     sql: ${TABLE}.information_request_responsibility_c ;;
   }
 
-  dimension: intro_c {
-    type: string
-    sql: ${TABLE}.intro_c ;;
-  }
-
   dimension: invoice_creation_tool_c {
+    group_label: "Company Information"
     type: string
     sql: ${TABLE}.invoice_creation_tool_c ;;
   }
 
   dimension: invoice_data_transfer_c {
+    group_label: "Company Information"
     type: string
     sql: ${TABLE}.invoice_data_transfer_c ;;
   }
 
   dimension: invoice_reconciliation_responsibility_c {
+    group_label: "Company Information"
     type: string
     sql: ${TABLE}.invoice_reconciliation_responsibility_c ;;
   }
@@ -373,11 +427,13 @@ view: opportunities {
   }
 
   dimension: is_closed {
+    hidden: yes
     type: yesno
     sql: ${TABLE}.is_closed ;;
   }
 
   dimension: is_deleted {
+    hidden: yes
     type: yesno
     sql: ${TABLE}.is_deleted ;;
   }
@@ -401,62 +457,7 @@ view: opportunities {
     sql: ${TABLE}.last_activity_date ;;
   }
 
-  dimension: last_modified_by_id {
-    type: string
-    sql: ${TABLE}.last_modified_by_id ;;
-  }
 
-  dimension_group: last_modified {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.last_modified_date ;;
-  }
-
-  dimension_group: last_referenced {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.last_referenced_date ;;
-  }
-
-  dimension_group: last_viewed {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.last_viewed_date ;;
-  }
-
-  dimension: lead_source {
-    type: string
-    sql: ${TABLE}.lead_source ;;
-  }
-
-  dimension: multiplier_account_c {
-    type: string
-    sql: ${TABLE}.multiplier_account_c ;;
-  }
 
   dimension: multiplier_payment_conditions_c {
     type: string
@@ -473,17 +474,10 @@ view: opportunities {
     sql: ${TABLE}.name ;;
   }
 
-  dimension: net_mrr_c {
-    type: string
-    sql: ${TABLE}.net_mrr_c ;;
-  }
-
-  dimension: next_step {
-    type: string
-    sql: ${TABLE}.next_step ;;
-  }
 
   dimension: next_steps_c {
+    group_label: "Sales Process Information"
+    label: "Next Steps"
     type: string
     sql: ${TABLE}.next_steps_c ;;
   }
@@ -493,10 +487,6 @@ view: opportunities {
     sql: ${TABLE}.opportunity_channel_c ;;
   }
 
-  dimension: opportunity_count_c {
-    type: number
-    sql: ${TABLE}.opportunity_count_c ;;
-  }
 
   dimension: opportunity_score_c {
     type: number
@@ -504,6 +494,7 @@ view: opportunities {
   }
 
   dimension: opportunity_segment_c {
+    hidden: yes
     type: string
     sql: ${TABLE}.opportunity_segment_c ;;
   }
@@ -524,6 +515,7 @@ view: opportunities {
   }
 
   dimension: owner_id {
+    hidden: yes
     type: string
     sql: ${TABLE}.owner_id ;;
   }
@@ -544,6 +536,7 @@ view: opportunities {
   }
 
   dimension: potential_smartbooks_c {
+    hidden: yes
     type: number
     sql: ${TABLE}.potential_smartbooks_c ;;
   }
@@ -564,6 +557,7 @@ view: opportunities {
   }
 
   dimension: pricebook_2_id {
+    hidden: yes
     type: string
     sql: ${TABLE}.pricebook_2_id ;;
   }
@@ -579,6 +573,7 @@ view: opportunities {
   }
 
   dimension: product_acquisition_channel_c {
+    label: "Product"
     type: string
     sql: ${TABLE}.product_acquisition_channel_c ;;
   }
@@ -602,27 +597,16 @@ view: opportunities {
     sql: ${TABLE}.reapproach_date_c ;;
   }
 
-  dimension_group: received {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.received_at ;;
-  }
 
   dimension: record_type_id {
     type: string
+    hidden: yes
     sql: ${TABLE}.record_type_id ;;
   }
 
   dimension: share_companies_25_employees_c {
     type: string
+    hidden: yes
     sql: ${TABLE}.share_companies_25_employees_c ;;
   }
 
@@ -637,65 +621,37 @@ view: opportunities {
   }
 
   dimension: stage_name {
+    label: "Opportunity Stage"
     type: string
     sql: ${TABLE}.stage_name ;;
   }
 
   dimension: subscription_id_c {
+    hidden: yes
     type: string
     sql: ${TABLE}.subscription_id_c ;;
   }
 
   dimension: subscription_out_of_moneyback_c {
+    label: "Is Opportunity out of Moneyback ?"
     type: yesno
     sql: ${TABLE}.subscription_out_of_moneyback_c ;;
   }
 
   dimension: subscription_out_of_trial_stage_c {
+    label: " Is Opportunity out of Trial ?"
     type: yesno
     sql: ${TABLE}.subscription_out_of_trial_stage_c ;;
   }
 
   dimension: subscription_plan_c {
+    label: "Subscription Plan"
     type: string
     sql: ${TABLE}.subscription_plan_c ;;
   }
 
-  dimension_group: system_modstamp {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.system_modstamp ;;
-  }
-
-  dimension: text_intro_c {
-    type: string
-    sql: ${TABLE}.text_intro_c ;;
-  }
-
-  dimension: text_next_steps_c {
-    type: string
-    sql: ${TABLE}.text_next_steps_c ;;
-  }
-
-  dimension: text_process_c {
-    type: string
-    sql: ${TABLE}.text_process_c ;;
-  }
-
-  dimension: text_solution_match_c {
-    type: string
-    sql: ${TABLE}.text_solution_match_c ;;
-  }
-
   dimension: total_bookkeeping_clients_c {
+    hidden: yes
     type: number
     sql: ${TABLE}.total_bookkeeping_clients_c ;;
   }
@@ -715,25 +671,8 @@ view: opportunities {
     sql: ${TABLE}.urgency_score_c ;;
   }
 
-  dimension: uuid {
-    type: number
-    value_format_name: id
-    sql: ${TABLE}.uuid ;;
-  }
 
-  dimension_group: uuid_ts {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.uuid_ts ;;
-  }
+
 
 # calculations for measures
 
@@ -760,8 +699,9 @@ view: opportunities {
   measure: gross_mrr_won_sum {
     type: sum
     label: "Gross MRR Won"
-    value_format: "0.00\€"
-    sql: ${amount};;
+    #value_format: "0.00\€"
+    value_format_name:eur
+    sql: ${TABLE}.amount;;
     filters: {
       field: stage_name
       value: "Closed Won" }
@@ -770,8 +710,9 @@ view: opportunities {
   measure: gross_mrr_won_avg {
     type: average
     label: "Gross MRR Won/Opportunity"
-    value_format: "0.00\€"
-    sql: ${amount};;
+    #value_format: "0.00\€"
+    value_format_name: eur
+    sql: ${TABLE}.amount;;
     filters: {
       field: stage_name
       value: "Closed Won" }
@@ -781,7 +722,7 @@ view: opportunities {
     label: "Funnel Value"
     description: "Probability x Gross MRR (excluding Won Opportunities)"
     type: sum
-    value_format: "0.00\€"
+    value_format_name: eur
     sql: ${TABLE}.funnel_value_c ;;
     filters: {
       field: is_won
