@@ -41,12 +41,65 @@ view: opportunities {
     sql: ${TABLE}.multiplier_account_c ;;
   }
 
+  dimension: pricebook_2_id {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.pricebook_2_id ;;
+  }
+  dimension: record_type_id {
+    type: string
+    hidden: yes
+    sql: ${TABLE}.record_type_id ;;
+  }
+  dimension: share_companies_25_employees_c {
+    type: string
+    hidden: yes
+    sql: ${TABLE}.share_companies_25_employees_c ;;
+  }
+
   dimension: description {
     hidden: yes
     #field not used
     type: string
     sql: ${TABLE}.description ;;
   }
+
+  dimension: get_my_invoices_c {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.get_my_invoices_c ;;
+  }
+
+  dimension: gmi_notes_c {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.gmi_notes_c ;;
+  }
+
+  dimension: has_open_activity {
+    hidden: yes
+    type: yesno
+    sql: ${TABLE}.has_open_activity ;;
+  }
+
+  dimension: has_opportunity_line_item {
+    hidden: yes
+    type: yesno
+    sql: ${TABLE}.has_opportunity_line_item ;;
+  }
+
+  dimension: has_overdue_task {
+    hidden: yes
+    type: yesno
+    sql: ${TABLE}.has_overdue_task ;;
+  }
+
+  dimension: created_by_id {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.created_by_id ;;
+  }
+
 
   dimension: duocliends_c {
     hidden: yes
@@ -77,8 +130,79 @@ view: opportunities {
     sql: ${TABLE}.forecast_category_name ;;
   }
 
+  dimension: opportunity_segment_c {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.opportunity_segment_c ;;
+  }
 
-  # ------- Dimensions in use --------------
+  dimension: potential_smartbooks_c {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.potential_smartbooks_c ;;
+  }
+
+  dimension: potential_workflows_c {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.potential_workflows_c ;;
+  }
+
+  dimension: subscription_id_c {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.subscription_id_c ;;
+  }
+
+  dimension: total_bookkeeping_clients_c {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.total_bookkeeping_clients_c ;;
+  }
+
+  dimension: bob_folder_clients_c {
+    hidden: yes
+    # this is only interesting for multiplier sales
+    type: number
+    sql: ${TABLE}.bob_folder_clients_c ;;
+  }
+
+  dimension: gmiaccount_email_c {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.gmiaccount_email_c ;;
+  }
+  dimension: hrneed_for_new_employees_c {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.hrneed_for_new_employees_c ;;
+  }
+  dimension: is_closed {
+    hidden: yes
+    type: yesno
+    sql: ${TABLE}.is_closed ;;
+  }
+
+  dimension: is_deleted {
+    hidden: yes
+    type: yesno
+    sql: ${TABLE}.is_deleted ;;
+  }
+
+  dimension: cash_ledger_c {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.cash_ledger_c ;;
+  }
+
+  dimension: additional_company_names_c {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.additional_company_names_c ;;
+  }
+
+
+  # --------------------------------------- Dimensions in use ------------------------------------------------------
 
   dimension: account_lead_engagement_c {
     group_label: "Marketing Information"
@@ -108,13 +232,6 @@ view: opportunities {
     sql: ${TABLE}.accounts_payable_process_c ;;
   }
 
-  dimension: additional_company_names_c {
-    hidden: yes
-    type: string
-    sql: ${TABLE}.additional_company_names_c ;;
-  }
-
-
   dimension: approval_workflow_c {
     group_label: "Company Information"
     label: "Approval Workflow"
@@ -143,25 +260,11 @@ view: opportunities {
     sql: ${TABLE}.blocking_features_notes_c ;;
   }
 
-  dimension: bob_folder_clients_c {
-    hidden: yes
-    # this is only interesting for multiplier sales
-    type: number
-    sql: ${TABLE}.bob_folder_clients_c ;;
-  }
-
   dimension: buying_advantages_for_customer_c {
     group_label: "Sales Process Information"
     label: "Buying Advantages for Customer"
     type: string
     sql: ${TABLE}.buying_advantages_for_customer_c ;;
-  }
-
-
-  dimension: cash_ledger_c {
-    hidden: yes
-    type: string
-    sql: ${TABLE}.cash_ledger_c ;;
   }
 
   dimension: check_demo_done_c {
@@ -199,8 +302,9 @@ view: opportunities {
     sql: ${TABLE}.company_details_structure_c ;;
   }
 
-
   dimension: company_size_score_c {
+    group_label: "Opportunity Scores"
+    label: "Company Size"
     type: number
     sql: ${TABLE}.company_size_score_c ;;
   }
@@ -220,20 +324,19 @@ view: opportunities {
   }
 
   dimension: competitor_score_c {
+    group_label: "Opportunity Scores"
+    label: "Pain Definition"
     type: number
     sql: ${TABLE}.competitor_score_c ;;
   }
 
   dimension: contact_role_score_c {
+    group_label: "Opportunity Scores"
+    label: "Contact Role"
     type: number
     sql: ${TABLE}.contact_role_score_c ;;
   }
 
-  dimension: created_by_id {
-    hidden: yes
-    type: string
-    sql: ${TABLE}.created_by_id ;;
-  }
 
   dimension_group: created {
     label: "Opportunity Created"
@@ -283,6 +386,8 @@ view: opportunities {
   }
 
   dimension: decision_process_score_c {
+    group_label: "Opportunity Scores"
+    label: "Decision Process"
     type: number
     sql: ${TABLE}.decision_process_score_c ;;
   }
@@ -323,8 +428,6 @@ view: opportunities {
     sql: ${TABLE}.demo_notes_c ;;
   }
 
-
-
   dimension: employees_c {
     group_label: "Company Information"
     label: "Employees"
@@ -344,43 +447,6 @@ view: opportunities {
   dimension: followup_owner_c {
     type: string
     sql: ${TABLE}.followup_owner_c ;;
-  }
-
-  dimension: get_my_invoices_c {
-    type: string
-    sql: ${TABLE}.get_my_invoices_c ;;
-  }
-
-  dimension: gmi_notes_c {
-    type: string
-    sql: ${TABLE}.gmi_notes_c ;;
-  }
-
-  dimension: gmiaccount_email_c {
-    hidden: yes
-    type: string
-    sql: ${TABLE}.gmiaccount_email_c ;;
-  }
-
-  dimension: has_open_activity {
-    type: yesno
-    sql: ${TABLE}.has_open_activity ;;
-  }
-
-  dimension: has_opportunity_line_item {
-    type: yesno
-    sql: ${TABLE}.has_opportunity_line_item ;;
-  }
-
-  dimension: has_overdue_task {
-    type: yesno
-    sql: ${TABLE}.has_overdue_task ;;
-  }
-
-  dimension: hrneed_for_new_employees_c {
-    hidden: yes
-    type: string
-    sql: ${TABLE}.hrneed_for_new_employees_c ;;
   }
 
   dimension: incoming_invoices_per_month_c {
@@ -422,20 +488,10 @@ view: opportunities {
   }
 
   dimension: invoice_volume_score_c {
+    group_label: "Opportunity Scores"
+    label: "Invoice Volume"
     type: number
     sql: ${TABLE}.invoice_volume_score_c ;;
-  }
-
-  dimension: is_closed {
-    hidden: yes
-    type: yesno
-    sql: ${TABLE}.is_closed ;;
-  }
-
-  dimension: is_deleted {
-    hidden: yes
-    type: yesno
-    sql: ${TABLE}.is_deleted ;;
   }
 
   dimension: is_won {
@@ -457,8 +513,6 @@ view: opportunities {
     sql: ${TABLE}.last_activity_date ;;
   }
 
-
-
   dimension: multiplier_payment_conditions_c {
     type: string
     sql: ${TABLE}.multiplier_payment_conditions_c ;;
@@ -474,7 +528,6 @@ view: opportunities {
     sql: ${TABLE}.name ;;
   }
 
-
   dimension: next_steps_c {
     group_label: "Sales Process Information"
     label: "Next Steps"
@@ -482,26 +535,11 @@ view: opportunities {
     sql: ${TABLE}.next_steps_c ;;
   }
 
-  dimension: opportunity_channel_c {
-    type: string
-    sql: ${TABLE}.opportunity_channel_c ;;
-  }
-
-
   dimension: opportunity_score_c {
+    group_label: "Opportunity Scores"
+    label: "Total Score"
     type: number
     sql: ${TABLE}.opportunity_score_c ;;
-  }
-
-  dimension: opportunity_segment_c {
-    hidden: yes
-    type: string
-    sql: ${TABLE}.opportunity_segment_c ;;
-  }
-
-  dimension: opportunty_source_c {
-    type: string
-    sql: ${TABLE}.opportunty_source_c ;;
   }
 
   dimension: other_tools_in_use_c {
@@ -521,6 +559,8 @@ view: opportunities {
   }
 
   dimension: pain_definition_score_c {
+    group_label: "Opportunity Scores"
+    label: "Pain Definition"
     type: number
     sql: ${TABLE}.pain_definition_score_c ;;
   }
@@ -535,17 +575,6 @@ view: opportunities {
     sql: ${TABLE}.painpoints_c ;;
   }
 
-  dimension: potential_smartbooks_c {
-    hidden: yes
-    type: number
-    sql: ${TABLE}.potential_smartbooks_c ;;
-  }
-
-  dimension: potential_workflows_c {
-    type: number
-    sql: ${TABLE}.potential_workflows_c ;;
-  }
-
   dimension: practice_digitzies_invoices_c {
     type: yesno
     sql: ${TABLE}.practice_digitzies_invoices_c ;;
@@ -554,12 +583,6 @@ view: opportunities {
   dimension: preaccounting_c {
     type: string
     sql: ${TABLE}.preaccounting_c ;;
-  }
-
-  dimension: pricebook_2_id {
-    hidden: yes
-    type: string
-    sql: ${TABLE}.pricebook_2_id ;;
   }
 
   dimension: probability {
@@ -598,18 +621,6 @@ view: opportunities {
   }
 
 
-  dimension: record_type_id {
-    type: string
-    hidden: yes
-    sql: ${TABLE}.record_type_id ;;
-  }
-
-  dimension: share_companies_25_employees_c {
-    type: string
-    hidden: yes
-    sql: ${TABLE}.share_companies_25_employees_c ;;
-  }
-
   dimension: share_digital_invoices_c {
     type: string
     sql: ${TABLE}.share_digital_invoices_c ;;
@@ -624,12 +635,6 @@ view: opportunities {
     label: "Opportunity Stage"
     type: string
     sql: ${TABLE}.stage_name ;;
-  }
-
-  dimension: subscription_id_c {
-    hidden: yes
-    type: string
-    sql: ${TABLE}.subscription_id_c ;;
   }
 
   dimension: subscription_out_of_moneyback_c {
@@ -650,12 +655,6 @@ view: opportunities {
     sql: ${TABLE}.subscription_plan_c ;;
   }
 
-  dimension: total_bookkeeping_clients_c {
-    hidden: yes
-    type: number
-    sql: ${TABLE}.total_bookkeeping_clients_c ;;
-  }
-
   dimension: transaction_data_transfer_c {
     type: string
     sql: ${TABLE}.transaction_data_transfer_c ;;
@@ -667,34 +666,27 @@ view: opportunities {
   }
 
   dimension: urgency_score_c {
+    group_label: "Opportunity Scores"
+    label: "Urgency"
     type: number
     sql: ${TABLE}.urgency_score_c ;;
   }
 
+  dimension: days_demo_to_close {
+    type: number
+    # if datediff is negative then take 0.
+    sql: IF( ${close_date}<${check_demo_done_c},0,DATEDIFF('DAY', ${demo_done_date_c_date}, ${close_date}));;
 
+  }
 
-
-# calculations for measures
+# --------------------------------calculations for measures--------------------------------
 
   measure: count {
     label: "Created Opportunities"
     type: count
     drill_fields: [detail*]
   }
-  measure: datediff_demo_to_close {
-    type: sum
-    sql: ${close_date}- ${demo_done_date_c_date} ;;
-  }
 
-  dimension: days_demo_to_close {
-    type: number
-    sql: DATEDIFF('DAY', ${demo_done_date_c_date}, ${close_date});;
-  }
-
-  dimension: weeks_demo_to_close {
-    type: number
-    sql: DATEDIFF('WEEK', ${demo_done_date_c_date}, ${close_date});;
-  }
 
   measure: gross_mrr_won_sum {
     type: sum
@@ -779,6 +771,7 @@ view: opportunities {
       value: "Closed Won" }}
 
   measure: won_opportunities  {
+    label: "Won Customers"
     type: count_distinct
     sql: ${id} ;;
     filters: {
@@ -786,6 +779,7 @@ view: opportunities {
       value: "Closed Won" } }
 
   measure: done_demos  {
+    label: "Demos done"
     type: count_distinct
     sql: ${id} ;;
     filters: {
@@ -793,6 +787,7 @@ view: opportunities {
       value: "yes" } }
 
   measure: booked_demos  {
+    label: "Demos booked"
     type: count_distinct
     sql: ${id} ;;
     filters: {
@@ -802,6 +797,7 @@ view: opportunities {
 
 measure: average_funneltime {
   label: "Funneltime"
+  description: "Only looks at Customers that are won"
   type: average
   sql: ${daysin_opportunity_funnel_c} ;;
   filters: {
@@ -809,7 +805,27 @@ measure: average_funneltime {
     value: "true"
   }
 }
-
+    measure: datediff_demo_to_close {
+      label: "Funneltime Demo to Close"
+      description: "Includes all closed Deals"
+      type: average
+      sql: ${close_date}- ${demo_done_date_c_date} ;;
+      filters: {
+        field: is_closed
+        value: "true"
+      }
+    }
+    # this here we need to replace by parameters: https://discourse.looker.com/t/dynamic-measures-with-parameters/6069
+    measure: weeks_demo_to_close {
+      label: "Funneltime Demo to Close (Weeks)"
+      description: "Only looks at Customers that are won"
+      type: average
+      sql: DATEDIFF('WEEK', ${demo_done_date_c_date}, ${close_date});;
+      filters: {
+      field: is_closed
+       value: "true"
+      }
+    }
 
 # -------Period Over Period Analysis
 
