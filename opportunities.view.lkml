@@ -349,6 +349,7 @@ view: opportunities {
       month,
       quarter,
       quarter_of_year,
+      hour_of_day,
       year
     ]
     sql: ${TABLE}.created_date ;;
