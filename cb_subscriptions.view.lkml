@@ -1,11 +1,140 @@
 view: cb_subscriptions {
   sql_table_name: salesforce.cb_subscriptions ;;
 
+  #---------- dimensions hidden -------------------
+
   dimension: id {
     primary_key: yes
+    hidden: yes
     type: string
     sql: ${TABLE}.id ;;
   }
+
+  dimension: chargebeeapps_cb_id_c {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.chargebeeapps_cb_id_c ;;
+  }
+
+  dimension: chargebeeapps_cb_oppurtunity_c {
+    type: string
+    hidden: yes
+    sql: ${TABLE}.chargebeeapps_cb_oppurtunity_c ;;
+  }
+
+  dimension: chargebeeapps_company_c {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.chargebeeapps_company_c ;;
+  }
+
+  dimension_group: chargebeeapps_next_billing_c {
+    hidden: yes
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.chargebeeapps_next_billing_c ;;
+  }
+
+  dimension: chargebeeapps_plan_quantity_c {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.chargebeeapps_plan_quantity_c ;;
+  }
+
+  dimension_group: chargebeeapps_subcription_activated_at_c {
+    hidden: yes
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.chargebeeapps_subcription_activated_at_c ;;
+  }
+
+  dimension: chargebeeapps_subscription_id_c {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.chargebeeapps_subscription_id_c ;;
+  }
+
+  dimension: chargebeeapps_subscription_plan_c {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.chargebeeapps_subscription_plan_c ;;
+  }
+
+  dimension_group: created {
+    hidden: yes
+    # date the subscription was created in Salesforce
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.created_date ;;
+  }
+
+  dimension: name {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.name ;;
+  }
+
+  dimension_group: chargebeeapps_current_term_end_c {
+    hidden: yes
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.chargebeeapps_current_term_end_c ;;
+  }
+
+  dimension_group: chargebeeapps_current_term_start_c {
+    hidden: yes
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.chargebeeapps_current_term_start_c ;;
+  }
+
+  dimension: chargebeeapps_customer_id_c {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.chargebeeapps_customer_id_c ;;
+  }
+
+  #---------- dimensions in use -------------------
 
   dimension: add_on_mrr_c {
     type: string
@@ -27,82 +156,7 @@ view: cb_subscriptions {
     sql: ${TABLE}.chargebeeapps_cancel_reason_c ;;
   }
 
-  dimension: chargebeeapps_cb_id_c {
-    type: string
-    sql: ${TABLE}.chargebeeapps_cb_id_c ;;
-  }
 
-  dimension: chargebeeapps_cb_oppurtunity_c {
-    type: string
-    sql: ${TABLE}.chargebeeapps_cb_oppurtunity_c ;;
-  }
-
-  dimension_group: chargebeeapps_chargebee_modified_time_c {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.chargebeeapps_chargebee_modified_time_c ;;
-  }
-
-  dimension: chargebeeapps_city_c {
-    type: string
-    sql: ${TABLE}.chargebeeapps_city_c ;;
-  }
-
-  dimension: chargebeeapps_company_c {
-    type: string
-    sql: ${TABLE}.chargebeeapps_company_c ;;
-  }
-
-  dimension: chargebeeapps_company_name_c {
-    type: string
-    sql: ${TABLE}.chargebeeapps_company_name_c ;;
-  }
-
-  dimension: chargebeeapps_country_c {
-    type: string
-    sql: ${TABLE}.chargebeeapps_country_c ;;
-  }
-
-  dimension_group: chargebeeapps_current_term_end_c {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.chargebeeapps_current_term_end_c ;;
-  }
-
-  dimension_group: chargebeeapps_current_term_start_c {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.chargebeeapps_current_term_start_c ;;
-  }
-
-  dimension: chargebeeapps_customer_id_c {
-    type: string
-    sql: ${TABLE}.chargebeeapps_customer_id_c ;;
-  }
 
   dimension: chargebeeapps_due_invoices_count_c {
     type: number
@@ -123,15 +177,6 @@ view: cb_subscriptions {
     sql: ${TABLE}.chargebeeapps_due_since_c ;;
   }
 
-  dimension: chargebeeapps_first_name_c {
-    type: string
-    sql: ${TABLE}.chargebeeapps_first_name_c ;;
-  }
-
-  dimension: chargebeeapps_last_name_c {
-    type: string
-    sql: ${TABLE}.chargebeeapps_last_name_c ;;
-  }
 
   dimension: chargebeeapps_mrr_c {
     type: string
@@ -143,33 +188,11 @@ view: cb_subscriptions {
     sql: ${TABLE}.chargebeeapps_next_billing_amount_c ;;
   }
 
-  dimension_group: chargebeeapps_next_billing_c {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.chargebeeapps_next_billing_c ;;
-  }
 
-  dimension: chargebeeapps_plan_quantity_c {
-    type: number
-    sql: ${TABLE}.chargebeeapps_plan_quantity_c ;;
-  }
 
   dimension: chargebeeapps_plan_unit_price_c {
     type: string
     sql: ${TABLE}.chargebeeapps_plan_unit_price_c ;;
-  }
-
-  dimension: chargebeeapps_po_number_c {
-    type: string
-    sql: ${TABLE}.chargebeeapps_po_number_c ;;
   }
 
   dimension: chargebeeapps_remaining_billing_cycles_c {
@@ -177,44 +200,8 @@ view: cb_subscriptions {
     sql: ${TABLE}.chargebeeapps_remaining_billing_cycles_c ;;
   }
 
-  dimension: chargebeeapps_shipping_email_c {
-    type: string
-    sql: ${TABLE}.chargebeeapps_shipping_email_c ;;
-  }
 
-  dimension: chargebeeapps_shipping_line_1_c {
-    type: string
-    sql: ${TABLE}.chargebeeapps_shipping_line_1_c ;;
-  }
 
-  dimension: chargebeeapps_shipping_line_2_c {
-    type: string
-    sql: ${TABLE}.chargebeeapps_shipping_line_2_c ;;
-  }
-
-  dimension: chargebeeapps_shipping_phone_c {
-    type: string
-    sql: ${TABLE}.chargebeeapps_shipping_phone_c ;;
-  }
-
-  dimension: chargebeeapps_state_c {
-    type: string
-    sql: ${TABLE}.chargebeeapps_state_c ;;
-  }
-
-  dimension_group: chargebeeapps_subcription_activated_at_c {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.chargebeeapps_subcription_activated_at_c ;;
-  }
 
   dimension_group: chargebeeapps_subcription_cancelled_at_c {
     type: time
@@ -245,96 +232,16 @@ view: cb_subscriptions {
     sql: ${TABLE}.chargebeeapps_subscription_created_at_c ;;
   }
 
-  dimension: chargebeeapps_subscription_id_c {
-    type: string
-    sql: ${TABLE}.chargebeeapps_subscription_id_c ;;
-  }
 
-  dimension: chargebeeapps_subscription_plan_c {
-    type: string
-    sql: ${TABLE}.chargebeeapps_subscription_plan_c ;;
-  }
 
-  dimension_group: chargebeeapps_subscription_started_at_c {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.chargebeeapps_subscription_started_at_c ;;
-  }
+
 
   dimension: chargebeeapps_subscription_status_c {
     type: string
     sql: ${TABLE}.chargebeeapps_subscription_status_c ;;
   }
 
-  dimension: chargebeeapps_total_dues_c {
-    type: string
-    sql: ${TABLE}.chargebeeapps_total_dues_c ;;
-  }
 
-  dimension_group: chargebeeapps_trail_end_c {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.chargebeeapps_trail_end_c ;;
-  }
-
-  dimension_group: chargebeeapps_trial_start_c {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.chargebeeapps_trial_start_c ;;
-  }
-
-  dimension: chargebeeapps_zip_code_c {
-    type: string
-    sql: ${TABLE}.chargebeeapps_zip_code_c ;;
-  }
-
-  dimension: copy_of_gross_mrr_c {
-    type: string
-    sql: ${TABLE}.copy_of_gross_mrr_c ;;
-  }
-
-  dimension: created_by_id {
-    type: string
-    sql: ${TABLE}.created_by_id ;;
-  }
-
-  dimension_group: created {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.created_date ;;
-  }
 
   dimension_group: end_of_moneyback_date_c {
     type: time
@@ -364,11 +271,6 @@ view: cb_subscriptions {
     sql: ${TABLE}.end_of_trial_date_c ;;
   }
 
-  dimension: gross_mrr_c {
-    type: string
-    sql: ${TABLE}.gross_mrr_c ;;
-  }
-
   dimension: in_money_back_c {
     type: yesno
     sql: ${TABLE}.in_money_back_c ;;
@@ -379,94 +281,12 @@ view: cb_subscriptions {
     sql: ${TABLE}.in_trial_stage_c ;;
   }
 
-  dimension: initial_mrr_c {
-    type: string
-    sql: ${TABLE}.initial_mrr_c ;;
-  }
-
   dimension: is_deleted {
     type: yesno
     sql: ${TABLE}.is_deleted ;;
   }
 
-  dimension: last_modified_by_id {
-    type: string
-    sql: ${TABLE}.last_modified_by_id ;;
-  }
 
-  dimension_group: last_modified {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.last_modified_date ;;
-  }
-
-  dimension: last_net_mrr_c {
-    type: string
-    sql: ${TABLE}.last_net_mrr_c ;;
-  }
-
-  dimension_group: last_referenced {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.last_referenced_date ;;
-  }
-
-  dimension_group: last_viewed {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.last_viewed_date ;;
-  }
-
-  dimension: mrr_after_trial_c {
-    type: string
-    sql: ${TABLE}.mrr_after_trial_c ;;
-  }
-
-  dimension: name {
-    type: string
-    sql: ${TABLE}.name ;;
-  }
-
-  dimension: plan_gross_mrr_c {
-    type: number
-    sql: ${TABLE}.plan_gross_mrr_c ;;
-  }
-
-  measure: total_gross_mrr {
-    type: sum
-    value_format_name: eur_0
-    sql: ${plan_gross_mrr_c} ;;
-  }
-
-  measure: average_gross_mrr {
-    type: average
-    value_format_name: eur_0
-    sql: ${plan_gross_mrr_c};;
-  }
 
   dimension: plan_included_documents_c {
     type: number
@@ -479,23 +299,12 @@ view: cb_subscriptions {
   }
 
   dimension: product_category_c {
+    label: "Product Category"
+    description: "Smartbooks or Workflows"
     type: string
     sql: ${TABLE}.product_category_c ;;
   }
 
-  dimension_group: received {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.received_at ;;
-  }
 
   dimension: subscription_addon_count_c {
     type: number
@@ -507,47 +316,62 @@ view: cb_subscriptions {
     sql: ${TABLE}.subscription_stage_c ;;
   }
 
-  dimension_group: system_modstamp {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.system_modstamp ;;
-  }
-
-  dimension: uuid {
-    type: number
-    value_format_name: id
-    sql: ${TABLE}.uuid ;;
-  }
-
-  dimension_group: uuid_ts {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.uuid_ts ;;
-  }
-
   dimension: vat_id_c {
     type: string
     sql: ${TABLE}.vat_id_c ;;
   }
 
+# ------------ measures here ------------
   measure: count {
+    label: "Logo Churn"
     type: count
     drill_fields: [id, name]
   }
+
+  measure: gross_mrr_c {
+    type: sum
+    value_format_name: eur
+    sql: ${TABLE}.gross_mrr_c ;;
+  }
+
+  measure: plan_gross_mrr_c {
+    label: "Plan Gross MRR"
+    type: sum
+    sql: ${TABLE}.plan_gross_mrr_c ;;
+  }
+
+  measure: average_gross_mrr {
+    type: average
+    value_format_name: eur
+    sql: ${TABLE}.plan_gross_mrr_c;;
+  }
+
+  measure: initial_mrr_c {
+    type: sum
+    value_format_name: eur
+    sql: ${TABLE}.initial_mrr_c ;;
+  }
+  measure: mrr_after_trial_c {
+    type: sum
+    value_format_name: eur
+    sql: ${TABLE}.mrr_after_trial_c ;;
+  }
+
+  measure: last_net_mrr_c {
+    label: "Net MRR Churn"
+    type: sum
+    value_format_name: eur
+    sql: ${TABLE}.last_net_mrr_c ;;
+    filters: {
+      field: chargebeeapps_subscription_status_c
+      value: "CANCELLED"
+    }
+  }
+
+  measure: chargebeeapps_total_dues_c {
+    type: sum
+    value_format_name: eur
+    sql: ${TABLE}.chargebeeapps_total_dues_c ;;
+  }
+
 }
