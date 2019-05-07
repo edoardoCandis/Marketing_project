@@ -20,14 +20,10 @@ view: users {
     hidden: yes
   }
 
-
-
   dimension: is_active {
     type: yesno
     sql: ${TABLE}.is_active ;;
   }
-
-
 
   dimension: name {
     type: string
@@ -38,8 +34,8 @@ view: users {
     type: string
     label: "User Role"
     sql: CASE WHEN ${TABLE}.user_role_id='00E1t000000cVzBEAU' THEN 'Salesrep'
+              WHEN ${TABLE}.user_role_id='00E1t000000lKrFEAU' THEN 'Presales'
               WHEN  ${TABLE}.user_role_id='00E1t000000ca3qEAA' THEN 'Successrep' ELSE 'Other'END ;;
-
   }
 
   dimension: username {
@@ -53,20 +49,6 @@ view: users {
     value_format_name: id
     sql: ${TABLE}.uuid ;;
     hidden: yes
-  }
-
-  dimension_group: uuid_ts {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.uuid_ts ;;
   }
 
   measure: count {

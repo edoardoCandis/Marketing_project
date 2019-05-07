@@ -49,7 +49,7 @@ view: opportunities {
   dimension: record_type_id {
     type: string
     hidden: yes
-    sql: ${TABLE}.record_type_id ;;
+    sql: CASE WHEN ${TABLE}.record_type_id ='0121t000000LSPjAAO' THEN 'Company' ELSE 'Multiplier' END ;;
   }
   dimension: share_companies_25_employees_c {
     type: string
@@ -688,6 +688,13 @@ view: opportunities {
     drill_fields: [detail*]
   }
 
+  measure: gross_mrr {
+    type: sum
+    label: "Opportunity Gross MRR"
+    #value_format: "0.00\€"
+    value_format_name:eur
+    sql: ${TABLE}.amount;;
+  }
 
   measure: gross_mrr_won_sum {
     type: sum

@@ -13,11 +13,6 @@ view: accounts {
     sql: ${TABLE}.account_channel_c ;;
   }
 
-  dimension: account_count_c {
-    type: number
-    sql: ${TABLE}.account_count_c ;;
-  }
-
   dimension: account_segment_c {
     type: string
     sql: ${TABLE}.account_segment_c ;;
@@ -187,8 +182,9 @@ view: accounts {
   }
 
   dimension: count_presales_c {
-    type: number
-    sql: ${TABLE}.count_presales_c ;;
+    label: "is presales Lead Conversion ?"
+    type: yesno
+    sql:CASE WHEN ${TABLE}.count_presales_c=1 THEN true ELSE false END ;;
   }
 
   dimension: created_by_id {
@@ -239,19 +235,9 @@ view: accounts {
     sql: ${TABLE}.end_of_moneyback_c ;;
   }
 
-  dimension: gmiaccount_email_c {
-    type: string
-    sql: ${TABLE}.gmiaccount_email_c ;;
-  }
-
   dimension: gross_mrr_c {
     type: number
     sql: ${TABLE}.gross_mrr_c ;;
-  }
-
-  dimension: hubspot_deal_id_legacy_c {
-    type: string
-    sql: ${TABLE}.hubspot_deal_id_legacy_c ;;
   }
 
   dimension: industry {
@@ -264,75 +250,9 @@ view: accounts {
     sql: ${TABLE}.internal_bookkeeping_c ;;
   }
 
-  dimension: ip_adress_c {
-    type: string
-    sql: ${TABLE}.ip_adress_c ;;
-  }
-
   dimension: is_deleted {
     type: yesno
     sql: ${TABLE}.is_deleted ;;
-  }
-
-  dimension_group: last_activity {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.last_activity_date ;;
-  }
-
-  dimension: last_modified_by_id {
-    type: string
-    sql: ${TABLE}.last_modified_by_id ;;
-  }
-
-  dimension_group: last_modified {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.last_modified_date ;;
-  }
-
-  dimension_group: last_referenced {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.last_referenced_date ;;
-  }
-
-  dimension_group: last_viewed {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.last_viewed_date ;;
   }
 
   dimension: lead_channel_drilldown_info_1_c {
@@ -435,20 +355,6 @@ view: accounts {
     sql: ${TABLE}.products_legacy_c ;;
   }
 
-  dimension_group: received {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.received_at ;;
-  }
-
   dimension: record_type_id {
     type: string
     sql: ${TABLE}.record_type_id ;;
@@ -479,50 +385,6 @@ view: accounts {
     sql: ${TABLE}.secondary_referrer_c ;;
   }
 
-  dimension: shipping_city {
-    type: string
-    sql: ${TABLE}.shipping_city ;;
-  }
-
-  dimension: shipping_country {
-    type: string
-    sql: ${TABLE}.shipping_country ;;
-  }
-
-  dimension: shipping_postal_code {
-    type: string
-    sql: ${TABLE}.shipping_postal_code ;;
-  }
-
-  dimension: shipping_state {
-    type: string
-    sql: ${TABLE}.shipping_state ;;
-  }
-
-  dimension: shipping_street {
-    type: string
-    sql: ${TABLE}.shipping_street ;;
-  }
-
-  dimension_group: system_modstamp {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.system_modstamp ;;
-  }
-
-  dimension: systempartner_legacy_c {
-    type: string
-    sql: ${TABLE}.systempartner_legacy_c ;;
-  }
-
   dimension: tax_advisor_stage_c {
     type: string
     sql: ${TABLE}.tax_advisor_stage_c ;;
@@ -541,6 +403,13 @@ view: accounts {
   dimension: total_mrr_c {
     type: string
     sql: ${TABLE}.total_mrr_c ;;
+  }
+
+  dimension: converted_lead_owner_id_c {
+    hidden: yes
+    # exists to join users
+    type: string
+    sql: ${TABLE}.converted_lead_owner_id_c ;;
   }
 
   dimension: type {

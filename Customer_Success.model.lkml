@@ -25,4 +25,14 @@ datagroup: new_opportunities {
 persist_with: new_opportunities
 
 
-explore: cb_subscriptions {}
+explore: cb_subscriptions {
+  label: "Churn & Susbcriptions"
+  sql_always_where: ${is_deleted}<>true ;;
+
+  join: plan_name {
+    from: products
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${cb_subscriptions.chargebeeapps_subscription_plan_id}=${plan_name.id} ;;
+  }
+}
