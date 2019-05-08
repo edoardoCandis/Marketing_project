@@ -1,6 +1,8 @@
 view: accounts {
   sql_table_name: salesforce.accounts ;;
 
+
+# ----------------- hidden measures ---------------
   dimension: id {
     primary_key: yes
     type: string
@@ -9,14 +11,117 @@ view: accounts {
 
   dimension: account_channel_c {
     type: string
-#     hidden: yes
+    hidden: yes
     sql: ${TABLE}.account_channel_c ;;
   }
 
-  dimension: account_segment_c {
+
+  dimension: owner_id {
+    hidden: yes
     type: string
-    sql: ${TABLE}.account_segment_c ;;
+    sql: ${TABLE}.owner_id ;;
   }
+
+  dimension: parent_id {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.parent_id ;;
+  }
+
+  dimension: partner_landingpage_c {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.partner_landingpage_c ;;
+  }
+
+  dimension: partner_network_status_c {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.partner_network_status_c ;;
+  }
+
+  dimension: payment_conditions_for_clients_c {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.payment_conditions_for_clients_c ;;
+  }
+
+  dimension: record_type_id {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.record_type_id ;;
+  }
+  dimension: referral_child_accounts_c {
+    hidden: yes
+    type: yesno
+    sql: ${TABLE}.referral_child_accounts_c ;;
+  }
+
+  dimension: billing_city {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.billing_city ;;
+  }
+
+  dimension: billing_country {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.billing_country ;;
+  }
+
+  dimension: client_onboarding_c {
+    hidden: yes
+    # this is kinda legacy. we give an onboarding to everybody
+    type: yesno
+    sql: ${TABLE}.client_onboarding_c ;;
+  }
+
+  dimension: converted_lead_owner_c {
+    hidden: yes
+    # used for merging the lead owner
+    type: string
+    sql: ${TABLE}.converted_lead_owner_c ;;
+  }
+
+  dimension_group: created {
+    hidden: yes
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.created_date ;;
+  }
+
+  dimension: dashboard_link_c {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.dashboard_link_c ;;
+  }
+
+  dimension: description {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.description ;;
+  }
+
+  dimension: domain_c {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.domain_c ;;
+  }
+  dimension: is_deleted {
+    hidden: yes
+    type: yesno
+    sql: ${TABLE}.is_deleted ;;
+  }
+
+  # ---------------- dimensions in use -----------------------
 
   dimension: account_source {
     type: string
@@ -48,53 +153,9 @@ view: accounts {
     sql: ${TABLE}.annual_revenue ;;
   }
 
-  dimension_group: becamea_customer_date_c {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.becamea_customer_date_c ;;
-  }
-
-  dimension: billing_city {
-    type: string
-    sql: ${TABLE}.billing_city ;;
-  }
-
-  dimension: billing_country {
-    type: string
-    sql: ${TABLE}.billing_country ;;
-  }
-
   dimension: billing_method_c {
     type: string
     sql: ${TABLE}.billing_method_c ;;
-  }
-
-  dimension: billing_postal_code {
-    type: string
-    sql: ${TABLE}.billing_postal_code ;;
-  }
-
-  dimension: billing_state {
-    type: string
-    sql: ${TABLE}.billing_state ;;
-  }
-
-  dimension: billing_street {
-    type: string
-    sql: ${TABLE}.billing_street ;;
-  }
-
-  dimension: booking_url_legacy_c {
-    type: string
-    sql: ${TABLE}.booking_url_legacy_c ;;
   }
 
   dimension: candis_companies_c {
@@ -102,39 +163,11 @@ view: accounts {
     sql: ${TABLE}.candis_companies_c ;;
   }
 
-  dimension_group: churn_date_c {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.churn_date_c ;;
-  }
-
-  dimension: churn_reason_c {
-    type: string
-    sql: ${TABLE}.churn_reason_c ;;
-  }
-
-  dimension: churnreason_additional_information_c {
-    type: string
-    sql: ${TABLE}.churnreason_additional_information_c ;;
-  }
-
   dimension: client_group_c {
     type: string
     sql: ${TABLE}.client_group_c ;;
   }
 
-  dimension: client_onboarding_c {
-    type: yesno
-    sql: ${TABLE}.client_onboarding_c ;;
-  }
 
   dimension: converted_lead_campaign_c {
     type: string
@@ -142,6 +175,7 @@ view: accounts {
   }
 
   dimension: converted_lead_channel_c {
+    hidden: yes
     type: string
     sql: ${TABLE}.converted_lead_channel_c ;;
   }
@@ -156,10 +190,7 @@ view: accounts {
     sql: ${TABLE}.converted_lead_method_c ;;
   }
 
-  dimension: converted_lead_owner_c {
-    type: string
-    sql: ${TABLE}.converted_lead_owner_c ;;
-  }
+
 
   dimension: converted_lead_response_c {
     type: string
@@ -177,6 +208,7 @@ view: accounts {
   }
 
   dimension: count_open_opportunities_c {
+    hidden: yes
     type: number
     sql: ${TABLE}.count_open_opportunities_c ;;
   }
@@ -188,52 +220,12 @@ view: accounts {
   }
 
   dimension: created_by_id {
+    hidden: yes
     type: string
     sql: ${TABLE}.created_by_id ;;
   }
 
-  dimension_group: created {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.created_date ;;
-  }
 
-  dimension: dashboard_link_c {
-    type: string
-    sql: ${TABLE}.dashboard_link_c ;;
-  }
-
-  dimension: description {
-    type: string
-    sql: ${TABLE}.description ;;
-  }
-
-  dimension: domain_c {
-    type: string
-    sql: ${TABLE}.domain_c ;;
-  }
-
-  dimension_group: end_of_moneyback_c {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.end_of_moneyback_c ;;
-  }
 
   dimension: gross_mrr_c {
     type: number
@@ -250,10 +242,7 @@ view: accounts {
     sql: ${TABLE}.internal_bookkeeping_c ;;
   }
 
-  dimension: is_deleted {
-    type: yesno
-    sql: ${TABLE}.is_deleted ;;
-  }
+
 
   dimension: lead_channel_drilldown_info_1_c {
     type: string
@@ -305,75 +294,16 @@ view: accounts {
     sql: ${TABLE}.number_of_employees ;;
   }
 
-  dimension: overall_account_nps_c {
-    type: number
-    sql: ${TABLE}.overall_account_nps_c ;;
-  }
 
-  dimension: owner_id {
-    type: string
-    sql: ${TABLE}.owner_id ;;
-  }
-
-  dimension: parent_id {
-    type: string
-    sql: ${TABLE}.parent_id ;;
-  }
-
-  dimension: partner_landingpage_c {
-    type: string
-    sql: ${TABLE}.partner_landingpage_c ;;
-  }
-
-  dimension: partner_network_status_c {
-    type: string
-    sql: ${TABLE}.partner_network_status_c ;;
-  }
-
-  dimension: payment_conditions_for_clients_c {
-    type: string
-    sql: ${TABLE}.payment_conditions_for_clients_c ;;
-  }
-
-  dimension: payment_conditions_legacy_c {
-    type: string
-    sql: ${TABLE}.payment_conditions_legacy_c ;;
-  }
-
-  dimension: phone {
-    type: string
-    sql: ${TABLE}.phone ;;
-  }
-
-  dimension: photo_url {
-    type: string
-    sql: ${TABLE}.photo_url ;;
-  }
-
-  dimension: products_legacy_c {
-    type: string
-    sql: ${TABLE}.products_legacy_c ;;
-  }
-
-  dimension: record_type_id {
-    type: string
-    sql: ${TABLE}.record_type_id ;;
-  }
 
   dimension: referral_account_c {
+    label: "Multiplier Client ?"
+    description: "Yes if Account Multiplier is known & active"
     type: yesno
     sql: ${TABLE}.referral_account_c ;;
   }
 
-  dimension: referral_child_accounts_c {
-    type: yesno
-    sql: ${TABLE}.referral_child_accounts_c ;;
-  }
 
-  dimension: referral_source_legacy_c {
-    type: string
-    sql: ${TABLE}.referral_source_legacy_c ;;
-  }
 
   dimension: secondary_medium_c {
     type: string
@@ -417,26 +347,6 @@ view: accounts {
     sql: ${TABLE}.type ;;
   }
 
-  dimension: uuid {
-    type: number
-    value_format_name: id
-    sql: ${TABLE}.uuid ;;
-  }
-
-  dimension_group: uuid_ts {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.uuid_ts ;;
-  }
-
   dimension: website {
     type: string
     sql: ${TABLE}.website ;;
@@ -447,8 +357,15 @@ view: accounts {
     sql: ${TABLE}.winback_score_c ;;
   }
 
+# ---------------- measures ---------------------
+
   measure: count {
     type: count
     drill_fields: [id, name, opportunities.count]
+  }
+
+  measure: overall_account_nps_c {
+    type: average
+    sql: ${TABLE}.overall_account_nps_c ;;
   }
 }

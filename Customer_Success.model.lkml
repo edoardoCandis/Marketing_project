@@ -25,6 +25,8 @@ datagroup: new_opportunities {
 persist_with: new_opportunities
 
 
+# ------ explores start here ---------
+
 explore: cb_subscriptions {
   label: "Churn & Susbcriptions"
   sql_always_where: ${is_deleted}<>true ;;
@@ -34,5 +36,11 @@ explore: cb_subscriptions {
     type: left_outer
     relationship: many_to_one
     sql_on: ${cb_subscriptions.chargebeeapps_subscription_plan_id}=${plan_name.id} ;;
+  }
+
+  join: churn_reasons {
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${cb_subscriptions.id}=${churn_reasons.subscription_id} ;;
   }
 }

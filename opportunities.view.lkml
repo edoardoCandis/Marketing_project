@@ -355,7 +355,7 @@ view: opportunities {
     sql: ${TABLE}.created_date ;;
   }
 
-  dimension: daysin_opportunity_funnel_c {
+  dimension: days_in_opportunity_funnel {
     type: number
     sql: ${TABLE}.daysin_opportunity_funnel_c ;;
   }
@@ -364,7 +364,7 @@ view: opportunities {
     type: tier
     tiers: [ 0,7,14,21,28,]
     style: integer
-    sql: ${daysin_opportunity_funnel_c} ;;
+    sql: ${days_in_opportunity_funnel}_funnel_c} ;;
   }
 
   dimension: days_to_close_after_demo {
@@ -405,6 +405,22 @@ view: opportunities {
     type: string
     sql: ${TABLE}.demo_conclusion_c ;;
   }
+
+dimension_group: demo_booked_date_c {
+  type: time
+  timeframes: [
+    raw,
+    time,
+    date,
+    week,
+    week_of_year,
+    day_of_month,
+    month,
+    quarter,
+    year
+  ]
+  sql: ${TABLE}.demo_booked_date_c ;;
+}
 
   dimension_group: demo_done_date_c {
     type: time
@@ -802,12 +818,11 @@ view: opportunities {
       field: demo_booked_c
       value: "yes" } }
 
-
 measure: average_funneltime {
   label: "Funneltime"
   description: "Only looks at Customers that are won"
   type: average
-  sql: ${daysin_opportunity_funnel_c} ;;
+  sql: ${days_in_opportunity_funnel} ;;
   filters: {
     field: is_won
     value: "true"

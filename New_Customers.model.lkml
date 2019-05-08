@@ -14,9 +14,15 @@ explore: opportunities {
   # technically we need to think about only including salesreps:  AND ${users.user_role_id}='Salesrep' but this leads to problems at the start of the funnel.
   sql_always_where: ${close_date}>='2019-01-01'
                     AND ${name} NOT LIKE '%test%'
-                    AND ${users.user_role_id}='Salesrep'
                     AND ${record_type_id}<>'Multiplier'
                     AND ${is_deleted}<>true;;
+  always_filter: {
+    filters: {
+      field: users.user_role_id
+      value:"Salesrep"
+    }
+
+  }
   group_label: "Growth Metrics"
   label: "Sales Funnel View"
   description: "This Explore contains all Information about New Sales Opportunities"
@@ -39,6 +45,16 @@ explore: opportunities {
     relationship: many_to_one
     sql_on: ${opportunities.owner_id} = ${users.id} ;;
   }
+
+  join: presales_reps {
+    from: users
+    view_label: "Presales Rep"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${accounts.converted_lead_owner_id_c} = ${presales_reps.id} ;;
+    sql_where: ${presales_reps.user_role_id}='Presales' ;;
+  }
+
   join: fact_demos_done_monthly {
     type: left_outer
     relationship: one_to_one
@@ -72,32 +88,5 @@ explore: meetings {
 # ------------------ new explore ------------------------------
 
 
-explore: all_opportunities{
-  sql_always_where: ${name} NOT LIKE '%test%'
-                    AND ${is_deleted}<>true
-                    AND ${record_type_id}<>'Multiplier';;
-  from: opportunities
-
-  group_label: "Growth Metrics"
-  label: "Total Funnel View"
-  description: "This Explore contains all Opportunity Information (not filtered by Salesreps)."
-
-  join: account_information {
-    from: accounts
-    fields: [account_information.count_presales_c]
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${all_opportunities.account_id} = ${account_information.id} ;;
-  }
-
-  join: presales_reps {
-    from: users
-    view_label: "Presales Rep"
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${account_information.converted_lead_owner_id_c} = ${presales_reps.id} ;;
-    sql_where: ${presales_reps.user_role_id}='Presales' ;;
-  }
-}
 
 # Check everything on top of the Funnel (not applying the Salesrep condition

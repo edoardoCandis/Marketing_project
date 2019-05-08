@@ -56,6 +56,11 @@ view: users {
     drill_fields: [detail*]
   }
 
+  filter: sales_or_all {
+    type: string
+    sql: if(${user_role_id}="Salesrep","Salesrep","All") ;;
+  }
+
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [

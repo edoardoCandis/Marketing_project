@@ -253,6 +253,7 @@ view: cb_subscriptions {
   #---------- dimensions in use -------------------
 
   dimension: chargebeeapps_next_billing_amount_c {
+    hidden: yes
     type: string
     sql: ${TABLE}.chargebeeapps_next_billing_amount_c ;;
   }
