@@ -333,7 +333,7 @@ dimension: is_churn {
 dimension: last_net_mrr {
   type: number
   value_format_name: eur
-  sql: ${TABLE}.last_net_mrr_c ;;
+  sql: CAST(${TABLE}.last_net_mrr_c as float4) ;;
 }
 
 # ------------ measures here ------------
@@ -438,6 +438,13 @@ measure: net_mrr_deactivations{
     value_format_name: eur
     sql: ${TABLE}.chargebeeapps_mrr_c ;;
   }
+
+
+measure: customer_churnrate {
+  type: average
+  value_format_name: percent_2
+  sql: ${last_net_mrr}/lag(${fact_monthly_revenues.total_customer_mrr},1) ;;
+}
 
 
 

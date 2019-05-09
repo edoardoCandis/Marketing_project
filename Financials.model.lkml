@@ -52,7 +52,7 @@ explore: fact_monthly_revenues {
 join: bwa_costs {
   view_label: "Cost Data"
   relationship: one_to_many
-  sql_on: ${fact_monthly_revenues.primary_key}=${bwa_costs.month} ;;
+  sql_on: ${fact_monthly_revenues.date_month}=${bwa_costs.month_month} ;;
 }
 
 

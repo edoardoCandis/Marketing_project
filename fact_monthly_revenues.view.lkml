@@ -8,6 +8,7 @@ dimension: primary_key {
   primary_key: yes
   type: string
 }
+
   dimension_group: date {
     type: time
     timeframes: [
@@ -18,6 +19,33 @@ dimension: primary_key {
     convert_tz: no
     sql: to_date(${TABLE}.date,'yyyy-mm') ;;
   }
+
+  dimension: total_customer_mrr {
+    type: number
+    hidden: no
+    sql: ${TABLE}.total_customer_mrr ;;
+  }
+
+  dimension: total_customer_mrr_previous_period {
+    type: number
+    hidden: no
+    sql: lag(${TABLE}.total_customer_mrr,1) over ( order by ${date_month} asc) ;;
+  }
+
+  dimension: total_moneyback_mrr {
+    type: number
+    hidden: yes
+    sql: ${TABLE}.total_moneyback_mrr ;;
+  }
+
+  dimension: total_trial_mrr {
+    type: number
+    hidden: yes
+    sql: ${TABLE}.total_trial_mrr ;;
+  }
+
+
+
   measure: acm_smartbooks {
     type: max
     sql: ${TABLE}.acm_smartbooks ;;
@@ -63,21 +91,6 @@ dimension: primary_key {
     sql: ${TABLE}.tcm_smartbooks ;;
   }
 
-  dimension: total_customer_mrr {
-    type: number
-    sql: ${TABLE}.total_customer_mrr ;;
-  }
-
-  dimension: total_moneyback_mrr {
-    type: number
-    sql: ${TABLE}.total_moneyback_mrr ;;
-  }
-
-  dimension: total_trial_mrr {
-    type: number
-    sql: ${TABLE}.total_trial_mrr ;;
-  }
-
   measure: total_customer_mrr_sum {
     type: max
     sql: ${total_customer_mrr} ;;
@@ -94,6 +107,8 @@ dimension: primary_key {
   }
 
   measure: total_monthly_mrr {
+    value_format_name: eur
+    label: "Total MRR"
     type: max
     sql: ${total_customer_mrr}+${total_trial_mrr}+${total_moneyback_mrr} ;;
   }

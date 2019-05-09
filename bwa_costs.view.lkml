@@ -1,8 +1,10 @@
 view: bwa_costs {
+  view_label: "P&L Cost Data"
   sql_table_name: financials.bwa_costs ;;
 
   dimension: uniqueid {
     primary_key: yes
+    hidden: yes
     type: string
     sql: ${TABLE}.uniqueid ;;
   }
@@ -22,12 +24,17 @@ view: bwa_costs {
     sql: ${TABLE}.expense_account_number ;;
   }
 
-  dimension: month {
-    label: "Month"
-    type: string
-    sql: ${TABLE}.month ;;
+  dimension_group: month {
+    label: "Cost"
+    type: time
+    timeframes: [
+      month,
+      quarter,
+      year
+    ]
+    convert_tz: no
+    sql: to_date(${TABLE}.month,'yyyy-mm') ;;
   }
-
 
 
 #--------- measures here ---------------
@@ -38,8 +45,20 @@ view: bwa_costs {
   }
 
   measure: amount {
+    label: "Total Costs"
     type: sum
-    value_format: "0.00€"
+    value_format_name: eur
     sql: ${TABLE}.amount;;
+  }
+  measure: direct_cost {
+    label: "CoGS"
+    description: "All Costs accounted to Cost Center CoGS (direct cost)"
+    type: sum
+    value_format_name: eur
+    sql: ${TABLE}.amount;;
+    filters: {
+      field: cost_center
+      value: "CoGS"
+    }
   }
 }
