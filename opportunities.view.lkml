@@ -446,6 +446,8 @@ dimension_group: demo_booked_date_c {
   }
 
   dimension: employees_c {
+    hidden: yes
+    # we use the employee field from the account, not from the Opportunity
     group_label: "Company Information"
     label: "Employees"
     type: number
