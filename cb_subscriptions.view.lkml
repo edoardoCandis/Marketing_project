@@ -392,6 +392,29 @@ measure: net_mrr_deactivations{
     }
   }
 
+# -- aggregated measures --
+
+
+  measure: customer_mrr_churnrate {
+    label: "MRR Churnrate (Customer)"
+    type: sum
+    value_format_name: percent_2
+    sql: ${last_net_mrr}/(${fact_monthly_revenues.total_customer_mrr_previous_period}+${last_net_mrr}) ;;
+    filters: {
+      field: is_churn
+      value: "yes"
+    }
+  }
+  measure: trial_mrr_churnrate {
+    label: "MRR Deactivationrate (Trial)"
+    type: sum
+    value_format_name: percent_2
+    sql: ${last_net_mrr}/(${fact_monthly_revenues.total_trial_mrr_previous_period}+${fact_monthly_revenues.total_moneyback_mrr_previous_period}+${last_net_mrr}) ;;
+    filters: {
+      field: is_deactivation
+      value: "yes"
+    }
+  }
 
 # other measures where i am not yet sure how to incorporate them
 
@@ -438,13 +461,6 @@ measure: net_mrr_deactivations{
     value_format_name: eur
     sql: ${TABLE}.chargebeeapps_mrr_c ;;
   }
-
-
-measure: customer_churnrate {
-  type: average
-  value_format_name: percent_2
-  sql: ${last_net_mrr}/lag(${fact_monthly_revenues.total_customer_mrr},1) ;;
-}
 
 
 
