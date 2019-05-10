@@ -87,6 +87,22 @@ explore: meetings {
 
 # ------------------ new explore ------------------------------
 
+explore: leads {
+  sql_always_where: ${is_deleted}<>true ;;
 
+  join: converted_lead_account {
+    from: accounts
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${leads.converted_account_id}=${converted_lead_account.id} ;;
+    }
+
+    join: converted_account_opportunity {
+      from: opportunities
+      type: left_outer
+      relationship: many_to_one
+      sql_on: ${converted_account_opportunity.account_id}=${converted_lead_account.id} ;;
+    }
+}
 
 # Check everything on top of the Funnel (not applying the Salesrep condition
