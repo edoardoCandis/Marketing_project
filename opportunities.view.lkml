@@ -926,4 +926,15 @@ measure: average_funneltime {
       accounts.id
     ]
   }
+
+  set: basic_opportunity_information {
+    fields: [
+      stage_name,
+      is_won,
+      gross_mrr_won_sum,
+      gross_mrr_won_avg,
+      funnel_value_c
+
+    ]
+  }
 }

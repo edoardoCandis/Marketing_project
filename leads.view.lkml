@@ -6,6 +6,7 @@ view: leads {
 
   dimension: id {
     primary_key: yes
+    hidden: yes
     type: string
     sql: ${TABLE}.id ;;
   }
@@ -26,6 +27,40 @@ view: leads {
     hidden: yes
     type: string
     sql: ${TABLE}.converted_contact_id ;;
+  }
+
+  dimension: iace_branche_c {
+    hidden: yes
+    # not used currently
+    type: number
+    sql: ${TABLE}.iace_branche_c ;;
+  }
+
+  dimension: email {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.email ;;
+  }
+
+  dimension_group: expected_close_date_c {
+    hidden: yes
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.expected_close_date_c ;;
+  }
+
+  dimension: first_name {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.first_name ;;
   }
 
   dimension: converted_opportunity_id {
@@ -84,41 +119,76 @@ view: leads {
     sql: ${TABLE}.created_by_id ;;
   }
 
-  dimension: accounting_tool_in_use_c {
-    type: string
-    sql: ${TABLE}.accounting_tool_in_use_c ;;
-  }
-
-  dimension: affiliate_publisher_id_c {
-    type: string
-    sql: ${TABLE}.affiliate_publisher_id_c ;;
-  }
-
-  dimension: afilliate_c {
-    type: string
-    sql: ${TABLE}.afilliate_c ;;
-  }
-
   dimension: company {
+    hidden: yes
     type: string
     sql: ${TABLE}.company ;;
   }
 
-  dimension: company_size_score_c {
-    type: number
-    sql: ${TABLE}.company_size_score_c ;;
-  }
-
   dimension: contact_hierarchy_c {
+    hidden: yes
     type: string
     sql: ${TABLE}.contact_hierarchy_c ;;
   }
 
-  dimension: contacted_via_social_network_c {
-    type: yesno
-    sql: ${TABLE}.contacted_via_social_network_c ;;
+  dimension: title {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.title ;;
+  }
+  dimension_group: last_activity {
+    hidden: yes
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.last_activity_date ;;
   }
 
+  dimension: lead_company_c {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.lead_company_c ;;
+  }
+
+  dimension: main_lead_c {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.main_lead_c ;;
+  }
+
+  dimension: name {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.name ;;
+  }
+
+
+  dimension: last_name {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.last_name ;;
+  }
+
+  dimension: is_deleted {
+    hidden: yes
+    type: yesno
+    sql: ${TABLE}.is_deleted ;;
+  }
+
+  dimension: website {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.website ;;
+  }
+
+# ----------------- dimensions in use -------------------
 
   dimension_group: converted {
     type: time
@@ -135,10 +205,10 @@ view: leads {
   }
 
   dimension: count_leadactivities_c {
+    label: "Number of Calls"
     type: number
     sql: ${TABLE}.count_leadactivities_c ;;
   }
-
 
   dimension_group: created {
     type: time
@@ -155,48 +225,26 @@ view: leads {
   }
 
   dimension: decisionmaker_c {
+    label: "Decisionmaker"
+    description: "Is the Lead the Decisionmaker?"
     type: yesno
     sql: ${TABLE}.decisionmaker_c ;;
   }
 
   dimension: decisionmaker_score_c {
+    group_label: "Scoring Information"
     type: number
     sql: ${TABLE}.decisionmaker_score_c ;;
   }
 
-
-  dimension: email {
-    type: string
-    sql: ${TABLE}.email ;;
-  }
-
-
-
-  dimension_group: expected_close_date_c {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.expected_close_date_c ;;
-  }
-
-  dimension: first_name {
-    type: string
-    sql: ${TABLE}.first_name ;;
-  }
-
-  dimension: iace_branche_c {
+  dimension: company_size_score_c {
+    group_label: "Scoring Information"
     type: number
-    sql: ${TABLE}.iace_branche_c ;;
+    sql: ${TABLE}.company_size_score_c ;;
   }
 
   dimension: industry {
+    group_label:"Company Information"
     type: string
     sql: ${TABLE}.industry ;;
   }
@@ -205,116 +253,108 @@ view: leads {
     type: yesno
     sql: ${TABLE}.is_converted ;;
   }
-
-  dimension: is_deleted {
-    hidden: yes
-    type: yesno
-    sql: ${TABLE}.is_deleted ;;
+  dimension: accounting_tool_in_use_c {
+    group_label: "Company Information"
+    type: string
+    sql: ${TABLE}.accounting_tool_in_use_c ;;
   }
 
+  dimension: affiliate_publisher_id_c {
+    group_label: "Source Information"
+    type: string
+    sql: ${TABLE}.affiliate_publisher_id_c ;;
+  }
+
+  dimension: afilliate_c {
+    group_label: "Source Information"
+    type: string
+    sql: ${TABLE}.afilliate_c ;;
+  }
 
   dimension: landingpage_url_c {
+    group_label: "Source Information"
     type: string
     sql: ${TABLE}.landingpage_url_c ;;
   }
 
-  dimension_group: last_activity {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.last_activity_date ;;
-  }
+dimension: idle_time {
+  type: tier
+  sql: current_date-${last_activity_date} ;;
+  tiers: [0,7,14,21,30]
+  style: integer
 
-  dimension: last_name {
-    type: string
-    sql: ${TABLE}.last_name ;;
-  }
+}
 
   dimension: last_page_seen_url_c {
+    group_label: "Source Information"
     type: string
     sql: ${TABLE}.last_page_seen_url_c ;;
   }
 
   dimension: last_referring_site_url_c {
+    group_label: "Source Information"
     type: string
     sql: ${TABLE}.last_referring_site_url_c ;;
   }
 
   dimension: lead_campaign_c {
+    group_label: "Source Information"
     type: string
     sql: ${TABLE}.lead_campaign_c ;;
   }
 
-  dimension: lead_channel_grouping_c {
-    type: string
-    sql: ${TABLE}.lead_channel_grouping_c ;;
-  }
-
-  dimension: lead_company_c {
-    type: string
-    sql: ${TABLE}.lead_company_c ;;
-  }
-
-  dimension: lead_creation_score_c {
-    type: number
-    sql: ${TABLE}.lead_creation_score_c ;;
-  }
-
   dimension: lead_engagement_c {
+    group_label: "Source Information"
     type: string
     sql: ${TABLE}.lead_engagement_c ;;
   }
-
-  dimension: lead_interest_score_c {
-    type: number
-    sql: ${TABLE}.lead_interest_score_c ;;
-  }
-
   dimension: lead_method_c {
+    group_label: "Source Information"
     type: string
     sql: ${TABLE}.lead_method_c ;;
   }
 
-  dimension: lead_owner_name_c {
-    type: string
-    sql: ${TABLE}.lead_owner_name_c ;;
-  }
-
-  dimension: lead_position_score_c {
-    type: number
-    sql: ${TABLE}.lead_position_score_c ;;
-  }
-
-  dimension: lead_segment_c {
-    type: string
-    sql: ${TABLE}.lead_segment_c ;;
-  }
-
   dimension: lead_source {
+    group_label: "Source Information"
     type: string
     sql: ${TABLE}.lead_source ;;
   }
 
   dimension: lead_source_referrer_c {
+    group_label: "Source Information"
     type: string
     sql: ${TABLE}.lead_source_referrer_c ;;
   }
 
+  dimension: lead_creation_score_c {
+    group_label: "Scoring Information"
+    type: number
+    sql: ${TABLE}.lead_creation_score_c ;;
+  }
 
-  dimension: main_lead_c {
-    hidden: yes
+  dimension: lead_interest_score_c {
+    group_label: "Scoring Information"
+    type: number
+    sql: ${TABLE}.lead_interest_score_c ;;
+  }
+
+
+  dimension: lead_position_score_c {
+    group_label: "Scoring Information"
+    type: number
+    sql: ${TABLE}.lead_position_score_c ;;
+  }
+
+  dimension: lead_segment_c {
+    label: "Lead Type "
+    description: "Company/Multiplier"
     type: string
-    sql: ${TABLE}.main_lead_c ;;
+    sql: ${TABLE}.lead_segment_c ;;
   }
 
   dimension: monthly_invoice_volume_c {
+    group_label:"Company Information"
+    label: "Monthly Invoices"
     type: number
     sql: ${TABLE}.monthly_invoice_volume_c ;;
   }
@@ -324,33 +364,32 @@ view: leads {
     sql: ${TABLE}.mql_c ;;
   }
 
-  dimension: name {
-    type: string
-    sql: ${TABLE}.name ;;
-  }
-
   dimension: number_of_employees {
+    group_label:"Company Information"
     type: number
     sql: ${TABLE}.number_of_employees ;;
   }
 
   dimension: position_c {
+    label: "Position"
     type: string
     sql: ${TABLE}.position_c ;;
   }
 
   dimension: priority_lead_c {
+    label: "Is Priority Lead ?"
     type: yesno
     sql: ${TABLE}.priority_lead_c ;;
   }
 
   dimension: product_acquisition_channel_c {
+    label: "Product"
     type: string
     sql: ${TABLE}.product_acquisition_channel_c ;;
   }
 
-
   dimension: response_c {
+    group_label: "Source Information"
     type: string
     sql: ${TABLE}.response_c ;;
   }
@@ -362,26 +401,53 @@ view: leads {
 
   dimension: status {
     type: string
-    sql: ${TABLE}.status ;;
+    sql: lower(${TABLE}.status) ;;
   }
 
-  dimension: title {
+  dimension: group {
+    description: "targeted vs. new"
     type: string
-    sql: ${TABLE}.title ;;
+    sql: CASE WHEN ${status} NOT IN ('prospect','prequalified') AND ${lead_owner.user_role}='Presales' THEN 'targeted'
+              WHEN ${status} IN ('prospect','prequalified') THEN 'new'
+              ELSE 'other' END;;
   }
 
   dimension: total_leadscore_c {
+    group_label: "Scoring Information"
     type: number
     sql: ${TABLE}.total_leadscore_c ;;
   }
 
-  dimension: website {
-    type: string
-    sql: ${TABLE}.website ;;
-  }
+# ---------------- measures -----------------
 
   measure: count {
+    label: "Total"
     type: count
-    drill_fields: [id, last_name, first_name, name]
+    drill_fields: [id, last_name, first_name,email]
+  }
+
+  measure: average_calls {
+    label: "Average Calls"
+    description: "Excludes 0,NULL"
+    type: average
+    sql: ${count_leadactivities_c};;
+    filters: {
+      field: count_leadactivities_c
+      value: ">0"
+    }
+  }
+
+  set: personal_information {
+    fields: [
+      id,
+      last_name,
+      first_name,
+      email,
+      title,
+      contact_hierarchy_c,
+      website,
+      company,
+      last_activity_date
+    ]
   }
 }
