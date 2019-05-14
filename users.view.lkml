@@ -21,16 +21,20 @@ view: users {
   }
 
   dimension: is_active {
+    hidden: yes
     type: yesno
     sql: ${TABLE}.is_active ;;
   }
 
   dimension: name {
+    label: "Owner Name"
+    description: "Salesrep, Successrep, Presalesrep etc."
     type: string
     sql: ${TABLE}.name ;;
   }
 
   dimension: user_role {
+    hidden: yes
     type: string
     label: "User Role"
     description: "Salesrep, Presales, Successrep"

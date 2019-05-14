@@ -114,7 +114,8 @@ explore: leads {
     from: opportunities
     type: left_outer
     fields: [converted_account_opportunity.basic_opportunity_information*]
-    relationship: many_to_one      sql_on: ${converted_account_opportunity.account_id}=${converted_lead_account.id} ;;
+    relationship: one_to_many
+    sql_on: ${converted_account_opportunity.account_id}=${converted_lead_account.id} ;;
     }
 
   join: lead_owner {

@@ -225,7 +225,7 @@ view: leads {
   }
 
   dimension: decisionmaker_c {
-    label: "Decisionmaker"
+    label: "Decisionmaker (yes/no)"
     description: "Is the Lead the Decisionmaker?"
     type: yesno
     sql: ${TABLE}.decisionmaker_c ;;
@@ -251,6 +251,7 @@ view: leads {
 
   dimension: is_converted {
     type: yesno
+    label: "Lead converted (yes/no)"
     sql: ${TABLE}.is_converted ;;
   }
   dimension: accounting_tool_in_use_c {
@@ -278,6 +279,8 @@ view: leads {
   }
 
 dimension: idle_time {
+  label: "Time since last Lead Activity (weeks)"
+  description: "Days since somebody has done any changes to the lead"
   type: tier
   sql: current_date-${last_activity_date} ;;
   tiers: [0,7,14,21,30]
@@ -361,6 +364,8 @@ dimension: idle_time {
 
   dimension: mql_c {
     type: yesno
+    label: "MQL (yes/no)"
+    description: "Is the Lead a MarketingQualifiedLead"
     sql: ${TABLE}.mql_c ;;
   }
 
@@ -377,7 +382,7 @@ dimension: idle_time {
   }
 
   dimension: priority_lead_c {
-    label: "Is Priority Lead ?"
+    label: "Priority Lead (yes/no)"
     type: yesno
     sql: ${TABLE}.priority_lead_c ;;
   }
@@ -396,6 +401,7 @@ dimension: idle_time {
 
   dimension: sql_c {
     type: yesno
+    label: "SQL (yes/no)"
     sql: ${TABLE}.sql_c ;;
   }
 

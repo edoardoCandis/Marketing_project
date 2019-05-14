@@ -81,11 +81,13 @@ view: churn_reasons {
 
   measure: attributed_logo_churn {
     type: sum
+    value_format_name: eur
     sql: ${TABLE}.attributed_logo_churn ;;
   }
 
   measure: attributed_net_dollar_churn {
     type: sum
+    value_format_name: eur
     sql: ${TABLE}.attributed_net_dollar_churn ;;
   }
 }

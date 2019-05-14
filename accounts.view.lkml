@@ -121,33 +121,6 @@ view: accounts {
     sql: ${TABLE}.is_deleted ;;
   }
 
-  # ---------------- dimensions in use -----------------------
-
-  dimension: account_source {
-    type: string
-    sql: ${TABLE}.account_source ;;
-  }
-
-  dimension: account_status_c {
-    type: string
-    sql: ${TABLE}.account_status_c ;;
-  }
-
-  dimension: accounting_tool_in_use_c {
-    type: string
-    sql: ${TABLE}.accounting_tool_in_use_c ;;
-  }
-
-  dimension: acm_c {
-    type: string
-    sql: ${TABLE}.acm_c ;;
-  }
-
-  dimension: active_child_accounts_c {
-    type: number
-    sql: ${TABLE}.active_child_accounts_c ;;
-  }
-
   dimension: annual_revenue {
     hidden: yes
     # standart salesforce field, not used currently
@@ -161,47 +134,22 @@ view: accounts {
     sql: ${TABLE}.billing_method_c ;;
   }
 
-  dimension: candis_companies_c {
-    label: "Number of active CANDIS Accounts"
-    type: number
-    sql: ${TABLE}.candis_companies_c ;;
-  }
-
-
-  dimension: converted_lead_campaign_c {
-    type: string
-    sql: ${TABLE}.converted_lead_campaign_c ;;
-  }
-
   dimension: converted_lead_channel_c {
     hidden: yes
     type: string
     sql: ${TABLE}.converted_lead_channel_c ;;
   }
 
-  dimension: converted_lead_engagement_c {
+  dimension: tax_advisor_stage_c {
+    hidden: yes
     type: string
-    sql: ${TABLE}.converted_lead_engagement_c ;;
+    sql: ${TABLE}.tax_advisor_stage_c ;;
   }
 
-  dimension: converted_lead_method_c {
+  dimension: total_mrr_c {
+    hidden: yes
     type: string
-    sql: ${TABLE}.converted_lead_method_c ;;
-  }
-
-  dimension: converted_lead_response_c {
-    type: string
-    sql: ${TABLE}.converted_lead_response_c ;;
-  }
-
-  dimension: converted_lead_source_c {
-    type: string
-    sql: ${TABLE}.converted_lead_source_c ;;
-  }
-
-  dimension: count_active_subscriptions_c {
-    type: number
-    sql: ${TABLE}.count_active_subscriptions_c ;;
+    sql: ${TABLE}.total_mrr_c ;;
   }
 
   dimension: count_open_opportunities_c {
@@ -210,17 +158,18 @@ view: accounts {
     sql: ${TABLE}.count_open_opportunities_c ;;
   }
 
-  dimension: count_presales_c {
-    label: "is presales Lead Conversion ?"
-    type: yesno
-    sql:CASE WHEN ${TABLE}.count_presales_c=1 THEN true ELSE false END ;;
-  }
-
   dimension: created_by_id {
     hidden: yes
     type: string
     sql: ${TABLE}.created_by_id ;;
   }
+
+  dimension: acm_c {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.acm_c ;;
+  }
+
 
   dimension: converted_lead_owner_id_c {
     hidden: yes
@@ -323,19 +272,69 @@ view: accounts {
     sql: ${TABLE}.secondary_medium_c ;;
   }
 
+  dimension: converted_lead_engagement_c {
+    type: string
+    sql: ${TABLE}.converted_lead_engagement_c ;;
+  }
+  dimension: account_source {
+    type: string
+    sql: ${TABLE}.account_source ;;
+  }
+
+  dimension: account_status_c {
+    type: string
+    sql: ${TABLE}.account_status_c ;;
+  }
+
+  dimension: accounting_tool_in_use_c {
+    type: string
+    sql: ${TABLE}.accounting_tool_in_use_c ;;
+  }
+
+  dimension: active_child_accounts_c {
+    type: number
+    sql: ${TABLE}.active_child_accounts_c ;;
+  }
+
+  dimension: converted_lead_method_c {
+    type: string
+    sql: ${TABLE}.converted_lead_method_c ;;
+  }
+
+  dimension: converted_lead_response_c {
+    type: string
+    sql: ${TABLE}.converted_lead_response_c ;;
+  }
+
+  dimension: converted_lead_source_c {
+    type: string
+    sql: ${TABLE}.converted_lead_source_c ;;
+  }
+  dimension: count_presales_c {
+    label: "Presales Lead Conversion (yes/no)"
+    description: "Presales Team has been actively engaged to convert this Lead."
+    type: yesno
+    sql:CASE WHEN ${TABLE}.count_presales_c=1 THEN true ELSE false END ;;
+  }
+
   dimension: secondary_referrer_c {
     type: string
     sql: ${TABLE}.secondary_referrer_c ;;
   }
 
-  dimension: tax_advisor_stage_c {
-    type: string
-    sql: ${TABLE}.tax_advisor_stage_c ;;
+  dimension: candis_companies_c {
+    label: "Number of active CANDIS Accounts"
+    type: number
+    sql: ${TABLE}.candis_companies_c ;;
   }
 
-  dimension: total_mrr_c {
+  dimension: converted_lead_campaign_c {
     type: string
-    sql: ${TABLE}.total_mrr_c ;;
+    sql: ${TABLE}.converted_lead_campaign_c ;;
+  }
+  dimension: count_active_subscriptions_c {
+    type: number
+    sql: ${TABLE}.count_active_subscriptions_c ;;
   }
 
 # ---------------- measures ---------------------
