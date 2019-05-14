@@ -27,8 +27,11 @@ datagroup: new_opportunities {
 }
 persist_with: new_opportunities
 
+
+# ------------ Explore for Invoices & Refunds ---------------
+
 explore: cb_invoices {
-  view_label: "Invoices"
+  view_label: "Invoices & Credit Notes"
   sql_always_where: ${cb_invoices.chargebeeapps_invoice_date_c_month}>='2019-01'
                     AND ${is_deleted}<>true ;;
   label: "Financials"
@@ -39,15 +42,18 @@ explore: cb_invoices {
     relationship: one_to_one
     sql_on: ${cb_invoices.id}=${cb_credit_notes.chargebeeapps_invoice_c};;
   }
+
+ }
+
+# ------------ Explore for Monthly Cost & Revenues ---------------
+
+explore: fact_monthly_revenues {
+
 join: bwa_costs {
   view_label: "Cost Data"
-  relationship: many_to_many
-  sql_on: ${cb_invoices.chargebeeapps_invoice_date_c_month}=${bwa_costs.month} ;;
+  relationship: one_to_many
+  sql_on: ${fact_monthly_revenues.date_month}=${bwa_costs.month_month} ;;
 }
 
-join: fact_revenues {
-  view_label: "Revenues"
-  relationship: many_to_one
-  sql_on: ${bwa_costs.month}=${fact_revenues.date_month} ;;
-}
+
 }

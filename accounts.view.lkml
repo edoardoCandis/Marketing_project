@@ -121,8 +121,161 @@ view: accounts {
     sql: ${TABLE}.is_deleted ;;
   }
 
-  # ---------------- dimensions in use -----------------------
+  dimension: annual_revenue {
+    hidden: yes
+    # standart salesforce field, not used currently
+    type: string
+    sql: ${TABLE}.annual_revenue ;;
+  }
 
+  dimension: billing_method_c {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.billing_method_c ;;
+  }
+
+  dimension: converted_lead_channel_c {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.converted_lead_channel_c ;;
+  }
+
+  dimension: tax_advisor_stage_c {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.tax_advisor_stage_c ;;
+  }
+
+  dimension: total_mrr_c {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.total_mrr_c ;;
+  }
+
+  dimension: count_open_opportunities_c {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.count_open_opportunities_c ;;
+  }
+
+  dimension: created_by_id {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.created_by_id ;;
+  }
+
+  dimension: acm_c {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.acm_c ;;
+  }
+
+
+  dimension: converted_lead_owner_id_c {
+    hidden: yes
+    # exists to join users
+    type: string
+    sql: ${TABLE}.converted_lead_owner_id_c ;;
+  }
+
+  dimension: lead_channel_grouping_c {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.lead_channel_grouping_c ;;
+  }
+
+  dimension: lead_landing_page_url_c {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.lead_landing_page_url_c ;;
+  }
+
+  dimension: lead_last_referring_site_url_c {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.lead_last_referring_site_url_c ;;
+  }
+
+  dimension: master_record_id {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.master_record_id ;;
+  }
+
+  dimension: type {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.type ;;
+  }
+
+  dimension: website {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.website ;;
+  }
+
+  dimension: winback_score_c {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.winback_score_c ;;
+  }
+
+  dimension: multiplier_payment_conditions_c {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.multiplier_payment_conditions_c ;;
+  }
+  dimension: taxadvisor_client_process_c {
+    hidden: yes
+    type: yesno
+    sql: ${TABLE}.taxadvisor_client_process_c ;;
+  }
+
+  dimension: total_bookkeeping_clients_c {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.total_bookkeeping_clients_c ;;
+  }
+
+
+#------------------ dimensions in use ------------------------
+
+  dimension: industry {
+    type: string
+    sql: ${TABLE}.industry ;;
+  }
+
+  dimension: internal_bookkeeping_c {
+    type: yesno
+    sql: ${TABLE}.internal_bookkeeping_c ;;
+  }
+
+  dimension: name {
+    type: string
+    sql: ${TABLE}.name ;;
+  }
+
+  dimension: number_of_employees {
+    type: number
+    sql: ${TABLE}.number_of_employees ;;
+  }
+
+  dimension: referral_account_c {
+    label: "Multiplier Client ?"
+    description: "Yes if Account Multiplier is known & active"
+    type: yesno
+    sql: ${TABLE}.referral_account_c ;;
+  }
+
+  dimension: secondary_medium_c {
+    type: string
+    sql: ${TABLE}.secondary_medium_c ;;
+  }
+
+  dimension: converted_lead_engagement_c {
+    type: string
+    sql: ${TABLE}.converted_lead_engagement_c ;;
+  }
   dimension: account_source {
     type: string
     sql: ${TABLE}.account_source ;;
@@ -138,59 +291,15 @@ view: accounts {
     sql: ${TABLE}.accounting_tool_in_use_c ;;
   }
 
-  dimension: acm_c {
-    type: string
-    sql: ${TABLE}.acm_c ;;
-  }
-
   dimension: active_child_accounts_c {
     type: number
     sql: ${TABLE}.active_child_accounts_c ;;
-  }
-
-  dimension: annual_revenue {
-    type: string
-    sql: ${TABLE}.annual_revenue ;;
-  }
-
-  dimension: billing_method_c {
-    type: string
-    sql: ${TABLE}.billing_method_c ;;
-  }
-
-  dimension: candis_companies_c {
-    type: number
-    sql: ${TABLE}.candis_companies_c ;;
-  }
-
-  dimension: client_group_c {
-    type: string
-    sql: ${TABLE}.client_group_c ;;
-  }
-
-
-  dimension: converted_lead_campaign_c {
-    type: string
-    sql: ${TABLE}.converted_lead_campaign_c ;;
-  }
-
-  dimension: converted_lead_channel_c {
-    hidden: yes
-    type: string
-    sql: ${TABLE}.converted_lead_channel_c ;;
-  }
-
-  dimension: converted_lead_engagement_c {
-    type: string
-    sql: ${TABLE}.converted_lead_engagement_c ;;
   }
 
   dimension: converted_lead_method_c {
     type: string
     sql: ${TABLE}.converted_lead_method_c ;;
   }
-
-
 
   dimension: converted_lead_response_c {
     type: string
@@ -201,113 +310,11 @@ view: accounts {
     type: string
     sql: ${TABLE}.converted_lead_source_c ;;
   }
-
-  dimension: count_active_subscriptions_c {
-    type: number
-    sql: ${TABLE}.count_active_subscriptions_c ;;
-  }
-
-  dimension: count_open_opportunities_c {
-    hidden: yes
-    type: number
-    sql: ${TABLE}.count_open_opportunities_c ;;
-  }
-
   dimension: count_presales_c {
-    label: "is presales Lead Conversion ?"
+    label: "Presales Lead Conversion (yes/no)"
+    description: "Presales Team has been actively engaged to convert this Lead."
     type: yesno
     sql:CASE WHEN ${TABLE}.count_presales_c=1 THEN true ELSE false END ;;
-  }
-
-  dimension: created_by_id {
-    hidden: yes
-    type: string
-    sql: ${TABLE}.created_by_id ;;
-  }
-
-
-
-  dimension: gross_mrr_c {
-    type: number
-    sql: ${TABLE}.gross_mrr_c ;;
-  }
-
-  dimension: industry {
-    type: string
-    sql: ${TABLE}.industry ;;
-  }
-
-  dimension: internal_bookkeeping_c {
-    type: yesno
-    sql: ${TABLE}.internal_bookkeeping_c ;;
-  }
-
-
-
-  dimension: lead_channel_drilldown_info_1_c {
-    type: string
-    sql: ${TABLE}.lead_channel_drilldown_info_1_c ;;
-  }
-
-  dimension: lead_channel_drilldown_info_2_c {
-    type: string
-    sql: ${TABLE}.lead_channel_drilldown_info_2_c ;;
-  }
-
-  dimension: lead_channel_grouping_c {
-    type: string
-    sql: ${TABLE}.lead_channel_grouping_c ;;
-  }
-
-  dimension: lead_landing_page_url_c {
-    type: string
-    sql: ${TABLE}.lead_landing_page_url_c ;;
-  }
-
-  dimension: lead_last_referring_site_url_c {
-    type: string
-    sql: ${TABLE}.lead_last_referring_site_url_c ;;
-  }
-
-  dimension: master_record_id {
-    type: string
-    sql: ${TABLE}.master_record_id ;;
-  }
-
-  dimension: mrr_c {
-    type: number
-    sql: ${TABLE}.mrr_c ;;
-  }
-
-  dimension: multiplier_payment_conditions_c {
-    type: string
-    sql: ${TABLE}.multiplier_payment_conditions_c ;;
-  }
-
-  dimension: name {
-    type: string
-    sql: ${TABLE}.name ;;
-  }
-
-  dimension: number_of_employees {
-    type: number
-    sql: ${TABLE}.number_of_employees ;;
-  }
-
-
-
-  dimension: referral_account_c {
-    label: "Multiplier Client ?"
-    description: "Yes if Account Multiplier is known & active"
-    type: yesno
-    sql: ${TABLE}.referral_account_c ;;
-  }
-
-
-
-  dimension: secondary_medium_c {
-    type: string
-    sql: ${TABLE}.secondary_medium_c ;;
   }
 
   dimension: secondary_referrer_c {
@@ -315,46 +322,19 @@ view: accounts {
     sql: ${TABLE}.secondary_referrer_c ;;
   }
 
-  dimension: tax_advisor_stage_c {
-    type: string
-    sql: ${TABLE}.tax_advisor_stage_c ;;
-  }
-
-  dimension: taxadvisor_client_process_c {
-    type: yesno
-    sql: ${TABLE}.taxadvisor_client_process_c ;;
-  }
-
-  dimension: total_bookkeeping_clients_c {
+  dimension: candis_companies_c {
+    label: "Number of active CANDIS Accounts"
     type: number
-    sql: ${TABLE}.total_bookkeeping_clients_c ;;
+    sql: ${TABLE}.candis_companies_c ;;
   }
 
-  dimension: total_mrr_c {
+  dimension: converted_lead_campaign_c {
     type: string
-    sql: ${TABLE}.total_mrr_c ;;
+    sql: ${TABLE}.converted_lead_campaign_c ;;
   }
-
-  dimension: converted_lead_owner_id_c {
-    hidden: yes
-    # exists to join users
-    type: string
-    sql: ${TABLE}.converted_lead_owner_id_c ;;
-  }
-
-  dimension: type {
-    type: string
-    sql: ${TABLE}.type ;;
-  }
-
-  dimension: website {
-    type: string
-    sql: ${TABLE}.website ;;
-  }
-
-  dimension: winback_score_c {
+  dimension: count_active_subscriptions_c {
     type: number
-    sql: ${TABLE}.winback_score_c ;;
+    sql: ${TABLE}.count_active_subscriptions_c ;;
   }
 
 # ---------------- measures ---------------------
@@ -367,5 +347,19 @@ view: accounts {
   measure: overall_account_nps_c {
     type: average
     sql: ${TABLE}.overall_account_nps_c ;;
+  }
+
+  measure: gross_mrr_c {
+    hidden: yes
+    type: sum
+    value_format_name: eur
+    sql: ${TABLE}.gross_mrr_c ;;
+  }
+
+  measure: mrr_c {
+    hidden: yes
+    type: sum
+    value_format_name: eur
+    sql: ${TABLE}.mrr_c ;;
   }
 }

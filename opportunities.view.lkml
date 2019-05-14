@@ -148,6 +148,12 @@ view: opportunities {
     sql: ${TABLE}.potential_workflows_c ;;
   }
 
+  dimension: practice_digitzies_invoices_c {
+    type: yesno
+    hidden: yes
+    sql: ${TABLE}.practice_digitzies_invoices_c ;;
+  }
+
   dimension: subscription_id_c {
     hidden: yes
     type: string
@@ -187,6 +193,12 @@ view: opportunities {
     hidden: yes
     type: yesno
     sql: ${TABLE}.is_deleted ;;
+  }
+
+  dimension: owner_id {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.owner_id ;;
   }
 
   dimension: cash_ledger_c {
@@ -268,7 +280,7 @@ view: opportunities {
   }
 
   dimension: check_demo_done_c {
-    label: "Demo is done?"
+    label: "Demo done (yes/no)"
     type: yesno
     sql: ${TABLE}.check_demo_done_c ;;
   }
@@ -394,7 +406,7 @@ view: opportunities {
   }
 
   dimension: demo_booked_c {
-    label: "Demo is booked ?"
+    label: "Demo booked (yes/no)"
     type: yesno
     sql: ${TABLE}.demo_booked_c ;;
   }
@@ -446,6 +458,8 @@ dimension_group: demo_booked_date_c {
   }
 
   dimension: employees_c {
+    hidden: yes
+    # we use the employee field from the account, not from the Opportunity
     group_label: "Company Information"
     label: "Employees"
     type: number
@@ -512,6 +526,7 @@ dimension_group: demo_booked_date_c {
   }
 
   dimension: is_won {
+    label: "Closed Won (yes/no)"
     type: yesno
     sql: ${TABLE}.is_won ;;
   }
@@ -569,12 +584,6 @@ dimension_group: demo_booked_date_c {
     sql: ${TABLE}.outgoing_invoices_per_month_c ;;
   }
 
-  dimension: owner_id {
-    hidden: yes
-    type: string
-    sql: ${TABLE}.owner_id ;;
-  }
-
   dimension: pain_definition_score_c {
     group_label: "Opportunity Scores"
     label: "Pain Definition"
@@ -590,11 +599,6 @@ dimension_group: demo_booked_date_c {
   dimension: painpoints_c {
     type: string
     sql: ${TABLE}.painpoints_c ;;
-  }
-
-  dimension: practice_digitzies_invoices_c {
-    type: yesno
-    sql: ${TABLE}.practice_digitzies_invoices_c ;;
   }
 
   dimension: preaccounting_c {
@@ -645,6 +649,8 @@ dimension_group: demo_booked_date_c {
 
   dimension: sql_c {
     type: yesno
+    label: "SQL (yes/no)"
+    description: "Opportunity marked as SalesQualifiedLead"
     sql: ${TABLE}.sql_c ;;
   }
 
@@ -655,13 +661,14 @@ dimension_group: demo_booked_date_c {
   }
 
   dimension: subscription_out_of_moneyback_c {
-    label: "Is Opportunity out of Moneyback ?"
+    label: "Out of MoneyBack (yes/no)"
     type: yesno
     sql: ${TABLE}.subscription_out_of_moneyback_c ;;
   }
 
   dimension: subscription_out_of_trial_stage_c {
-    label: " Is Opportunity out of Trial ?"
+    label: "Subscription Out of Trial (yes/no)"
+    description: "Has the won customer made it out of Trial"
     type: yesno
     sql: ${TABLE}.subscription_out_of_trial_stage_c ;;
   }
@@ -709,7 +716,7 @@ dimension_group: demo_booked_date_c {
     label: "Opportunity Gross MRR"
     #value_format: "0.00\€"
     value_format_name:eur
-    sql: ${TABLE}.amount;;
+    sql: CAST(${TABLE}.amount as decimal);;
   }
 
   measure: gross_mrr_won_sum {
@@ -717,7 +724,7 @@ dimension_group: demo_booked_date_c {
     label: "Gross MRR Won"
     #value_format: "0.00\€"
     value_format_name:eur
-    sql: ${TABLE}.amount;;
+    sql: CAST(${TABLE}.amount as decimal);;
     filters: {
       field: stage_name
       value: "Closed Won" }
@@ -728,7 +735,7 @@ dimension_group: demo_booked_date_c {
     label: "Gross MRR Won/Opportunity"
     #value_format: "0.00\€"
     value_format_name: eur
-    sql: ${TABLE}.amount;;
+    sql: CAST(${TABLE}.amount as decimal);;
     filters: {
       field: stage_name
       value: "Closed Won" }
@@ -739,7 +746,7 @@ dimension_group: demo_booked_date_c {
     description: "Probability x Gross MRR (excluding Won Opportunities)"
     type: sum
     value_format_name: eur
-    sql: ${TABLE}.funnel_value_c ;;
+    sql: CAST(${TABLE}.funnel_value_c as decimal);;
     filters: {
       field: is_won
       value: "false"
@@ -919,9 +926,21 @@ measure: average_funneltime {
       id,
       stage_name,
       name,
-      forecast_category_name,
       accounts.name,
       accounts.id
+    ]
+  }
+
+  set: basic_opportunity_information {
+    fields: [
+      stage_name,
+      booked_demos,
+      demo_booked_c,
+      is_won,
+      gross_mrr_won_sum,
+      gross_mrr_won_avg,
+      funnel_value_c
+
     ]
   }
 }

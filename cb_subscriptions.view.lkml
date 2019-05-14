@@ -228,11 +228,15 @@ view: cb_subscriptions {
 
   dimension: in_money_back_c {
     type: yesno
+    label: "Subscription in Moneyback (yes/no)"
+    description: "First 30 Days of Subscription"
     sql: ${TABLE}.in_money_back_c ;;
   }
 
   dimension: in_trial_stage_c {
     type: yesno
+    label: "Subscription in Trial (yes/no)"
+    description: "First 90 Days of Subscription. Includes moneyback"
     sql: ${TABLE}.in_trial_stage_c ;;
   }
 
@@ -297,16 +301,21 @@ view: cb_subscriptions {
 
 dimension: is_active {
   type: yesno
+  label: "Active (yes/no)"
   sql:  chargebeeapps_subscription_status_c IN ('ACTIVE','NON_RENEWING') ;;
 }
 
 dimension: is_churn {
   type: yesno
+  label: "Churned (yes/no)"
+  description: "Only churn. Does not look at Cancellations during Trial"
   sql: NOT ${is_active} AND ${subscription_stage_c}= 'customer' ;;
 }
 
   dimension: is_deactivation {
     type: yesno
+    label: "Deactivated (yes/no)"
+    description: "Only Cancellations within first 90 Days (Trial churn)"
     sql: NOT ${is_active} AND ${subscription_stage_c}<> 'customer' ;;
   }
 
@@ -333,7 +342,7 @@ dimension: is_churn {
 dimension: last_net_mrr {
   type: number
   value_format_name: eur
-  sql: ${TABLE}.last_net_mrr_c ;;
+  sql: CAST(${TABLE}.last_net_mrr_c as float4) ;;
 }
 
 # ------------ measures here ------------
@@ -392,6 +401,29 @@ measure: net_mrr_deactivations{
     }
   }
 
+# -- aggregated measures --
+
+
+  measure: customer_mrr_churnrate {
+    label: "MRR Churnrate (Customer)"
+    type: sum
+    value_format_name: percent_2
+    sql: ${last_net_mrr}/(${fact_monthly_revenues.total_customer_mrr_previous_period}+${last_net_mrr}) ;;
+    filters: {
+      field: is_churn
+      value: "yes"
+    }
+  }
+  measure: trial_mrr_churnrate {
+    label: "MRR Deactivationrate (Trial)"
+    type: sum
+    value_format_name: percent_2
+    sql: ${last_net_mrr}/(${fact_monthly_revenues.total_trial_mrr_previous_period}+${fact_monthly_revenues.total_moneyback_mrr_previous_period}+${last_net_mrr}) ;;
+    filters: {
+      field: is_deactivation
+      value: "yes"
+    }
+  }
 
 # other measures where i am not yet sure how to incorporate them
 

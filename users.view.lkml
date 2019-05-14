@@ -21,18 +21,23 @@ view: users {
   }
 
   dimension: is_active {
+    hidden: yes
     type: yesno
     sql: ${TABLE}.is_active ;;
   }
 
   dimension: name {
+    label: "Owner Name"
+    description: "Salesrep, Successrep, Presalesrep etc."
     type: string
     sql: ${TABLE}.name ;;
   }
 
-  dimension: user_role_id {
+  dimension: user_role {
+    hidden: yes
     type: string
     label: "User Role"
+    description: "Salesrep, Presales, Successrep"
     sql: CASE WHEN ${TABLE}.user_role_id='00E1t000000cVzBEAU' THEN 'Salesrep'
               WHEN ${TABLE}.user_role_id='00E1t000000lKrFEAU' THEN 'Presales'
               WHEN  ${TABLE}.user_role_id='00E1t000000ca3qEAA' THEN 'Successrep' ELSE 'Other'END ;;
@@ -52,13 +57,9 @@ view: users {
   }
 
   measure: count {
+    hidden: yes
     type: count
     drill_fields: [detail*]
-  }
-
-  filter: sales_or_all {
-    type: string
-    sql: if(${user_role_id}="Salesrep","Salesrep","All") ;;
   }
 
   # ----- Sets of fields for drilling ------

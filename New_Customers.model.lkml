@@ -11,6 +11,7 @@ datagroup: new_opportunities {
 persist_with: new_opportunities
 
 explore: opportunities {
+  view_label: "Opportunity Information"
   # technically we need to think about only including salesreps:  AND ${users.user_role_id}='Salesrep' but this leads to problems at the start of the funnel.
   sql_always_where: ${close_date}>='2019-01-01'
                     AND ${name} NOT LIKE '%test%'
@@ -18,13 +19,12 @@ explore: opportunities {
                     AND ${is_deleted}<>true;;
   always_filter: {
     filters: {
-      field: users.user_role_id
+      field: users.user_role
       value:"Salesrep"
     }
-
   }
-  group_label: "Growth Metrics"
-  label: "Sales Funnel View"
+  group_label: "Sales"
+  label: "Opportunity Funnel"
   description: "This Explore contains all Information about New Sales Opportunities"
 
   join: cb_subscriptions {
@@ -40,7 +40,7 @@ explore: opportunities {
     sql_on: ${opportunities.account_id} = ${accounts.id} ;;
   }
   join: users {
-    view_label: "Salesrep"
+    view_label: "Opportunity Information"
     type: left_outer
     relationship: many_to_one
     sql_on: ${opportunities.owner_id} = ${users.id} ;;
@@ -52,7 +52,7 @@ explore: opportunities {
     type: left_outer
     relationship: many_to_one
     sql_on: ${accounts.converted_lead_owner_id_c} = ${presales_reps.id} ;;
-    sql_where: ${presales_reps.user_role_id}='Presales' ;;
+    sql_where: ${presales_reps.user_role}='Presales' ;;
   }
 
   join: fact_demos_done_monthly {
@@ -87,6 +87,44 @@ explore: meetings {
 
 # ------------------ new explore ------------------------------
 
+explore: leads {
+  group_label: "Sales"
+  label: "Presales"
+  view_label: "Lead"
+  description: "Primarily Lead information. Everything from creation until demo booked."
+  sql_always_where: ${is_deleted}<>true ;;
 
+  always_filter: {
+    filters: {
+      field: group
+      value: "targeted"
+    }
+  }
+  join: converted_lead_account {
+    view_label: "Converted Account"
+    from: accounts
+    type: left_outer
+    fields: []
+    relationship: many_to_one
+    sql_on: ${leads.converted_account_id}=${converted_lead_account.id} ;;
+    }
+
+  join: converted_account_opportunity {
+    view_label: "Converted Opportunity"
+    from: opportunities
+    type: left_outer
+    fields: [converted_account_opportunity.basic_opportunity_information*]
+    relationship: one_to_many
+    sql_on: ${converted_account_opportunity.account_id}=${converted_lead_account.id} ;;
+    }
+
+  join: lead_owner {
+    view_label: "Lead"
+    from: users
+    relationship: many_to_one
+    sql_on: ${leads.owner_id}=${lead_owner.id} ;;
+  }
+
+}
 
 # Check everything on top of the Funnel (not applying the Salesrep condition

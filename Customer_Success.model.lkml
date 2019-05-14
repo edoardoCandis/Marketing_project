@@ -43,4 +43,10 @@ explore: cb_subscriptions {
     relationship: one_to_many
     sql_on: ${cb_subscriptions.id}=${churn_reasons.subscription_id} ;;
   }
+
+  join: fact_monthly_revenues {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${cb_subscriptions.chargebeeapps_subcription_cancelled_at_c_month} =${fact_monthly_revenues.date_month};;
+  }
 }
