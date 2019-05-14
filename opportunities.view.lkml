@@ -4,6 +4,7 @@ view: opportunities {
  # ------- Dimensions hidden --------------
   dimension: id {
     primary_key: yes
+    hidden: yes
     type: string
     sql: ${TABLE}.id ;;
   }
@@ -189,6 +190,19 @@ view: opportunities {
     sql: ${TABLE}.is_closed ;;
   }
 
+  dimension: multiplier_payment_conditions_c {
+    # we take it from multiplier account
+    hidden: yes
+    type: string
+    sql: ${TABLE}.multiplier_payment_conditions_c ;;
+  }
+
+  dimension: multiplier_stage_c {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.multiplier_stage_c ;;
+  }
+
   dimension: is_deleted {
     hidden: yes
     type: yesno
@@ -280,7 +294,7 @@ view: opportunities {
   }
 
   dimension: check_demo_done_c {
-    label: "Demo done (yes/no)"
+    label: "Demo done"
     type: yesno
     sql: ${TABLE}.check_demo_done_c ;;
   }
@@ -368,11 +382,13 @@ view: opportunities {
   }
 
   dimension: days_in_opportunity_funnel {
+    group_label: "Funneltime"
     type: number
     sql: ${TABLE}.daysin_opportunity_funnel_c ;;
   }
 
   dimension: days_in_opportunity_funnel_bucket {
+    group_label: "Funneltime"
     type: tier
     tiers: [ 0,7,14,21,28,]
     style: integer
@@ -380,12 +396,14 @@ view: opportunities {
   }
 
   dimension: days_to_close_after_demo {
+    group_label: "Funneltime"
     type: number
     sql:  ${close_date}- ${demo_done_date_c_date} ;;
 
   }
 
   dimension: weeks_to_close_after_demo {
+    group_label: "Funneltime"
     type: tier
     tiers: [ 0,7,14,21,28,35,42]
     style: integer
@@ -406,7 +424,7 @@ view: opportunities {
   }
 
   dimension: demo_booked_c {
-    label: "Demo booked (yes/no)"
+    label: "Demo booked)"
     type: yesno
     sql: ${TABLE}.demo_booked_c ;;
   }
@@ -526,7 +544,7 @@ dimension_group: demo_booked_date_c {
   }
 
   dimension: is_won {
-    label: "Closed Won (yes/no)"
+    label: "Closed Won"
     type: yesno
     sql: ${TABLE}.is_won ;;
   }
@@ -545,15 +563,7 @@ dimension_group: demo_booked_date_c {
     sql: ${TABLE}.last_activity_date ;;
   }
 
-  dimension: multiplier_payment_conditions_c {
-    type: string
-    sql: ${TABLE}.multiplier_payment_conditions_c ;;
-  }
 
-  dimension: multiplier_stage_c {
-    type: string
-    sql: ${TABLE}.multiplier_stage_c ;;
-  }
 
   dimension: name {
     type: string
@@ -649,7 +659,7 @@ dimension_group: demo_booked_date_c {
 
   dimension: sql_c {
     type: yesno
-    label: "SQL (yes/no)"
+    label: "SQL"
     description: "Opportunity marked as SalesQualifiedLead"
     sql: ${TABLE}.sql_c ;;
   }
@@ -661,13 +671,13 @@ dimension_group: demo_booked_date_c {
   }
 
   dimension: subscription_out_of_moneyback_c {
-    label: "Out of MoneyBack (yes/no)"
+    label: "Out of MoneyBack"
     type: yesno
     sql: ${TABLE}.subscription_out_of_moneyback_c ;;
   }
 
   dimension: subscription_out_of_trial_stage_c {
-    label: "Subscription Out of Trial (yes/no)"
+    label: "Subscription Out of Trial"
     description: "Has the won customer made it out of Trial"
     type: yesno
     sql: ${TABLE}.subscription_out_of_trial_stage_c ;;

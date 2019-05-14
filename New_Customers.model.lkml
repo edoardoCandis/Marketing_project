@@ -29,6 +29,7 @@ explore: opportunities {
 
   join: cb_subscriptions {
   fields: [cb_subscriptions.product_billing_cycle_c] #excluding all fields for now
+  view_label: "Subscription Information"
   type: left_outer
   relationship: one_to_one
     sql_on: ${opportunities.subscription_id_c} = ${cb_subscriptions.id} ;;
@@ -47,7 +48,7 @@ explore: opportunities {
     type: left_outer
     relationship: many_to_one
     sql_on: ${accounts.id} = ${parent_accounts.id} ;;
-    fields: [accounts.multiplier_fields*]
+    fields: [ parent_accounts.multiplier_fields*]
   }
 
   join: users {
@@ -67,25 +68,20 @@ explore: opportunities {
   }
 
   join: fact_demos_done_monthly {
+
     type: left_outer
     relationship: one_to_one
     sql_on: ${users.name} = ${fact_demos_done_monthly.name} AND ${opportunities.demo_done_date_c_month}=${fact_demos_done_monthly.demo_done_date_c_month} ;;
   }
 
-  join: cohort_week {
-    type: left_outer
-    relationship: one_to_many
-    sql_on:  ;;
-  }
-
-  join: meetings  {
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${opportunities.id}=${meetings.what_id} ;;
-    #only join Webdemos that where not deleted
-    sql_where:  ${meetings.subject} LIKE '%webdemo%'
-                AND ${meetings.is_deleted}<>true;;
-  }
+ # join: meetings  {
+ #   type: left_outer
+ #   relationship: many_to_one
+ #   sql_on: ${opportunities.id}=${meetings.what_id} ;;
+ #    #only join Webdemos that where not deleted
+ #    sql_where:  ${meetings.subject} LIKE '%webdemo%'
+ #                AND ${meetings.is_deleted}<>true;;
+ #  }
 
   join: fact_account_sources {
     view_label: "Account Information"

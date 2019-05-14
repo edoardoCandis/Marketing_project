@@ -228,14 +228,14 @@ view: cb_subscriptions {
 
   dimension: in_money_back_c {
     type: yesno
-    label: "Subscription in Moneyback (yes/no)"
+    label: "Subscription in Moneyback"
     description: "First 30 Days of Subscription"
     sql: ${TABLE}.in_money_back_c ;;
   }
 
   dimension: in_trial_stage_c {
     type: yesno
-    label: "Subscription in Trial (yes/no)"
+    label: "Subscription in Trial"
     description: "First 90 Days of Subscription. Includes moneyback"
     sql: ${TABLE}.in_trial_stage_c ;;
   }
@@ -301,20 +301,20 @@ view: cb_subscriptions {
 
 dimension: is_active {
   type: yesno
-  label: "Active (yes/no)"
+  label: "Active"
   sql:  chargebeeapps_subscription_status_c IN ('ACTIVE','NON_RENEWING') ;;
 }
 
 dimension: is_churn {
   type: yesno
-  label: "Churned (yes/no)"
+  label: "Churned"
   description: "Only churn. Does not look at Cancellations during Trial"
   sql: NOT ${is_active} AND ${subscription_stage_c}= 'customer' ;;
 }
 
   dimension: is_deactivation {
     type: yesno
-    label: "Deactivated (yes/no)"
+    label: "Deactivated"
     description: "Only Cancellations within first 90 Days (Trial churn)"
     sql: NOT ${is_active} AND ${subscription_stage_c}<> 'customer' ;;
   }
