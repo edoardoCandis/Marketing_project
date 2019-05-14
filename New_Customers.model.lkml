@@ -47,7 +47,7 @@ explore: opportunities {
     type: left_outer
     relationship: many_to_one
     sql_on: ${accounts.id} = ${parent_accounts.id} ;;
-    fields: []
+    fields: [accounts.multiplier_fields*]
   }
 
   join: users {
