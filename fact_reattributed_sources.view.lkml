@@ -1,4 +1,4 @@
-view: online_marketing_sources {
+view: fact_reattributed_sources {
   derived_table: {
     sql: SELECT distinct
               a.id as account_id,
@@ -77,10 +77,6 @@ view: online_marketing_sources {
        ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: [detail*]
-  }
 
   dimension_group: created_date {
     type: time
@@ -88,22 +84,44 @@ view: online_marketing_sources {
   }
 
   dimension_group: close_date {
+    hidden: yes
     type: time
     sql: ${TABLE}.close_date ;;
   }
 
+  dimension: probability {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.probability ;;
+  }
 
+  dimension: account_id {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.account_id ;;
+  }
+
+  dimension: reattr {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.reattr ;;
+  }
+  dimension: this_amount {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.this_amount ;;
+  }
+
+  dimension: this_source {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.this_source ;;
+  }
 
   dimension: week_of_conversion {
     type: number
     value_format_name: decimal_0
     sql: DATEDIFF('Day', ${created_date_date}, ${close_date_date}) / 7;;
-  }
-
-
-  dimension: this_source {
-    type: string
-    sql: ${TABLE}.this_source ;;
   }
 
   dimension: source {
@@ -118,41 +136,14 @@ view: online_marketing_sources {
     sql: ${TABLE}.converted_lead_method_c ;;
   }
 
-  dimension: probability {
-    type: number
-    sql: ${TABLE}.probability ;;
-  }
-
-  measure: share_won {
-    type: sum
-    sql:${TABLE}.share_won
-    ;;
-  }
-
-  measure: share {
-    type: sum
-    sql:${TABLE}.share
-      ;;
-  }
-
   measure: opp_won {
     type: count_distinct
     sql: ${TABLE}.opp_won ;;
   }
 
-  dimension: reattr {
-    type: string
-    sql: ${TABLE}.reattr ;;
-  }
-
   measure: cost {
     type: sum
     sql: ${TABLE}.cost ;;
-  }
-
-  dimension: this_amount {
-    type: number
-    sql: ${TABLE}.this_amount ;;
   }
 
   measure: won_amount {
@@ -166,6 +157,7 @@ view: online_marketing_sources {
     sql: ${TABLE}.expected_amount ;;
   }
 
+# --------------------------- measures --------------------------------
 
   parameter: metric_selector {
     type: string
@@ -176,6 +168,19 @@ view: online_marketing_sources {
 
   }
 
+  measure: share_won {
+    hidden: yes
+    type: sum
+    sql:${TABLE}.share_won
+      ;;
+  }
+
+  measure: share {
+    hidden: yes
+    type: sum
+    sql:${TABLE}.share
+      ;;
+  }
   measure: metric {
     label_from_parameter: metric_selector
     type: number
@@ -192,6 +197,12 @@ view: online_marketing_sources {
      html: {% if metric_selector._parameter_value == "'New Subscriptions'" %} {{ share_won._rendered_value }}
      {% elsif metric_selector._parameter_value == "'MRR'" %} {{ won_amount._rendered_value }} {% endif %} ;;
 
+  }
+
+  measure: count {
+    hidden: yes
+    type: count
+    drill_fields: [detail*]
   }
 
   set: detail {

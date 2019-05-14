@@ -56,13 +56,13 @@ include: "*.view.lkml"                       # include all views in this project
 # }
 # }
 
-explore: online_marketing_sources {
+explore: fact_reattributed_sources {
   sql_always_where: ${close_date_date}>='2019-01-01' ;;
 
 join: fact_source_cost_daily {
   type: left_outer
   relationship: many_to_one
-  sql_on: ${online_marketing_sources.created_date_date} =  ${fact_source_cost_daily.date_date} ;;
+  sql_on: ${fact_reattributed_sources.created_date_date} =  ${fact_source_cost_daily.date_date} ;;
 
 }
 

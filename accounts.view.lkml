@@ -237,6 +237,40 @@ view: accounts {
     sql: ${TABLE}.total_bookkeeping_clients_c ;;
   }
 
+# ------------------------------- source data -----------------------
+  dimension: secondary_medium_c {
+    hidden: yes
+    # reattribution
+    type: string
+    sql: ${TABLE}.secondary_medium_c ;;
+  }
+
+  dimension: converted_lead_engagement_c {
+    hidden: yes
+    # taken from reattribution
+    type: string
+    sql: ${TABLE}.converted_lead_engagement_c ;;
+  }
+  dimension: account_source {
+    hidden: yes
+    # taken from reattribution
+    type: string
+    sql: ${TABLE}.account_source ;;
+  }
+
+  dimension: converted_lead_source_c {
+    hidden: yes
+    # taken from account sources
+    type: string
+    sql: ${TABLE}.converted_lead_source_c ;;
+  }
+
+  dimension: converted_lead_campaign_c {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.converted_lead_campaign_c ;;
+  }
+
 
 #------------------ dimensions in use ------------------------
 
@@ -267,20 +301,6 @@ view: accounts {
     sql: ${TABLE}.referral_account_c ;;
   }
 
-  dimension: secondary_medium_c {
-    type: string
-    sql: ${TABLE}.secondary_medium_c ;;
-  }
-
-  dimension: converted_lead_engagement_c {
-    type: string
-    sql: ${TABLE}.converted_lead_engagement_c ;;
-  }
-  dimension: account_source {
-    type: string
-    sql: ${TABLE}.account_source ;;
-  }
-
   dimension: account_status_c {
     type: string
     sql: ${TABLE}.account_status_c ;;
@@ -292,6 +312,8 @@ view: accounts {
   }
 
   dimension: active_child_accounts_c {
+    label: "Active Sub-Accounts"
+    description: "e.g. tax advisor clients"
     type: number
     sql: ${TABLE}.active_child_accounts_c ;;
   }
@@ -306,10 +328,6 @@ view: accounts {
     sql: ${TABLE}.converted_lead_response_c ;;
   }
 
-  dimension: converted_lead_source_c {
-    type: string
-    sql: ${TABLE}.converted_lead_source_c ;;
-  }
   dimension: count_presales_c {
     label: "Presales Lead Conversion (yes/no)"
     description: "Presales Team has been actively engaged to convert this Lead."
@@ -328,10 +346,6 @@ view: accounts {
     sql: ${TABLE}.candis_companies_c ;;
   }
 
-  dimension: converted_lead_campaign_c {
-    type: string
-    sql: ${TABLE}.converted_lead_campaign_c ;;
-  }
   dimension: count_active_subscriptions_c {
     type: number
     sql: ${TABLE}.count_active_subscriptions_c ;;
@@ -361,5 +375,15 @@ view: accounts {
     type: sum
     value_format_name: eur
     sql: ${TABLE}.mrr_c ;;
+  }
+
+
+  set: multiplier_fields {
+    fields: [
+      id,
+      name,
+      active_child_accounts_c,
+      account_status_c
+    ]
   }
 }

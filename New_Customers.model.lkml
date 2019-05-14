@@ -35,10 +35,21 @@ explore: opportunities {
   }
 
   join: accounts {
+    view_label: "Account Information"
     type: left_outer
     relationship: many_to_one
     sql_on: ${opportunities.account_id} = ${accounts.id} ;;
   }
+
+  join: parent_accounts {
+    view_label: "Multiplier Information"
+    from: accounts
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${accounts.id} = ${parent_accounts.id} ;;
+    fields: []
+  }
+
   join: users {
     view_label: "Opportunity Information"
     type: left_outer
@@ -75,6 +86,15 @@ explore: opportunities {
     sql_where:  ${meetings.subject} LIKE '%webdemo%'
                 AND ${meetings.is_deleted}<>true;;
   }
+
+  join: fact_account_sources {
+    view_label: "Account Information"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${accounts.id}=${fact_account_sources.account_id} ;;
+    fields: [fact_account_sources.act_source]
+  }
+
 }
 
 # ------------------ new explore ------------------------------
