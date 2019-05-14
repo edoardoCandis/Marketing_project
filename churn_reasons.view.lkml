@@ -8,31 +8,43 @@ view: churn_reasons {
 
   dimension: primary_key {
     primary_key: yes
+    hidden: yes
     sql: CONCAT(${subscription_id}, ${churn_reason_split}) ;;
   }
 
   dimension: id {
     # case ID
     type: string
+    hidden: yes
     sql: ${TABLE}.id ;;
   }
 
+  dimension: month {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.month ;;
+  }
+
+  dimension: reasons_count {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.reasons_count ;;
+  }
+
   dimension: active_days {
+    hidden: yes
     type: number
     sql: ${TABLE}.active_days ;;
   }
 
-  dimension: attributed_gross_dollar_churn {
-    type: number
-    sql: ${TABLE}.attributed_gross_dollar_churn ;;
-  }
-
   dimension: chargebeeapps_company_c {
+    hidden: yes
     type: string
     sql: ${TABLE}.chargebeeapps_company_c ;;
   }
 
   dimension_group: chargebeeapps_subscription_created_at_c {
+    hidden: yes
     type: time
     timeframes: [
       raw,
@@ -57,17 +69,10 @@ view: churn_reasons {
     sql: ${TABLE}.gross_mrr ;;
   }
 
-  dimension: month {
-    type: string
-    sql: ${TABLE}.month ;;
-  }
-
-  dimension: reasons_count {
-    type: number
-    sql: ${TABLE}.reasons_count ;;
-  }
 
   dimension: subscription_stage_c {
+    hidden:yes
+    # i think this we dont need since we can get it from the subscription
     type: string
     sql: ${TABLE}.subscription_stage_c ;;
   }
@@ -77,6 +82,11 @@ view: churn_reasons {
   measure: count {
     type: count
     drill_fields: [id]
+  }
+
+  measure: attributed_gross_dollar_churn {
+    type: number
+    sql: ${TABLE}.attributed_gross_dollar_churn ;;
   }
 
   measure: attributed_logo_churn {

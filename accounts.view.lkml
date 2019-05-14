@@ -5,6 +5,7 @@ view: accounts {
 # ----------------- hidden measures ---------------
   dimension: id {
     primary_key: yes
+    hidden: yes
     type: string
     sql: ${TABLE}.id ;;
   }
@@ -295,13 +296,14 @@ view: accounts {
   }
 
   dimension: referral_account_c {
-    label: "Multiplier Client ?"
+    label: "Multiplier Client"
     description: "Yes if Account Multiplier is known & active"
     type: yesno
     sql: ${TABLE}.referral_account_c ;;
   }
 
   dimension: account_status_c {
+    label: "Status"
     type: string
     sql: ${TABLE}.account_status_c ;;
   }

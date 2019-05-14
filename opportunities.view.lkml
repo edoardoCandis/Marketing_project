@@ -221,6 +221,12 @@ view: opportunities {
     sql: ${TABLE}.cash_ledger_c ;;
   }
 
+  dimension: probability {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.probability ;;
+  }
+
   dimension: additional_company_names_c {
     hidden: yes
     type: string
@@ -294,6 +300,7 @@ view: opportunities {
   }
 
   dimension: check_demo_done_c {
+    group_label: "Key Funnel Events"
     label: "Demo done"
     type: yesno
     sql: ${TABLE}.check_demo_done_c ;;
@@ -425,6 +432,7 @@ view: opportunities {
 
   dimension: demo_booked_c {
     label: "Demo booked)"
+    group_label: "Key Funnel Events"
     type: yesno
     sql: ${TABLE}.demo_booked_c ;;
   }
@@ -494,6 +502,7 @@ dimension_group: demo_booked_date_c {
   }
 
   dimension: followup_owner_c {
+    label: "Followup Owner"
     type: string
     sql: ${TABLE}.followup_owner_c ;;
   }
@@ -545,6 +554,7 @@ dimension_group: demo_booked_date_c {
 
   dimension: is_won {
     label: "Closed Won"
+    group_label: "Key Funnel Events"
     type: yesno
     sql: ${TABLE}.is_won ;;
   }
@@ -585,11 +595,15 @@ dimension_group: demo_booked_date_c {
   }
 
   dimension: other_tools_in_use_c {
+    group_label: "Company Information"
+    label: "Other Tools in use"
     type: string
     sql: ${TABLE}.other_tools_in_use_c ;;
   }
 
   dimension: outgoing_invoices_per_month_c {
+    group_label: "Company Information"
+    label: "Monthly Outgoing Invoices"
     type: string
     sql: ${TABLE}.outgoing_invoices_per_month_c ;;
   }
@@ -602,26 +616,26 @@ dimension_group: demo_booked_date_c {
   }
 
   dimension: painpoint_notes_c {
+    group_label: "Company Information"
+    label: "Painpoint Details"
     type: string
     sql: ${TABLE}.painpoint_notes_c ;;
   }
 
   dimension: painpoints_c {
+    group_label: "Company Information"
     type: string
     sql: ${TABLE}.painpoints_c ;;
   }
 
   dimension: preaccounting_c {
+    group_label: "Company Information"
     type: string
     sql: ${TABLE}.preaccounting_c ;;
   }
 
-  dimension: probability {
-    type: string
-    sql: ${TABLE}.probability ;;
-  }
-
   dimension: probability_category_c {
+    label: "Probability Category"
     type: string
     sql: ${TABLE}.probability_category_c ;;
   }
@@ -633,6 +647,7 @@ dimension_group: demo_booked_date_c {
   }
 
   dimension: product_expectations_c {
+    group_label: "Company Information"
     type: string
     sql: ${TABLE}.product_expectations_c ;;
   }
@@ -653,6 +668,8 @@ dimension_group: demo_booked_date_c {
 
 
   dimension: share_digital_invoices_c {
+    group_label: "Company Information"
+    label: "Share digital Invoices"
     type: string
     sql: ${TABLE}.share_digital_invoices_c ;;
   }
@@ -660,24 +677,27 @@ dimension_group: demo_booked_date_c {
   dimension: sql_c {
     type: yesno
     label: "SQL"
+    group_label: "Marketing Information"
     description: "Opportunity marked as SalesQualifiedLead"
     sql: ${TABLE}.sql_c ;;
   }
 
   dimension: stage_name {
-    label: "Opportunity Stage"
+    label: "Stage"
     type: string
     sql: ${TABLE}.stage_name ;;
   }
 
   dimension: subscription_out_of_moneyback_c {
     label: "Out of MoneyBack"
+    group_label: "Key Funnel Events"
     type: yesno
     sql: ${TABLE}.subscription_out_of_moneyback_c ;;
   }
 
   dimension: subscription_out_of_trial_stage_c {
     label: "Subscription Out of Trial"
+    group_label: "Key Funnel Events"
     description: "Has the won customer made it out of Trial"
     type: yesno
     sql: ${TABLE}.subscription_out_of_trial_stage_c ;;
@@ -685,11 +705,13 @@ dimension_group: demo_booked_date_c {
 
   dimension: subscription_plan_c {
     label: "Subscription Plan"
+    view_label: "Subscription Information"
     type: string
     sql: ${TABLE}.subscription_plan_c ;;
   }
 
   dimension: transaction_data_transfer_c {
+    group_label: "Company Information"
     type: string
     sql: ${TABLE}.transaction_data_transfer_c ;;
   }
@@ -707,6 +729,7 @@ dimension_group: demo_booked_date_c {
   }
 
   dimension: days_demo_to_close {
+    group_label: "Funneltime"
     type: number
     # if datediff is negative then take 0.
     sql: IF( ${close_date}<${check_demo_done_c},0,DATEDIFF('DAY', ${demo_done_date_c_date}, ${close_date}));;

@@ -16,8 +16,50 @@ view: fact_account_sources {
   }
 
   dimension: active_interest {
+    hidden: yes
     type: yesno
     sql: ${TABLE}.active_interest ;;
+  }
+
+  dimension: is_actionable {
+    hidden: yes
+    type: yesno
+    sql: ${TABLE}.is_actionable ;;
+  }
+
+  dimension: lead_method {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.lead_method ;;
+  }
+
+  dimension: online_medium {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.online_medium ;;
+  }
+  dimension: online_source {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.online_source ;;
+  }
+
+  dimension: lead_source {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.lead_source ;;
+  }
+
+  dimension: presales {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.presales ;;
+  }
+
+  dimension: can_redistr {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.can_redistr ;;
   }
 
   dimension: campaign_name {
@@ -25,34 +67,9 @@ view: fact_account_sources {
     sql: ${TABLE}.campaign_name ;;
   }
 
-  dimension: can_redistr {
-    type: number
-    sql: ${TABLE}.can_redistr ;;
-  }
-
   dimension: context_campaign_content {
     type: string
     sql: ${TABLE}.context_campaign_content ;;
-  }
-
-  dimension: is_actionable {
-    type: yesno
-    sql: ${TABLE}.is_actionable ;;
-  }
-
-  dimension: lead_method {
-    type: string
-    sql: ${TABLE}.lead_method ;;
-  }
-
-  dimension: lead_source {
-    type: string
-    sql: ${TABLE}.lead_source ;;
-  }
-
-  dimension: online_medium {
-    type: string
-    sql: ${TABLE}.online_medium ;;
   }
 
   dimension: online_referrer {
@@ -60,19 +77,9 @@ view: fact_account_sources {
     sql: ${TABLE}.online_referrer ;;
   }
 
-  dimension: online_source {
-    type: string
-    sql: ${TABLE}.online_source ;;
-  }
-
   dimension: paid {
     type: yesno
     sql: ${TABLE}.paid ;;
-  }
-
-  dimension: presales {
-    type: number
-    sql: ${TABLE}.presales ;;
   }
 
   dimension: secondary_referrer {

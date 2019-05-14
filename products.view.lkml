@@ -3,27 +3,38 @@ view: products {
 
   dimension: id {
     primary_key: yes
+    hidden: yes
     type: string
     sql: ${TABLE}.id ;;
   }
 
   dimension: chargebeeapps_addon_type_c {
+    hidden: yes
     type: string
     sql: ${TABLE}.chargebeeapps_addon_type_c ;;
   }
 
+  dimension: product_code {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.product_code ;;
+  }
+
   dimension: chargebeeapps_invoice_name_c {
+    hidden: yes
     type: string
     sql: ${TABLE}.chargebeeapps_invoice_name_c ;;
   }
 
 
   dimension: chargebeeapps_product_type_c {
+    hidden: yes
     type: string
     sql: ${TABLE}.chargebeeapps_product_type_c ;;
   }
 
   dimension: chargebeeapps_status_c {
+    hidden: yes
     type: string
     sql: ${TABLE}.chargebeeapps_status_c ;;
   }
@@ -63,12 +74,6 @@ view: products {
               WHEN ${name} LIKE '%Workflows XL%' THEN 'XL'
               ELSE 'Other' END;;
   }
-
-  dimension: product_code {
-    type: string
-    sql: ${TABLE}.product_code ;;
-  }
-
 
   measure: count {
     type: count

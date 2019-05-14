@@ -3,80 +3,15 @@ view: meetings {
 
   dimension: id {
     primary_key: yes
+    hidden: yes
     type: string
     sql: ${TABLE}.id ;;
   }
 
   dimension: account_id {
+    hidden: yes
     type: string
     sql: ${TABLE}.account_id ;;
-  }
-
-
-  dimension_group: activity {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.activity_date ;;
-  }
-
-  dimension_group: activity_date {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.activity_date_time ;;
-  }
-
-  dimension: activity_datediff_c {
-    label: "Days between Booking and Demo Date"
-    type: number
-    sql: ${TABLE}.activity_datediff_c ;;
-  }
-
-
-
-  dimension_group: created {
-    label: "booking date"
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.created_date ;;
-  }
-
-  dimension: description {
-    type: string
-    sql: ${TABLE}.description ;;
-  }
-
-dimension: is_cancelled{
-  type: yesno
-  sql: ${subject} LIKE '%cancelled%' OR ${meeting_status_c}='Not Attended';;
-}
-
-  dimension: duration_in_minutes {
-    type: number
-    sql: ${TABLE}.duration_in_minutes ;;
   }
 
   dimension_group: end_date {
@@ -93,6 +28,51 @@ dimension: is_cancelled{
       year
     ]
     sql: ${TABLE}.end_date_time ;;
+  }
+
+  dimension_group: activity {
+    hidden: yes
+    label: "Demo"
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.activity_date ;;
+  }
+
+  dimension_group: activity_date {
+    hidden: yes
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.activity_date_time ;;
+  }
+
+  dimension: what_id {
+    hidden: yes
+    # only important for joining
+    type: string
+    sql: ${TABLE}.what_id ;;
+  }
+
+  dimension: who_id {
+    hidden: yes
+    # only important for joining
+    type: string
+    sql: ${TABLE}.who_id ;;
   }
 
   dimension: event_subtype {
@@ -123,22 +103,37 @@ dimension: is_cancelled{
     sql: ${TABLE}.invitee_uuid_c ;;
   }
 
-
   dimension: is_deleted {
     hidden: yes
     type: yesno
     sql: ${TABLE}.is_deleted ;;
   }
-
-
-  dimension: last_modified_by_id {
-    type: string
+  dimension: owner_id {
     hidden: yes
-    sql: ${TABLE}.last_modified_by_id ;;
+    # only important for joining
+    type: string
+    sql: ${TABLE}.owner_id ;;
   }
 
-  dimension_group: last_modified {
-    hidden:  yes
+# ------------------------ dimensions in use ------------------
+  dimension: activity_datediff_c {
+    label: "Days between Booking and Demo Date"
+    type: number
+    sql: ${TABLE}.activity_datediff_c ;;
+  }
+
+  dimension: activity_datediff_c_bucketed {
+    label: "Datediff booked to demo bucketed"
+    description: "Groups Datediff between date of booking and date of demo"
+    type: tier
+    tiers: [3,7,14]
+    style: integer
+    sql: ${TABLE}.activity_datediff_c ;;
+  }
+
+  dimension_group: created {
+    label: "Created"
+    description: "Date the demo was booked"
     type: time
     timeframes: [
       raw,
@@ -149,25 +144,31 @@ dimension: is_cancelled{
       quarter,
       year
     ]
-    sql: ${TABLE}.last_modified_date ;;
+    sql: ${TABLE}.created_date ;;
   }
 
+  dimension: description {
+    type: string
+    sql: ${TABLE}.description ;;
+  }
+
+dimension: is_cancelled{
+  type: yesno
+  sql: ${subject} LIKE '%cancelled%' OR ${meeting_status_c}='Not Attended';;
+}
+
+  dimension: duration_in_minutes {
+    type: number
+    sql: ${TABLE}.duration_in_minutes ;;
+  }
 
   dimension: meeting_status_c {
     type: string
     sql: ${TABLE}.meeting_status_c ;;
   }
 
-  dimension: owner_id {
-    hidden: yes
-    # only important for joining
-    type: string
-    sql: ${TABLE}.owner_id ;;
-  }
-
-
   dimension_group: start_date {
-    label: "Meeting Datetime"
+    label: "Demo"
     type: time
     timeframes: [
       raw,
@@ -188,20 +189,6 @@ dimension: is_cancelled{
     sql: lower(${TABLE}.subject) ;;
   }
 
-  dimension_group: system_modstamp {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.system_modstamp ;;
-  }
-
   dimension: task_outcome_c {
     type: string
     sql: ${TABLE}.task_outcome_c ;;
@@ -212,27 +199,6 @@ dimension: is_cancelled{
     sql: ${TABLE}.type ;;
   }
 
-  dimension: uuid {
-    type: number
-    value_format_name: id
-    sql: ${TABLE}.uuid ;;
-  }
-
-
-
-  dimension: what_id {
-    hidden: yes
-    # only important for joining
-    type: string
-    sql: ${TABLE}.what_id ;;
-  }
-
-  dimension: who_id {
-    hidden: yes
-    # only important for joining
-    type: string
-    sql: ${TABLE}.who_id ;;
-  }
 
 # ----------- insert measures here ---------------
 
