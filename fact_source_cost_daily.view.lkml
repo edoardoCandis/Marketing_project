@@ -48,11 +48,11 @@ view: fact_source_cost_daily {
 
   measure: cost {
     type: number
-    sql: CASE WHEN ${online_marketing_pivot.source} = 'facebook' THEN ${source_cost_facebook}
-    WHEN ${online_marketing_pivot.source} = 'xing' THEN ${source_cost_xing}
-    WHEN ${online_marketing_pivot.source} = 'linkeding' THEN ${source_cost_linkedin}
-    WHEN ${online_marketing_pivot.source} = 'google' THEN ${source_cost_google}
-    WHEN ${online_marketing_pivot.source} = 'bing' THEN ${source_cost_bing}
+    sql: CASE WHEN ${online_marketing_sources.source} = 'facebook' THEN ${source_cost_facebook}
+    WHEN ${online_marketing_sources.source} = 'xing' THEN ${source_cost_xing}
+    WHEN ${online_marketing_sources.source} = 'linkeding' THEN ${source_cost_linkedin}
+    WHEN ${online_marketing_sources.source} = 'google' THEN ${source_cost_google}
+    WHEN ${online_marketing_sources.source} = 'bing' THEN ${source_cost_bing}
     ELSE 0 END;;
   }
 

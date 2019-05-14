@@ -1,7 +1,7 @@
-view: online_marketing_pivot {
+view: online_marketing_sources {
   derived_table: {
     sql: SELECT distinct
-
+              a.id as account_id,
               o.created_date,
               o.close_date,
               CASE WHEN s.act_source IS NULL AND can_redistr =1 THEN dummy.reatt_source ELSE act_source END AS this_source,
@@ -107,6 +107,8 @@ view: online_marketing_pivot {
   }
 
   dimension: source {
+    label: "Account Source"
+    description: "Source after Reattribution"
     type: string
     sql: ${TABLE}.source ;;
   }
