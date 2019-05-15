@@ -145,4 +145,14 @@ explore: leads {
 
 }
 
+# ------------------ new explore ------------------------------
+
+
+explore: fact_monthly_revenues {
+  group_label: "Management"
+  label: "Total Revenue & Customers"
+}
+
+
+
 # Check everything on top of the Funnel (not applying the Salesrep condition

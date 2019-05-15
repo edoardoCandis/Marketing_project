@@ -65,5 +65,5 @@ join: fact_source_cost_daily {
   sql_on: ${fact_reattributed_sources.created_date_date} =  ${fact_source_cost_daily.date_date} ;;
 
 }
-
 }
+#explore: fact_source_cost_daily {}
