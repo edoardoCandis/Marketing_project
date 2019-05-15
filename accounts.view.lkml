@@ -331,7 +331,7 @@ view: accounts {
   }
 
   dimension: count_presales_c {
-    label: "Presales Lead Conversion (yes/no)"
+    label: "Presales Lead Conversion"
     description: "Presales Team has been actively engaged to convert this Lead."
     type: yesno
     sql:CASE WHEN ${TABLE}.count_presales_c=1 THEN true ELSE false END ;;

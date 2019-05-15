@@ -1,4 +1,4 @@
-view: fact_documents_processed {
+view: fact_documents_processed_monthly {
   sql_table_name: success.documents_processed ;;
 
   dimension: company_id {

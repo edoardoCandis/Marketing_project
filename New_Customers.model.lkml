@@ -42,7 +42,7 @@ explore: opportunities {
     relationship: many_to_one
     sql_on: ${opportunities.account_id} = ${accounts.id} ;;
     #we take the opportunity value to save the join
-    fields: [-accounts.converted_lead_method_c]
+    #fields: [-accounts.converted_lead_method_c]
   }
 
   join: parent_accounts {
@@ -55,6 +55,7 @@ explore: opportunities {
   }
 
   join: users {
+    from: salesforce_users
     view_label: "Opportunity Information"
     type: left_outer
     relationship: many_to_one
@@ -62,7 +63,7 @@ explore: opportunities {
   }
 
   join: presales_reps {
-    from: users
+    from: salesforce_users
     view_label: "Presales Rep"
     type: left_outer
     relationship: many_to_one
@@ -138,7 +139,7 @@ explore: leads {
 
   join: lead_owner {
     view_label: "Lead"
-    from: users
+    from: salesforce_users
     relationship: many_to_one
     sql_on: ${leads.owner_id}=${lead_owner.id} ;;
   }
