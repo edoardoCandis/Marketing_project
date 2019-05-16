@@ -17,35 +17,30 @@ view: fact_source_cost_daily {
   }
 
   measure: source_cost_bing {
-    hidden: yes
     value_format_name: eur
     type: number
     sql: ${TABLE}.source_cost_bing ;;
   }
 
   measure: source_cost_facebook {
-    hidden: yes
     value_format_name: eur
     type: number
     sql: ${TABLE}.source_cost_facebook ;;
   }
 
   measure: source_cost_google {
-    hidden: yes
     value_format_name: eur
     type: number
     sql: ${TABLE}.source_cost_google ;;
   }
 
   measure: source_cost_linkedin {
-    hidden: yes
     type: number
     value_format_name: eur
     sql: ${TABLE}.source_cost_linkedin ;;
   }
 
   measure: source_cost_xing {
-    hidden: yes
     value_format_name: eur
     type: number
     sql: ${TABLE}.source_cost_xing ;;
