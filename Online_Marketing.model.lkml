@@ -88,6 +88,7 @@ explore: retention_table {
   sql_always_where: ${created_month}>='2019-01' ;;
 }
 
+
 #------------------------------------------
 explore: leads {
   sql_always_where: ${created_date} > '2019-01-01'
@@ -135,4 +136,8 @@ join:  online_marketing_sources {
   relationship: many_to_many
   sql_on: ${website_visits.received_at_date} = ${online_marketing_sources.created_date_date} AND ${website_visits.source} = ${online_marketing_sources.source}  ;;
 }
+}
+
+explore: fact_source_cost_daily {
+  label: "Onlinemarketing Spendings"
 }
