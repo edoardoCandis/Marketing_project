@@ -18,31 +18,31 @@ view: fact_source_cost_daily {
 
   measure: source_cost_bing {
     value_format_name: eur
-    type: number
+    type: sum
     sql: ${TABLE}.source_cost_bing ;;
   }
 
   measure: source_cost_facebook {
     value_format_name: eur
-    type: number
+    type: sum
     sql: ${TABLE}.source_cost_facebook ;;
   }
 
   measure: source_cost_google {
     value_format_name: eur
-    type: number
+    type: sum
     sql: ${TABLE}.source_cost_google ;;
   }
 
   measure: source_cost_linkedin {
-    type: number
+    type: sum
     value_format_name: eur
     sql: ${TABLE}.source_cost_linkedin ;;
   }
 
   measure: source_cost_xing {
     value_format_name: eur
-    type: number
+    type: sum
     sql: ${TABLE}.source_cost_xing ;;
   }
 
