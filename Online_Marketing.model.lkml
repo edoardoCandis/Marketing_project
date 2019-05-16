@@ -59,14 +59,29 @@ include: "*.view.lkml"                       # include all views in this project
 explore: online_marketing_sources {
   sql_always_where: ${close_date_date}>='2019-01-01' ;;
 
-join: cohort_costs {
-  type: left_outer
-  relationship: many_to_one
-  sql_on: ${online_marketing_sources.created_date_date} =  ${cohort_costs.created_date_date} ;;
+  join: cohort_costs {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${online_marketing_sources.created_date_date} =  ${cohort_costs.created_date_date} ;;
+
+
+  }
+
 
 }
 
-}
+
+# explore: fact_reattributed_sources {
+#   sql_always_where: ${close_date_date}>='2019-01-01' ;;
+
+# join: cohort_costs {
+#   type: left_outer
+#   relationship: many_to_one
+#   sql_on: ${fact_reattributed_sources.created_date_date} =  ${fact_source_cost_daily.date_date} ;;
+
+
+# }
+# }
 #------------------------------------------
 explore: retention_table {
   sql_always_where: ${created_month}>='2019-01' ;;
@@ -100,7 +115,7 @@ join: fact_account_sources {
 }
   join: lead_owner {
     view_label: "Lead"
-    from: users
+    from: salesforce_users
     relationship: many_to_one
     sql_on: ${leads.owner_id}=${lead_owner.id} ;;
   }

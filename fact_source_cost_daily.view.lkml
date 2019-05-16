@@ -17,26 +17,31 @@ view: fact_source_cost_daily {
   }
 
   measure: source_cost_bing {
+    value_format_name: eur
     type: number
     sql: ${TABLE}.source_cost_bing ;;
   }
 
   measure: source_cost_facebook {
+    value_format_name: eur
     type: number
     sql: ${TABLE}.source_cost_facebook ;;
   }
 
   measure: source_cost_google {
+    value_format_name: eur
     type: number
     sql: ${TABLE}.source_cost_google ;;
   }
 
   measure: source_cost_linkedin {
     type: number
+    value_format_name: eur
     sql: ${TABLE}.source_cost_linkedin ;;
   }
 
   measure: source_cost_xing {
+    value_format_name: eur
     type: number
     sql: ${TABLE}.source_cost_xing ;;
   }
@@ -48,11 +53,11 @@ view: fact_source_cost_daily {
 
   measure: cost {
     type: number
-    sql: CASE WHEN ${online_marketing_sources.source} = 'facebook' THEN ${source_cost_facebook}
-    WHEN ${online_marketing_sources.source} = 'xing' THEN ${source_cost_xing}
-    WHEN ${online_marketing_sources.source} = 'linkeding' THEN ${source_cost_linkedin}
-    WHEN ${online_marketing_sources.source} = 'google' THEN ${source_cost_google}
-    WHEN ${online_marketing_sources.source} = 'bing' THEN ${source_cost_bing}
+    sql: CASE WHEN ${fact_reattributed_sources.source} = 'facebook' THEN ${source_cost_facebook}
+    WHEN ${fact_reattributed_sources.source} = 'xing' THEN ${source_cost_xing}
+    WHEN ${fact_reattributed_sources.source} = 'linkeding' THEN ${source_cost_linkedin}
+    WHEN ${fact_reattributed_sources.source} = 'google' THEN ${source_cost_google}
+    WHEN ${fact_reattributed_sources.source} = 'bing' THEN ${source_cost_bing}
     ELSE 0 END;;
   }
 

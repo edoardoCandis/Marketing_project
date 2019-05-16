@@ -1,4 +1,4 @@
-view: users {
+view: salesforce_users {
   sql_table_name: salesforce.users ;;
 
   dimension: id {

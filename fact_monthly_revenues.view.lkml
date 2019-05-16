@@ -132,8 +132,4 @@ dimension: primary_key {
     sql: ${total_customer_mrr}+${total_trial_mrr}+${total_moneyback_mrr} ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: []
-  }
 }
