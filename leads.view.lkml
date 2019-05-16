@@ -424,6 +424,13 @@ dimension: idle_time {
     sql: ${TABLE}.total_leadscore_c ;;
   }
 
+
+dimension: final_source {
+  type: string
+  sql: CASE WHEN ${lead_source} IS NOT NULL THEN lower(${lead_source})
+  WHEN ${lead_source_referrer_c} IS NOT NULL THEN lower(${lead_source_referrer_c})
+  ELSE lower(${fact_account_sources.grouping_source}) END;;
+}
 # ---------------- measures -----------------
 
   measure: count {

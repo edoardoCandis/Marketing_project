@@ -59,11 +59,49 @@ include: "*.view.lkml"                       # include all views in this project
 explore: online_marketing_sources {
   sql_always_where: ${close_date_date}>='2019-01-01' ;;
 
-join: fact_source_cost_daily {
+join: cohort_costs {
   type: left_outer
   relationship: many_to_one
-  sql_on: ${online_marketing_sources.created_date_date} =  ${fact_source_cost_daily.date_date} ;;
+  sql_on: ${online_marketing_sources.created_date_date} =  ${cohort_costs.created_date_date} ;;
 
 }
 
+}
+#------------------------------------------
+explore: retention_table {
+  sql_always_where: ${created_month}>='2019-01' ;;
+}
+
+#------------------------------------------
+explore: leads {
+  sql_always_where: ${created_date} > '2019-01-01'
+  AND (${opportunities.close_date} >='2019-01-01' OR ${opportunities.close_date} is null)
+  AND (${opportunities.name} NOT LIKE '%test%' OR ${opportunities.name} IS NULL)
+  AND (${opportunities.is_deleted}<>true OR ${opportunities.is_deleted} IS NULL )
+  AND (NOT ${accounts.referral_account_c}  OR ${accounts.referral_account_c} IS NULL);;
+#   AND (${opportunities.record_type_id} = 'Company')
+
+
+join: opportunities {
+  type: full_outer
+  relationship: one_to_one
+  sql_on: ${leads.converted_opportunity_id}=${opportunities.id} ;;
+}
+
+join: accounts {
+  type: left_outer
+  relationship: many_to_one
+  sql_on: ${opportunities.account_id}=${accounts.id} ;;
+  }
+join: fact_account_sources {
+  type: left_outer
+  relationship: one_to_one
+  sql_on: ${accounts.id} = ${fact_account_sources.account_id} ;;
+}
+  join: lead_owner {
+    view_label: "Lead"
+    from: users
+    relationship: many_to_one
+    sql_on: ${leads.owner_id}=${lead_owner.id} ;;
+  }
 }

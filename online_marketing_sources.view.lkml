@@ -48,12 +48,11 @@ view: online_marketing_sources {
 
 
               CASE WHEN o.amount IS NULL THEN 0
-              WHEN reatt_source IS NULL THEN round(o.amount::float,2)
               ELSE round(o.amount::float,2)*share END AS this_amount,
 
-              CASE WHEN is_won THEN this_amount::float*0.7*share ELSE 0 END AS won_amount,
+              CASE WHEN is_won THEN this_amount::float*0.7 ELSE 0 END AS won_amount,
 
-              CASE WHEN this_amount::float*probability::float IS NULL OR probability<0.5 THEN 0 ELSE this_amount::float*probability::float*0.7/100*share END AS expected_amount
+              CASE WHEN this_amount::float*probability::float IS NULL OR probability<0.5 THEN 0 ELSE this_amount::float*probability::float*0.7/100 END AS expected_amount
               FROM salesforce.opportunities o
               LEFT JOIN salesforce.accounts a on o.account_id = a.id
               LEFT JOIN marketing.fact_account_sources s on a.id = s.account_id
@@ -85,6 +84,11 @@ view: online_marketing_sources {
   dimension_group: created_date {
     type: time
     sql: ${TABLE}.created_date ;;
+  }
+
+  dimension: account_id {
+    type: string
+    sql: ${TABLE}.account_id;;
   }
 
   dimension_group: close_date {
@@ -163,6 +167,7 @@ view: online_marketing_sources {
 
   measure: expected_amount {
     type: sum
+    value_format: "0.00\€"
     sql: ${TABLE}.expected_amount ;;
   }
 
@@ -190,7 +195,9 @@ view: online_marketing_sources {
       ELSE ${won_amount}*6
       END;;
      html: {% if metric_selector._parameter_value == "'New Subscriptions'" %} {{ share_won._rendered_value }}
-     {% elsif metric_selector._parameter_value == "'MRR'" %} {{ won_amount._rendered_value }} {% endif %} ;;
+     {% elsif metric_selector._parameter_value == "'MRR*6'" %} {{ won_amount._rendered_value }}
+     {% elsif metric_selector._parameter_value == "'Expected MRR'" %} {{ expected_amount._rendered_value }}
+     {% elsif metric_selector._parameter_value == "'MRR'" %} {{ won_amount._rendered_value }}{% endif %} ;;
 
   }
 
