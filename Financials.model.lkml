@@ -57,3 +57,9 @@ join: bwa_costs {
 
 
 }
+
+# ------------ Explore for Onlinemarketing Budget spent ---------------
+
+explore: online_marketing_budget_spent {
+  from: fact_source_cost_daily
+}

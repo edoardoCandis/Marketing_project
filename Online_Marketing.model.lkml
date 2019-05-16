@@ -66,4 +66,6 @@ join: fact_source_cost_daily {
 
 }
 }
-#explore: fact_source_cost_daily {}
+explore: fact_source_cost_daily {
+  label: "Onlinemarketing Spendings"
+}

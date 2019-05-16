@@ -43,10 +43,4 @@ explore: reviewers {
     sql_on: ${reviewers.tracking_user_id}=${review_task_resolved.tracking_user_id} ;;
   }
 
-  join: review_task_escalated {
-    relationship: one_to_many
-    type: left_outer
-    sql_on: ${reviewers.db_id}=${review_task_escalated.escalated_by};;
-  }
-
 }
