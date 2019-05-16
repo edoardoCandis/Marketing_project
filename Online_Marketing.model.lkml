@@ -68,6 +68,7 @@ explore: online_marketing_sources {
   }
 
 
+
 }
 
 
@@ -119,4 +120,19 @@ join: fact_account_sources {
     relationship: many_to_one
     sql_on: ${leads.owner_id}=${lead_owner.id} ;;
   }
+
+  join: website_visits {
+    type: full_outer
+    relationship: many_to_many
+    sql_on: ${website_visits.received_at_date} = ${opportunities.created_date} AND ${website_visits.source} = ${fact_account_sources.grouping_source}  ;;
+  }
+}
+
+explore:website_visits   {
+
+join:  online_marketing_sources {
+  type: full_outer
+  relationship: many_to_many
+  sql_on: ${website_visits.received_at_date} = ${online_marketing_sources.created_date_date} AND ${website_visits.source} = ${online_marketing_sources.source}  ;;
+}
 }

@@ -2,6 +2,7 @@ view: online_marketing_sources {
   derived_table: {
     sql: SELECT distinct
               a.id as account_id,
+              o.id as opportunity_id,
               o.created_date,
               o.close_date,
               CASE WHEN s.act_source IS NULL AND can_redistr =1 THEN dummy.reatt_source ELSE act_source END AS this_source,
@@ -79,6 +80,11 @@ view: online_marketing_sources {
   measure: count {
     type: count
     drill_fields: [detail*]
+  }
+
+  measure: n_opportunities {
+    type:  count_distinct
+    sql: ${TABLE}.opportunity_id ;;
   }
 
   dimension_group: created_date {

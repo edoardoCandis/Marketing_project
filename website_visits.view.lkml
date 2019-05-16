@@ -31,6 +31,11 @@ view: website_visits {
     drill_fields: [detail*]
   }
 
+  measure: visitors{
+    type: count_distinct
+    sql: ${anonymous_id} ;;
+  }
+
   dimension: anonymous_id {
     type: string
     sql: ${TABLE}.anonymous_id ;;
@@ -40,7 +45,12 @@ view: website_visits {
     type: time
     sql: ${TABLE}.received_at ;;
   }
-
+dimension: primary_key {
+  primary_key: yes
+  type: string
+  sql: concat(${anonymous_id},${received_at_raw})
+  ;;
+}
   dimension: source {
     type: string
     sql: ${TABLE}.source ;;
