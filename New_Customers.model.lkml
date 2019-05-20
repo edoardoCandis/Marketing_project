@@ -145,6 +145,12 @@ explore: leads {
     relationship: many_to_one
     sql_on: ${leads.owner_id}=${lead_owner.id} ;;
   }
+  join: fact_account_sources {
+    type: left_outer
+    fields: [fact_account_sources.grouping_source]
+    relationship: one_to_one
+    sql_on: ${converted_lead_account.id} = ${fact_account_sources.account_id} ;;
+  }
 
 }
 

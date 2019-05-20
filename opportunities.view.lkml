@@ -745,6 +745,11 @@ dimension_group: demo_booked_date_c {
 
 # --------------------------------calculations for measures--------------------------------
 
+
+  measure: distinct_opportunity {
+    type: count_distinct
+    sql: ${id} ;;
+  }
   measure: count {
     label: "Created Opportunities"
     type: count
@@ -831,6 +836,7 @@ dimension_group: demo_booked_date_c {
     value_format: "0.00\%"
     sql: ${opportunities_out_of_moneyback}*100.0 / NULLIF(${won_opportunities},0) ;; }
 
+
   measure: opportunities_out_of_moneyback  {
     type: count_distinct
     sql: ${id} ;;
@@ -840,6 +846,16 @@ dimension_group: demo_booked_date_c {
     filters: {
       field: stage_name
       value: "Closed Won" }}
+
+    measure: opportunities_out_of_trial  {
+      type: count_distinct
+      sql: ${id} ;;
+      filters: {
+        field: subscription_out_of_trial_stage_c
+        value: "yes" }
+      filters: {
+        field: stage_name
+        value: "Closed Won" }}
 
   measure: won_opportunities  {
     label: "Won Customers"

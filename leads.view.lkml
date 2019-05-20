@@ -445,6 +445,14 @@ dimension: idle_time {
    # sql: ${converted_account_opportunity.booked_demos} ;;
   #}
 
+
+dimension: final_source {
+  type: string
+  sql: CASE WHEN ${lead_source} IS NOT NULL THEN lower(${lead_source})
+  WHEN ${lead_source_referrer_c} IS NOT NULL THEN lower(${lead_source_referrer_c})
+  ELSE lower(${fact_account_sources.grouping_source}) END;;
+}
+
 # ---------------- measures -----------------
 
   measure: count {
