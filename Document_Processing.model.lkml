@@ -18,9 +18,10 @@ include: "*.view.lkml"                       # include all views in this project
 #   }
 # }
 
-explore: fact_documents_processed_monthly {
-  label: "Processing Overview"
-}
+# This belongs more in the success section or financials since it is mostly used for billing purposes
+#explore: fact_documents_processed_monthly {
+ # label: "Processing Overview"
+#}
 
 explore: doc_processed_raw {
   label: "Documents Processed"

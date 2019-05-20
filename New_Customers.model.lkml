@@ -25,7 +25,7 @@ explore: opportunities {
     }
   }
   group_label: "Sales"
-  label: "Opportunity Funnel"
+  label: "Sales Funnel [Focus: Opportunities]"
   description: "This Explore contains all Information about New Sales Opportunities"
 
   join: cb_subscriptions {
@@ -108,7 +108,7 @@ explore: meetings {
 
 explore: leads {
   group_label: "Sales"
-  label: "Presales"
+  label: "Presales Funnel [Focus: Leads]"
   view_label: "Lead"
   description: "Primarily Lead information. Everything from creation until demo booked."
   sql_always_where: ${is_deleted}<>true ;;
@@ -126,6 +126,8 @@ explore: leads {
     fields: []
     relationship: many_to_one
     sql_on: ${leads.converted_account_id}=${converted_lead_account.id} ;;
+    # we only care about presales accounts in this case.
+    sql_where: ${converted_lead_account.count_presales_c} OR converted_lead_account.id IS NULL ;;
     }
 
   join: converted_account_opportunity {
