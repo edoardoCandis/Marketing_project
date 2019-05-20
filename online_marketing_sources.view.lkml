@@ -1,6 +1,51 @@
 view: online_marketing_sources {
   derived_table: {
-    sql: SELECT distinct
+    sql:
+    WITH tot as (SELECT
+
+
+                SUM(CASE WHEN o.amount IS NULL THEN 0
+                WHEN is_won THEN round(amount::float,0) ELSE 0 END) AS won_amount
+
+                FROM salesforce.opportunities o
+                LEFT JOIN salesforce.accounts a on o.account_id = a.id
+                LEFT JOIN marketing.fact_account_sources s on a.id = s.account_id
+
+                WHERE
+                o.created_date between getdate() - 118 and getdate()
+                AND a.record_type_id= '0121t000000LSGXAA4'
+                AND NOT referral_account_c
+                AND NOT o.is_deleted
+                AND act_source IS NOT NULL),
+
+    reattribution_share as (SELECT
+
+
+CASE
+WHEN lower(act_source) LIKE '%facebook%' OR lower(act_source) LIKE '%instagram%' THEN 'facebook'
+WHEN lower(act_source) LIKE '%google%' OR lower(act_source) LIKE '%adwords%' THEN 'google'
+WHEN lower(act_source) LIKE '%bing%' OR lower(act_source) LIKE '%linkedin%' OR lower(act_source) LIKE '%xing%' THEN lower(act_source)
+WHEN lower(converted_lead_source_c) LIKE '%comx%' OR lower(account_channel_c) LIKE '%comx%' OR lower(act_source) LIKE '%com x%' OR lower(act_source) LIKE 'comx'THEN 'com X'
+WHEN converted_lead_source_c LIKE '%BVMW%' OR account_channel_c LIKE '%BVMW%' OR lower(act_source) LIKE 'bvmw list' THEN 'bvmw list'
+WHEN lower(account_channel_c) LIKE '%xing%' THEN 'xing'
+WHEN act_source IS NULL THEN NULL
+ELSE 'other' END AS source,
+
+SUM(CASE WHEN o.amount IS NULL THEN 0
+WHEN is_won THEN round(amount::float,0) ELSE 0 END) / (SELECT * FROM tot) AS reatt_share
+
+FROM salesforce.opportunities o
+LEFT JOIN salesforce.accounts a on o.account_id = a.id
+LEFT JOIN marketing.fact_account_sources s on a.id = s.account_id
+WHERE
+o.created_date between getdate() - 118 and getdate()
+AND a.record_type_id= '0121t000000LSGXAA4'
+AND NOT referral_account_c
+AND NOT o.is_deleted
+AND act_source is not null
+GROUP BY 1)
+
+    SELECT distinct
               a.id as account_id,
               o.id as opportunity_id,
               o.created_date,
@@ -24,18 +69,7 @@ view: online_marketing_sources {
 
               CASE WHEN is_won THEN 1 ELSE o.probability::float END AS probability,
 
-              CASE
-              WHEN dummy.reatt_source IS NULL then 1.00
-              WHEN  source LIKE 'google' then  0.32
-              WHEN   source LIKE 'bing' then  0.00
-              WHEN   source LIKE 'linkedin' then  0.01
-              WHEN   source LIKE 'bvmw list' then  0.00
-              WHEN   source LIKE 'other' then  0.39
-              WHEN   source LIKE 'facebook' then  0.23
-              WHEN   source LIKE 'xing' then  0.04
-              WHEN   source LIKE 'com X' then  0.01
-              WHEN source IS NULL THEN 0.00
-              END AS share,
+              CASE WHEN reatt_source is null then 1 else reatt_share end as share,
 
               CASE WHEN o.is_won THEN share ELSE 0 END AS share_won,
               CASE WHEN o.is_won THEN o.id ELSE NULL END AS opp_won,
@@ -67,9 +101,10 @@ view: online_marketing_sources {
                               WHEN RANDOM() <0.6 THEN 'bvmw list'
                               WHEN RANDOM() <0.7 THEN 'linkedin'
                               ELSE 'other' END AS reatt_source
-
                               FROM marketing.fact_account_sources
                               WHERE act_source IS NOT NULL) dummy ON s.act_source IS NULL AND can_redistr = 1
+              LEFT JOIN reattribution_share r on r.source = dummy.reatt_source
+
               WHERE
               a.record_type_id= '0121t000000LSGXAA4'
               AND NOT referral_account_c
