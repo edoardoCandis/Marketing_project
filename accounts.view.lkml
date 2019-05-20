@@ -246,6 +246,17 @@ view: accounts {
     sql: ${TABLE}.secondary_medium_c ;;
   }
 
+  dimension: converted_lead_method_c {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.converted_lead_method_c ;;
+  }
+  dimension: secondary_referrer_c {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.secondary_referrer_c ;;
+  }
+
   dimension: converted_lead_engagement_c {
     hidden: yes
     # taken from reattribution
@@ -320,10 +331,6 @@ view: accounts {
     sql: ${TABLE}.active_child_accounts_c ;;
   }
 
-  dimension: converted_lead_method_c {
-    type: string
-    sql: ${TABLE}.converted_lead_method_c ;;
-  }
 
   dimension: converted_lead_response_c {
     type: string
@@ -335,11 +342,6 @@ view: accounts {
     description: "Presales Team has been actively engaged to convert this Lead."
     type: yesno
     sql:CASE WHEN ${TABLE}.count_presales_c=1 THEN true ELSE false END ;;
-  }
-
-  dimension: secondary_referrer_c {
-    type: string
-    sql: ${TABLE}.secondary_referrer_c ;;
   }
 
   dimension: candis_companies_c {

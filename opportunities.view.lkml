@@ -379,6 +379,7 @@ view: opportunities {
       time,
       date,
       week,
+      day_of_week,
       month,
       quarter,
       quarter_of_year,
@@ -721,6 +722,12 @@ dimension_group: demo_booked_date_c {
     sql: ${TABLE}.type ;;
   }
 
+  dimension: testgroup_upfront_payments {
+    type: yesno
+    sql: ${TABLE}.testgroup_for_upfront_payments_only_c ;;
+   # sql: CASE WHEN ${TABLE}${testgroup_upfront_payments}=true THEN "yes" ELSE "no" END ;;
+  }
+
   dimension: urgency_score_c {
     group_label: "Opportunity Scores"
     label: "Urgency"
@@ -854,6 +861,7 @@ dimension_group: demo_booked_date_c {
     label: "Won Customers"
     type: count_distinct
     sql: ${id} ;;
+    drill_fields: [detail*]
     filters: {
       field: stage_name
       value: "Closed Won" } }

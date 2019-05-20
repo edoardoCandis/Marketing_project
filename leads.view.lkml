@@ -64,6 +64,7 @@ view: leads {
   }
 
   dimension: converted_opportunity_id {
+    # this should not be in use since not every converted lead is associated to an opportunity
     hidden: yes
     type: string
     sql: ${TABLE}.converted_opportunity_id ;;
@@ -405,16 +406,23 @@ dimension: idle_time {
     sql: ${TABLE}.sql_c ;;
   }
 
+  dimension: prequalified {
+    type: yesno
+    label: "Prequalified"
+    sql: ${TABLE}.prequalified_c ;;
+  }
+
   dimension: status {
     type: string
     sql: lower(${TABLE}.status) ;;
   }
 
   dimension: group {
-    description: "targeted vs. new"
+      #WHEN ${status} IN ('prospect','prequalified') THEN 'new'
+    description: "targeted vs. prequalified vs. new"
     type: string
     sql: CASE WHEN ${status} NOT IN ('prospect','prequalified') AND ${lead_owner.user_role}='Presales' THEN 'targeted'
-              WHEN ${status} IN ('prospect','prequalified') THEN 'new'
+              WHEN ${prequalified} THEN 'prequalified'
               ELSE 'other' END;;
   }
 
@@ -424,6 +432,19 @@ dimension: idle_time {
     sql: ${TABLE}.total_leadscore_c ;;
   }
 
+  dimension: lead_count_adjusted {
+    type: string
+    hidden: yes
+    # this is the count we use in every measure.
+    sql: CASE WHEN ${lead_company_c} IS NULL THEN ${id} ELSE ${lead_company_c} END ;;
+  }
+
+ # dimension: converted_opportunity_id_adj {
+  #  type: string
+   # hidden: yes
+   # sql: ${converted_account_opportunity.booked_demos} ;;
+  #}
+
 
 dimension: final_source {
   type: string
@@ -431,13 +452,33 @@ dimension: final_source {
   WHEN ${lead_source_referrer_c} IS NOT NULL THEN lower(${lead_source_referrer_c})
   ELSE lower(${fact_account_sources.grouping_source}) END;;
 }
+
 # ---------------- measures -----------------
 
   measure: count {
     label: "Total"
+    description: "This shouldnt really be used. We care about Distinct Leads"
     type: count
     drill_fields: [id, last_name, first_name,email]
   }
+
+  measure: count_distinct_leads {
+    label: "Total Lead Companies"
+    description: "Lead Companies"
+    type: count_distinct
+    sql: CASE WHEN ${lead_company_c} IS NULL THEN ${id} ELSE ${lead_company_c} END ;;
+    drill_fields: [id, last_name, first_name,email]
+  }
+
+ measure: CR_0.5 {
+  # we reference the booked from the opportunities table that is joined in the explore and divide by the unique leads
+  label: "CR 0.5"
+    type: number
+    value_format_name: percent_0
+    sql:  CAST(${converted_account_opportunity.booked_demos} as float4) / ${count_distinct_leads}  ;;
+  }
+
+
 
   measure: average_calls {
     label: "Average Calls"

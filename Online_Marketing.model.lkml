@@ -92,24 +92,26 @@ explore: retention_table {
 #------------------------------------------
 explore: leads {
   sql_always_where: ${created_date} > '2019-01-01'
-  AND (${opportunities.close_date} >='2019-01-01' OR ${opportunities.close_date} is null)
-  AND (${opportunities.name} NOT LIKE '%test%' OR ${opportunities.name} IS NULL)
-  AND (${opportunities.is_deleted}<>true OR ${opportunities.is_deleted} IS NULL )
+  AND (${converted_account_opportunity.close_date} >='2019-01-01' OR ${converted_account_opportunity.close_date} is null)
+  AND (${converted_account_opportunity.name} NOT LIKE '%test%' OR ${converted_account_opportunity.name} IS NULL)
+  AND (${converted_account_opportunity.is_deleted}<>true OR ${converted_account_opportunity.is_deleted} IS NULL )
   AND (NOT ${accounts.referral_account_c}  OR ${accounts.referral_account_c} IS NULL);;
 #   AND (${opportunities.record_type_id} = 'Company')
 
 
-join: opportunities {
-  type: full_outer
-  relationship: one_to_one
-  sql_on: ${leads.converted_opportunity_id}=${opportunities.id} ;;
-}
-
 join: accounts {
   type: left_outer
   relationship: many_to_one
-  sql_on: ${opportunities.account_id}=${accounts.id} ;;
+  sql_on: ${leads.converted_account_id}=${accounts.id} ;;
   }
+
+  join: converted_account_opportunity {
+    from: opportunities
+    type: full_outer
+    relationship: one_to_one
+    sql_on: ${accounts.id}=${converted_account_opportunity.id} ;;
+  }
+
 join: fact_account_sources {
   type: left_outer
   relationship: one_to_one
@@ -125,7 +127,7 @@ join: fact_account_sources {
   join: website_visits {
     type: full_outer
     relationship: many_to_many
-    sql_on: ${website_visits.received_at_date} = ${opportunities.created_date} AND ${website_visits.source} = ${fact_account_sources.grouping_source}  ;;
+    sql_on: ${website_visits.received_at_date} = ${converted_account_opportunity.created_date} AND ${website_visits.source} = ${fact_account_sources.grouping_source}  ;;
   }
 }
 
