@@ -111,7 +111,7 @@ view: accounts {
     sql: ${TABLE}.description ;;
   }
 
-  dimension: domain_c {
+  dimension: domain {
     hidden: yes
     type: string
     sql: ${TABLE}.domain_c ;;
@@ -289,6 +289,12 @@ view: accounts {
   dimension: industry {
     type: string
     sql: ${TABLE}.industry ;;
+  }
+
+  dimension: private_domain {
+    label: "Private Email Domain"
+    type: yesno
+    sql: CASE WHEN ${domain} IS NULL THEN true ELSE false END ;;
   }
 
   dimension: internal_bookkeeping_c {

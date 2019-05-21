@@ -88,6 +88,7 @@ view: leads {
   }
 
   dimension: private_domain {
+    label: "Private Email Domain"
     type: yesno
     sql: CASE WHEN ${email_domain_c} IS NULL THEN true ELSE false END ;;
   }
