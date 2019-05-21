@@ -99,6 +99,8 @@ explore: opportunities {
 # ------------------ new explore ------------------------------
 
 explore: meetings {
+  group_label: "Sales"
+  label: "Demo Appointments"
   sql_always_where:  ${subject} LIKE '%webdemo%'
                       AND ${is_deleted}<>true;;
 

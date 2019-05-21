@@ -75,6 +75,12 @@ view: meetings {
     sql: ${TABLE}.who_id ;;
   }
 
+  dimension: task_outcome_c {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.task_outcome_c ;;
+  }
+
   dimension: event_subtype {
     # not used currently, therefore hidden
     hidden: yes
@@ -101,6 +107,12 @@ view: meetings {
     #not important to show, only for merging reasons
     type: string
     sql: ${TABLE}.invitee_uuid_c ;;
+  }
+
+  dimension: meeting_status_c {
+    hidden: yes
+    type: string
+    sql: lower(${TABLE}.meeting_status_c) ;;
   }
 
   dimension: is_deleted {
@@ -152,19 +164,18 @@ view: meetings {
     sql: ${TABLE}.description ;;
   }
 
-dimension: is_cancelled{
-  type: yesno
-  sql: ${subject} LIKE '%cancelled%' OR ${meeting_status_c}='Not Attended';;
+dimension: meeting_outcome {
+  label: "Status"
+  type: string
+  sql: CASE WHEN ${subject} LIKE '%cancelled%' THEN 'Cancelled by Prospect'
+            WHEN ${meeting_status_c}='attended' THEN 'Attended'
+            WHEN ${meeting_status_c}='cancelled by operator' THEN 'Cancelled by Operator'
+            ELSE 'Not Attended' END;;
 }
 
   dimension: duration_in_minutes {
     type: number
     sql: ${TABLE}.duration_in_minutes ;;
-  }
-
-  dimension: meeting_status_c {
-    type: string
-    sql: ${TABLE}.meeting_status_c ;;
   }
 
   dimension_group: start_date {
@@ -189,11 +200,6 @@ dimension: is_cancelled{
     sql: lower(${TABLE}.subject) ;;
   }
 
-  dimension: task_outcome_c {
-    type: string
-    sql: ${TABLE}.task_outcome_c ;;
-  }
-
   dimension: type {
     type: string
     sql: ${TABLE}.type ;;
@@ -204,6 +210,6 @@ dimension: is_cancelled{
 
   measure: count {
     type: count
-    drill_fields: [id]
+    drill_fields: [id,meeting_status_c,what_id]
   }
 }
