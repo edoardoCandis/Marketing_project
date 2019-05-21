@@ -313,10 +313,7 @@ dimension: idle_time {
   sql: current_date-${last_activity_date} ;;
   tiers: [0,7,14,21,30]
   style: integer
-
 }
-
-
 
   dimension: lead_engagement_c {
     label: "Interest Category"
@@ -327,6 +324,7 @@ dimension: idle_time {
   }
   dimension: lead_method_c {
     group_label: "Source Information"
+    label: "Lead Method"
     type: string
     sql: ${TABLE}.lead_method_c ;;
   }
@@ -425,6 +423,18 @@ dimension: idle_time {
     sql: ${TABLE}.prequalified_c ;;
   }
 
+  dimension_group: prequalified_date {
+    type: time
+    timeframes: [
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.prequalified_date_c;;
+  }
+
   dimension: status {
     type: string
     sql: lower(${TABLE}.status) ;;
@@ -485,7 +495,27 @@ dimension: final_source {
     sql:  CAST(${converted_account_opportunity.booked_demos} as float4) / ${count_distinct_leads}  ;;
   }
 
+  measure: time_to_prequalify {
+    type: average
+    value_format_name: decimal_2
+    sql: CAST(DATEDIFF('Days',${created_date} ,${prequalified_date_date}) as float4);;
+    filters: {
+      field: prequalified
+      value: "yes"
+    }
+  }
 
+  measure: time_to_convert {
+    type: average
+    value_format_name: decimal_0
+    sql: CASE WHEN ${prequalified_date_date} IS NULL THEN DATEDIFF('Days', ${prequalified_date_date},${converted_date})
+              ELSE DATEDIFF('Days', ${created_date},${converted_date}) END ;;
+    filters: {
+      field: status
+      value: "demo requested"
+
+    }
+  }
 
   measure: average_calls {
     label: "Average Calls"
