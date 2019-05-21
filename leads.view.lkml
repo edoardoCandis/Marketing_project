@@ -86,6 +86,12 @@ view: leads {
     type: string
     sql: ${TABLE}.email_domain_c ;;
   }
+
+  dimension: private_domain {
+    type: yesno
+    sql: CASE WHEN ${email_domain_c} IS NULL THEN true ELSE false END ;;
+  }
+
   dimension: owner_id {
     hidden: yes
     type: string
@@ -170,7 +176,40 @@ view: leads {
     sql: ${TABLE}.name ;;
   }
 
+  dimension: affiliate_publisher_id_c {
+    group_label: "Source Information"
+    hidden: yes
+    type: string
+    sql: ${TABLE}.affiliate_publisher_id_c ;;
+  }
 
+  dimension: afilliate_c {
+    hidden: yes
+    group_label: "Source Information"
+    type: string
+    sql: ${TABLE}.afilliate_c ;;
+  }
+
+  dimension: last_page_seen_url_c {
+    hidden: yes
+    group_label: "Source Information"
+    type: string
+    sql: ${TABLE}.last_page_seen_url_c ;;
+  }
+
+  dimension: last_referring_site_url_c {
+    hidden: yes
+    group_label: "Source Information"
+    type: string
+    sql: ${TABLE}.last_referring_site_url_c ;;
+  }
+
+  dimension: lead_campaign_c {
+    hidden: yes
+    group_label: "Source Information"
+    type: string
+    sql: ${TABLE}.lead_campaign_c ;;
+  }
   dimension: last_name {
     hidden: yes
     type: string
@@ -261,18 +300,6 @@ view: leads {
     sql: ${TABLE}.accounting_tool_in_use_c ;;
   }
 
-  dimension: affiliate_publisher_id_c {
-    group_label: "Source Information"
-    type: string
-    sql: ${TABLE}.affiliate_publisher_id_c ;;
-  }
-
-  dimension: afilliate_c {
-    group_label: "Source Information"
-    type: string
-    sql: ${TABLE}.afilliate_c ;;
-  }
-
   dimension: landingpage_url_c {
     group_label: "Source Information"
     type: string
@@ -289,28 +316,14 @@ dimension: idle_time {
 
 }
 
-  dimension: last_page_seen_url_c {
-    group_label: "Source Information"
-    type: string
-    sql: ${TABLE}.last_page_seen_url_c ;;
-  }
 
-  dimension: last_referring_site_url_c {
-    group_label: "Source Information"
-    type: string
-    sql: ${TABLE}.last_referring_site_url_c ;;
-  }
-
-  dimension: lead_campaign_c {
-    group_label: "Source Information"
-    type: string
-    sql: ${TABLE}.lead_campaign_c ;;
-  }
 
   dimension: lead_engagement_c {
+    label: "Interest Category"
+    description: "active interest=Warmcall, passive&no interest=Coldcall"
     group_label: "Source Information"
     type: string
-    sql: ${TABLE}.lead_engagement_c ;;
+    sql: CASE WHEN ${TABLE}.lead_engagement_c='active interest' THEN 'Warmcall' ELSE 'Coldcall' END ;;
   }
   dimension: lead_method_c {
     group_label: "Source Information"
@@ -417,6 +430,7 @@ dimension: idle_time {
     sql: lower(${TABLE}.status) ;;
   }
 
+
   dimension: group {
       #WHEN ${status} IN ('prospect','prequalified') THEN 'new'
     description: "targeted vs. prequalified vs. new"
@@ -438,13 +452,6 @@ dimension: idle_time {
     # this is the count we use in every measure.
     sql: CASE WHEN ${lead_company_c} IS NULL THEN ${id} ELSE ${lead_company_c} END ;;
   }
-
- # dimension: converted_opportunity_id_adj {
-  #  type: string
-   # hidden: yes
-   # sql: ${converted_account_opportunity.booked_demos} ;;
-  #}
-
 
 dimension: final_source {
   type: string
