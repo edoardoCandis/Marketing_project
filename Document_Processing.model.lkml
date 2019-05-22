@@ -43,5 +43,13 @@ explore: reviewers {
     type: left_outer
     sql_on: ${reviewers.tracking_user_id}=${review_task_resolved.tracking_user_id} ;;
   }
+}
+
+explore: review_task_escalated{
 
 }
+
+explore: review_task_resolved  {}
+
+explore: document_field_confirmations {}
+

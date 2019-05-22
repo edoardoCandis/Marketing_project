@@ -166,4 +166,9 @@ view: review_task_escalated {
     type: count
     drill_fields: [id, context_library_name]
   }
+
+  measure: average_task_viewing_duration {
+    type: average
+    sql: ${TABLE}.task_viewing_duration ;;
+  }
 }

@@ -140,6 +140,10 @@ view: document_field_confirmations {
     drill_fields: [detail*]
   }
 
+  measure: n_confirmations {
+    type: count_distinct
+    sql: ${value} ;;
+  }
 
   set: detail {
     fields: [
