@@ -6,6 +6,10 @@ view: meetings {
     hidden: yes
     type: string
     sql: ${TABLE}.id ;;
+    link: {
+      label: "View in Salesforce"
+      url: "https://eu16.lightning.force.com/lightning/r/Event/{{value}}/view"
+    }
   }
 
   dimension: account_id {
@@ -209,6 +213,7 @@ dimension: meeting_outcome {
 # ----------- insert measures here ---------------
 
   measure: count {
+    label: "Total Demos"
     type: count
     drill_fields: [id,meeting_status_c,what_id]
   }

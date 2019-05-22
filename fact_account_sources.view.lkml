@@ -2,7 +2,6 @@ view: fact_account_sources {
   sql_table_name: marketing.fact_account_sources ;;
 
   dimension: account_id {
-
     hidden: yes
     primary_key: yes
     type: string
@@ -10,7 +9,7 @@ view: fact_account_sources {
   }
 
   dimension: act_source {
-    label: "Source"
+    label: "Source Detail"
     description: "Most actionable source after online & secondary attribution. Before NULL attribution."
     type: string
     sql: ${TABLE}.act_source ;;
@@ -89,8 +88,10 @@ view: fact_account_sources {
   }
 
 dimension: grouping_source {
+  label: "Source"
     type: string
     sql: CASE
+          WHEN lower(${TABLE}.act_source) LIKE '%referral%' THEN 'referral'
           WHEN lower(${TABLE}.act_source) LIKE '%other%' THEN 'other'
           WHEN lower(${TABLE}.act_source) LIKE '%facebook%' OR lower(${TABLE}.act_source) LIKE '%instagram%' THEN 'facebook'
           WHEN lower(${TABLE}.act_source) LIKE '%google%' OR lower(${TABLE}.act_source) LIKE '%adwords%' THEN 'google'
@@ -103,7 +104,16 @@ dimension: grouping_source {
 
 # --------------------- measures ------------------
   measure: count {
+    hidden: yes
     type: count
     drill_fields: [campaign_name]
+  }
+
+  set: basic_source_information {
+    fields: [
+      account_id,
+      grouping_source,
+      paid
+    ]
   }
 }

@@ -7,6 +7,10 @@ view: opportunities {
     hidden: yes
     type: string
     sql: ${TABLE}.id ;;
+    link: {
+      label: "View in Salesforce"
+      url: "https://eu16.lightning.force.com/lightning/r/Opportunity/{{value}}/view"
+    }
   }
 
   dimension: account_id {
@@ -233,14 +237,47 @@ view: opportunities {
     sql: ${TABLE}.additional_company_names_c ;;
   }
 
+  dimension: gross_mrr {
+    type: number
+    hidden: yes
+    label: "Gross MRR"
+    #value_format: "0.00\€"
+    value_format_name:eur
+    sql: CAST(${TABLE}.amount as decimal);;
+  }
+
+  dimension: demo_notes {
+    group_label: "Sales Process Information"
+    hidden: yes
+    label: "Demo Notes"
+    type: string
+    sql: ${TABLE}.demo_notes_c ;;
+  }
+
+  dimension_group: last_activity {
+    hidden: yes
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.last_activity_date ;;
+  }
+
 
   # --------------------------------------- Dimensions in use ------------------------------------------------------
 
   dimension: account_lead_engagement_c {
     group_label: "Marketing Information"
+    description: "active interest=Warmcall, passive&no interest=Coldcall"
     label: "Interest Category"
     type: string
-    sql: ${TABLE}.account_lead_engagement_c ;;
+    sql: CASE WHEN ${TABLE}.account_lead_engagement_c='active interest' THEN 'Warmcall' ELSE 'Coldcall' END  ;;
   }
 
   dimension: account_lead_method_c {
@@ -307,6 +344,7 @@ view: opportunities {
   }
 
   dimension_group: close {
+    label: "Opportunity closed"
     type: time
     timeframes: [
       raw,
@@ -372,7 +410,7 @@ view: opportunities {
 
 
   dimension_group: created {
-    label: "Opportunity Created"
+    label: "Opportunity created"
     type: time
     timeframes: [
       raw,
@@ -405,6 +443,7 @@ view: opportunities {
 
   dimension: days_to_close_after_demo {
     group_label: "Funneltime"
+    label: "Time Demo to Close (Days)"
     type: number
     sql:  ${close_date}- ${demo_done_date_c_date} ;;
 
@@ -412,6 +451,7 @@ view: opportunities {
 
   dimension: weeks_to_close_after_demo {
     group_label: "Funneltime"
+    label: "Time Demo to Close (Weeks)"
     type: tier
     tiers: [ 0,7,14,21,28,35,42]
     style: integer
@@ -432,7 +472,7 @@ view: opportunities {
   }
 
   dimension: demo_booked_c {
-    label: "Demo booked)"
+    label: "Demo booked"
     group_label: "Key Funnel Events"
     type: yesno
     sql: ${TABLE}.demo_booked_c ;;
@@ -446,6 +486,7 @@ view: opportunities {
   }
 
 dimension_group: demo_booked_date_c {
+  label: "Demo Booked"
   type: time
   timeframes: [
     raw,
@@ -462,6 +503,7 @@ dimension_group: demo_booked_date_c {
 }
 
   dimension_group: demo_done_date_c {
+    label: "Demo Done"
     type: time
     timeframes: [
       raw,
@@ -477,12 +519,7 @@ dimension_group: demo_booked_date_c {
     sql: ${TABLE}.demo_done_date_c ;;
   }
 
-  dimension: demo_notes_c {
-    group_label: "Sales Process Information"
-    label: "Demo Notes"
-    type: string
-    sql: ${TABLE}.demo_notes_c ;;
-  }
+
 
   dimension: employees_c {
     hidden: yes
@@ -508,45 +545,45 @@ dimension_group: demo_booked_date_c {
     sql: ${TABLE}.followup_owner_c ;;
   }
 
-  dimension: incoming_invoices_per_month_c {
+  dimension: incoming_invoices_per_month {
     group_label: "Company Information"
     label: "Incoming Invoices Monthly"
     type: string
     sql: ${TABLE}.incoming_invoices_per_month_c ;;
   }
 
-  dimension: industry_c {
+  dimension: industry {
     group_label: "Company Information"
     label: "Industry"
     type: string
     sql: ${TABLE}.industry_c ;;
   }
 
-  dimension: information_request_responsibility_c {
+  dimension: information_request_responsibility {
     group_label: "Company Information"
     type: string
     sql: ${TABLE}.information_request_responsibility_c ;;
   }
 
-  dimension: invoice_creation_tool_c {
+  dimension: invoice_creation_tool {
     group_label: "Company Information"
     type: string
     sql: ${TABLE}.invoice_creation_tool_c ;;
   }
 
-  dimension: invoice_data_transfer_c {
+  dimension: invoice_data_transfer {
     group_label: "Company Information"
     type: string
     sql: ${TABLE}.invoice_data_transfer_c ;;
   }
 
-  dimension: invoice_reconciliation_responsibility_c {
+  dimension: invoice_reconciliation_responsibility {
     group_label: "Company Information"
     type: string
     sql: ${TABLE}.invoice_reconciliation_responsibility_c ;;
   }
 
-  dimension: invoice_volume_score_c {
+  dimension: invoice_volume_score {
     group_label: "Opportunity Scores"
     label: "Invoice Volume"
     type: number
@@ -560,70 +597,54 @@ dimension_group: demo_booked_date_c {
     sql: ${TABLE}.is_won ;;
   }
 
-  dimension_group: last_activity {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.last_activity_date ;;
-  }
-
-
-
   dimension: name {
     type: string
     sql: ${TABLE}.name ;;
   }
 
-  dimension: next_steps_c {
+  dimension: next_steps {
     group_label: "Sales Process Information"
     label: "Next Steps"
     type: string
     sql: ${TABLE}.next_steps_c ;;
   }
 
-  dimension: opportunity_score_c {
+  dimension: opportunity_score {
     group_label: "Opportunity Scores"
     label: "Total Score"
     type: number
     sql: ${TABLE}.opportunity_score_c ;;
   }
 
-  dimension: other_tools_in_use_c {
+  dimension: other_tools_in_use {
     group_label: "Company Information"
     label: "Other Tools in use"
     type: string
     sql: ${TABLE}.other_tools_in_use_c ;;
   }
 
-  dimension: outgoing_invoices_per_month_c {
+  dimension: outgoing_invoices_per_month {
     group_label: "Company Information"
     label: "Monthly Outgoing Invoices"
     type: string
     sql: ${TABLE}.outgoing_invoices_per_month_c ;;
   }
 
-  dimension: pain_definition_score_c {
+  dimension: pain_definition_score {
     group_label: "Opportunity Scores"
     label: "Pain Definition"
     type: number
     sql: ${TABLE}.pain_definition_score_c ;;
   }
 
-  dimension: painpoint_notes_c {
+  dimension: painpoint_notes {
     group_label: "Company Information"
     label: "Painpoint Details"
     type: string
     sql: ${TABLE}.painpoint_notes_c ;;
   }
 
-  dimension: painpoints_c {
+  dimension: painpoints {
     group_label: "Company Information"
     type: string
     sql: ${TABLE}.painpoints_c ;;
@@ -647,12 +668,6 @@ dimension_group: demo_booked_date_c {
     sql: ${TABLE}.product_acquisition_channel_c ;;
   }
 
-  dimension: product_expectations_c {
-    group_label: "Company Information"
-    type: string
-    sql: ${TABLE}.product_expectations_c ;;
-  }
-
   dimension_group: reapproach_date_c {
     type: time
     timeframes: [
@@ -671,11 +686,16 @@ dimension_group: demo_booked_date_c {
   dimension: share_digital_invoices_c {
     group_label: "Company Information"
     label: "Share digital Invoices"
-    type: string
+    type: tier
+    tiers: [25,50,75]
+    style: integer
+    value_format: "00\%"
     sql: ${TABLE}.share_digital_invoices_c ;;
   }
 
   dimension: sql_c {
+    hidden: yes
+    # hidden for now since this doesnt make any sense currently
     type: yesno
     label: "SQL"
     group_label: "Marketing Information"
@@ -718,6 +738,7 @@ dimension_group: demo_booked_date_c {
   }
 
   dimension: type {
+    description: "Upsell, Reactivation, New Sale"
     type: string
     sql: ${TABLE}.type ;;
   }
@@ -737,36 +758,30 @@ dimension_group: demo_booked_date_c {
 
   dimension: days_demo_to_close {
     group_label: "Funneltime"
+    label: "Time Demo to Close (Days)"
     type: number
     # if datediff is negative then take 0.
     sql: IF( ${close_date}<${check_demo_done_c},0,DATEDIFF('DAY', ${demo_done_date_c_date}, ${close_date}));;
-
   }
+
+
 
 # --------------------------------calculations for measures--------------------------------
 
 
   measure: distinct_opportunity {
+    # whitespace ensures that this is shown at the start
+    label: "    Total Opportunities created"
+    group_label: "Logo Metrics"
     type: count_distinct
     sql: ${id} ;;
-  }
-  measure: count {
-    label: "Created Opportunities"
-    type: count
     drill_fields: [detail*]
-  }
-
-  measure: gross_mrr {
-    type: sum
-    label: "Opportunity Gross MRR"
-    #value_format: "0.00\€"
-    value_format_name:eur
-    sql: CAST(${TABLE}.amount as decimal);;
   }
 
   measure: gross_mrr_won_sum {
     type: sum
-    label: "Gross MRR Won"
+    label: "Total Revenue won (Gross MRR)"
+    group_label: "Revenue Metrics"
     #value_format: "0.00\€"
     value_format_name:eur
     sql: CAST(${TABLE}.amount as decimal);;
@@ -777,7 +792,8 @@ dimension_group: demo_booked_date_c {
 
   measure: gross_mrr_won_avg {
     type: average
-    label: "Gross MRR Won/Opportunity"
+    label: "Avg Revenue/Customer (Gross MRR)"
+    group_label: "Revenue Metrics"
     #value_format: "0.00\€"
     value_format_name: eur
     sql: CAST(${TABLE}.amount as decimal);;
@@ -787,7 +803,8 @@ dimension_group: demo_booked_date_c {
   }
 
   measure: funnel_value_c {
-    label: "Funnel Value"
+    label: "Total Funnel Value"
+    group_label: "Revenue Metrics"
     description: "Probability x Gross MRR (excluding Won Opportunities)"
     type: sum
     value_format_name: eur
@@ -807,30 +824,37 @@ dimension_group: demo_booked_date_c {
   #}
 
   measure: cr_3 {
+    label: "CR 3"
+    description: "Demo done -> Customer won"
     type: number
     group_label: "Conversion Metrics"
     value_format: "0.00\%"
     sql: ${won_opportunities}*100.0 / NULLIF(${done_demos},0) ;; }
 
   measure: cr_2 {
+    label: "CR 2"
     type: number
     group_label: "Conversion Metrics"
     value_format: "0.00\%"
     sql: ${done_demos}*100.0 / NULLIF(${booked_demos},0) ;; }
 
   measure: cr_1 {
+    label: "CR 1"
     type: number
     group_label: "Conversion Metrics"
     value_format: "0.00\%"
-    sql: ${booked_demos}*100.0 / NULLIF(${count},0) ;; }
+    sql: ${booked_demos}*100.0 / NULLIF(${distinct_opportunity},0) ;; }
 
   measure: cr_total {
+    label: "CR Total"
     type: number
     group_label: "Conversion Metrics"
     value_format: "0.00\%"
-    sql: ${won_opportunities}*100.0 / NULLIF(${count},0) ;; }
+    sql: ${won_opportunities}*100.0 / NULLIF(${distinct_opportunity},0) ;; }
 
   measure: cr_4 {
+    label: "CR 4"
+    description: "Closed -> Out of Moneyback"
     type: number
     group_label: "Conversion Metrics"
     value_format: "0.00\%"
@@ -838,6 +862,8 @@ dimension_group: demo_booked_date_c {
 
 
   measure: opportunities_out_of_moneyback  {
+    label: "Total Opportunities out of Moneyback"
+    group_label: "Logo Metrics"
     type: count_distinct
     sql: ${id} ;;
     filters: {
@@ -848,6 +874,8 @@ dimension_group: demo_booked_date_c {
       value: "Closed Won" }}
 
     measure: opportunities_out_of_trial  {
+      label: "Total Opportunities out of Trial"
+      group_label: "Logo Metrics"
       type: count_distinct
       sql: ${id} ;;
       filters: {
@@ -858,7 +886,8 @@ dimension_group: demo_booked_date_c {
         value: "Closed Won" }}
 
   measure: won_opportunities  {
-    label: "Won Customers"
+    label: " Total Opportunities won"
+    group_label: "Logo Metrics"
     type: count_distinct
     sql: ${id} ;;
     drill_fields: [detail*]
@@ -867,7 +896,8 @@ dimension_group: demo_booked_date_c {
       value: "Closed Won" } }
 
   measure: done_demos  {
-    label: "Demos done"
+    label: "  Total Demos done"
+    group_label: "Logo Metrics"
     type: count_distinct
     sql: ${id} ;;
     filters: {
@@ -875,25 +905,28 @@ dimension_group: demo_booked_date_c {
       value: "yes" } }
 
   measure: booked_demos  {
-    label: "Demos booked"
+    label: "   Total Demos booked"
+    group_label: "Logo Metrics"
     type: count_distinct
     sql: ${id} ;;
     filters: {
       field: demo_booked_c
       value: "yes" } }
 
-measure: average_funneltime {
-  label: "Funneltime"
-  description: "Only looks at Customers that are won"
-  type: average
-  sql: ${days_in_opportunity_funnel} ;;
-  filters: {
-    field: is_won
-    value: "true"
+  measure: average_funneltime {
+    group_label: "Funneltime Metrics"
+    label: "Avg. Time in Funnel (Days)"
+    description: "Only looks at Customers that are won"
+    type: average
+    sql: ${days_in_opportunity_funnel} ;;
+    filters: {
+      field: is_won
+      value: "true"
+    }
   }
-}
     measure: datediff_demo_to_close {
-      label: "Funneltime Demo to Close"
+      group_label: "Funneltime Metrics"
+      label: "Time Demo to Close (Days)"
       description: "Includes all closed Deals"
       type: average
       sql: ${close_date}- ${demo_done_date_c_date} ;;
@@ -904,7 +937,8 @@ measure: average_funneltime {
     }
     # this here we need to replace by parameters: https://discourse.looker.com/t/dynamic-measures-with-parameters/6069
     measure: weeks_demo_to_close {
-      label: "Funneltime Demo to Close (Weeks)"
+      group_label: "Funneltime Metrics"
+      label: "Time Demo to Close (Weeks)"
       description: "Only looks at Customers that are won"
       type: average
       sql: DATEDIFF('WEEK', ${demo_done_date_c_date}, ${close_date});;
@@ -984,7 +1018,8 @@ measure: average_funneltime {
       stage_name,
       name,
       accounts.name,
-      accounts.id
+      accounts.id,
+      gross_mrr
     ]
   }
 

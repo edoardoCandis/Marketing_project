@@ -9,6 +9,10 @@ view: leads {
     hidden: yes
     type: string
     sql: ${TABLE}.id ;;
+    link: {
+      label: "View in Salesforce"
+      url: "https://eu16.lightning.force.com/lightning/r/lead/{{value}}/view"
+    }
   }
 
   dimension: convert_lead_company_leads_c {
@@ -323,6 +327,7 @@ dimension: idle_time {
     type: string
     sql: CASE WHEN ${TABLE}.lead_engagement_c='active interest' THEN 'Warmcall' ELSE 'Coldcall' END ;;
   }
+
   dimension: lead_method_c {
     group_label: "Source Information"
     label: "Lead Method"
@@ -464,17 +469,17 @@ dimension: idle_time {
     sql: CASE WHEN ${lead_company_c} IS NULL THEN ${id} ELSE ${lead_company_c} END ;;
   }
 
-dimension: final_source {
-  type: string
-  sql: CASE WHEN ${lead_source} IS NOT NULL THEN lower(${lead_source})
-  WHEN ${lead_source_referrer_c} IS NOT NULL THEN lower(${lead_source_referrer_c})
-  ELSE lower(${fact_account_sources.grouping_source}) END;;
-}
+#dimension: final_source {
+ # type: string
+ # sql: CASE WHEN ${lead_source} IS NOT NULL THEN lower(${lead_source})
+#  WHEN ${lead_source_referrer_c} IS NOT NULL THEN lower(${lead_source_referrer_c})
+#  ELSE lower(${fact_account_sources.grouping_source}) END;;
+#}
 
 # ---------------- measures -----------------
 
   measure: count {
-    label: "Total"
+    label: "Total Leads"
     description: "This shouldnt really be used. We care about Distinct Leads"
     type: count
     drill_fields: [id, last_name, first_name,email]
@@ -491,6 +496,7 @@ dimension: final_source {
  measure: CR_0.5 {
   # we reference the booked from the opportunities table that is joined in the explore and divide by the unique leads
   label: "CR 0.5"
+  description: "Prequalified -> Demo Booked"
     type: number
     value_format_name: percent_0
     sql:  CAST(${converted_account_opportunity.booked_demos} as float4) / ${count_distinct_leads}  ;;
@@ -507,6 +513,7 @@ dimension: final_source {
   }
 
   measure: time_to_convert {
+    label: "Total Time to Convert (Days)"
     type: average
     value_format_name: decimal_0
     sql: CASE WHEN ${prequalified_date_date} IS NULL THEN DATEDIFF('Days', ${prequalified_date_date},${converted_date})

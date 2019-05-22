@@ -34,7 +34,7 @@ view: reviewers {
   }
 
   dimension: display_name {
-    label: "Name"
+    label: "Assigned to"
     type: string
     sql: ${TABLE}.display_name ;;
   }

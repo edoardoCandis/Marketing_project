@@ -95,12 +95,14 @@ view: cb_credit_notes {
     label: "Credit Note Total excl. VAT"
     type: sum
     sql: ${TABLE}.chargebeeapps_sub_total_c ;;
+    drill_fields: [credit_note_details*]
   }
 
   measure: chargebeeapps_total_c {
     label: "Credit Note Total incl. VAT"
     type: sum
     sql: ${TABLE}.chargebeeapps_total_c ;;
+    drill_fields: [credit_note_details*]
   }
 
 
@@ -108,5 +110,15 @@ view: cb_credit_notes {
     label: "Amount refunded"
     type: sum
     sql: ${TABLE}.chargebeeapps_refunded_amount_c ;;
+    drill_fields: [credit_note_details*]
+  }
+
+  set: credit_note_details {
+    fields: [
+      id,
+      chargebeeapps_issued_date_c_date,
+      chargebeeapps_reason_code_c,
+      chargebeeapps_invoice_c
+    ]
   }
 }

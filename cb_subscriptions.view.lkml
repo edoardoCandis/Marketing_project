@@ -8,6 +8,10 @@ view: cb_subscriptions {
     hidden: yes
     type: string
     sql: ${TABLE}.id ;;
+    link: {
+      label: "View in Salesforce"
+      url: "https://eu16.lightning.force.com/lightning/r/chargebeeapps__CB_Subscription__c/{{value}}/view"
+    }
   }
 
   dimension: chargebeeapps_cb_id_c {
@@ -367,6 +371,7 @@ dimension: last_net_mrr {
       field: is_churn
       value: "no"
     }
+    drill_fields: [subscription_detail*]
   }
 
   measure: count_deactivations {
@@ -377,6 +382,7 @@ dimension: last_net_mrr {
       field: is_deactivation
       value: "no"
     }
+    drill_fields: [subscription_detail*]
   }
 
 measure: net_mrr_deactivations{
@@ -388,6 +394,7 @@ measure: net_mrr_deactivations{
     field: is_deactivation
     value: "yes"
     }
+  drill_fields: [subscription_detail*]
   }
 
   measure: net_mrr_churn{
@@ -399,6 +406,7 @@ measure: net_mrr_deactivations{
       field: is_churn
       value: "yes"
     }
+    drill_fields: [subscription_detail*]
   }
 
 # -- aggregated measures --
@@ -413,6 +421,7 @@ measure: net_mrr_deactivations{
       field: is_churn
       value: "yes"
     }
+    drill_fields: [subscription_detail*]
   }
   measure: trial_mrr_churnrate {
     label: "MRR Deactivationrate (Trial)"
@@ -498,5 +507,16 @@ measure: net_mrr_deactivations{
     hidden: yes
     type: sum
     sql: ${TABLE}.plan_gross_mrr_c ;;
+  }
+
+  set: subscription_detail  {
+    fields: [
+      id,
+      net_mrr_c,
+      product_category_c,
+      chargebeeapps_subscription_created_at_c_date,
+      product_billing_cycle_c,
+      plan_included_documents_c
+    ]
   }
 }

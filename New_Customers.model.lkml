@@ -42,7 +42,7 @@ explore: opportunities {
     relationship: many_to_one
     sql_on: ${opportunities.account_id} = ${accounts.id} ;;
     #we take the opportunity value to save the join
-    #fields: [-accounts.converted_lead_method_c]
+    fields: [accounts.account_source_information*]
   }
 
   join: parent_accounts {
@@ -50,7 +50,7 @@ explore: opportunities {
     from: accounts
     type: left_outer
     relationship: many_to_one
-    sql_on: ${accounts.id} = ${parent_accounts.id} ;;
+    sql_on: ${accounts.parent_id} = ${parent_accounts.id} ;;
     fields: [ parent_accounts.multiplier_fields*]
   }
 
@@ -64,7 +64,7 @@ explore: opportunities {
 
   join: presales_reps {
     from: salesforce_users
-    view_label: "Presales Rep"
+    view_label: "Converted Lead Information"
     type: left_outer
     relationship: many_to_one
     sql_on: ${accounts.converted_lead_owner_id_c} = ${presales_reps.id} ;;
@@ -79,6 +79,7 @@ explore: opportunities {
   #  }
 
  join: meetings  {
+    view_label: "Demo Information"
     type: left_outer
     relationship: many_to_one
     sql_on: ${opportunities.id}=${meetings.what_id} ;;
@@ -92,6 +93,7 @@ explore: opportunities {
     type: left_outer
     relationship: one_to_one
     sql_on: ${accounts.id}=${fact_account_sources.account_id} ;;
+    fields: [fact_account_sources.basic_source_information*]
   }
 
 }
@@ -147,12 +149,12 @@ explore: leads {
     relationship: many_to_one
     sql_on: ${leads.owner_id}=${lead_owner.id} ;;
   }
-  join: fact_account_sources {
-    type: left_outer
-    fields: [fact_account_sources.grouping_source]
-    relationship: one_to_one
-    sql_on: ${converted_lead_account.id} = ${fact_account_sources.account_id} ;;
-  }
+ # join: fact_account_sources {
+ #   type: left_outer
+ #   fields: [fact_account_sources.grouping_source]
+ #   relationship: one_to_one
+ #   sql_on: ${converted_lead_account.id} = ${fact_account_sources.account_id} ;;
+ #  }
 
 }
 

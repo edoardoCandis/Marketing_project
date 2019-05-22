@@ -31,16 +31,18 @@ persist_with: new_opportunities
 # ------------ Explore for Invoices & Refunds ---------------
 
 explore: cb_invoices {
-  view_label: "Invoices & Credit Notes"
+  view_label: "Invoices"
   sql_always_where: ${cb_invoices.chargebeeapps_invoice_date_c_month}>='2019-01'
-                    AND ${is_deleted}<>true ;;
-  label: "Financials"
+                    AND ${is_deleted}<>true
+                    AND ${chargebeeapps_status_c}<>'VOIDED';;
+  label: "Invoices & Credit Notes"
   description: "All Information regarding Invoices, Credit Notes & PL Costs"
 
   join: cb_credit_notes {
     view_label: "Credit Notes"
     relationship: one_to_one
     sql_on: ${cb_invoices.id}=${cb_credit_notes.chargebeeapps_invoice_c};;
+    sql_where: ${cb_credit_notes.is_deleted}<>true AND ${cb_credit_notes.chargebeeapps_status_c}<>'VOIDED' ;;
   }
 
  }
@@ -48,6 +50,7 @@ explore: cb_invoices {
 # ------------ Explore for Monthly Cost & Revenues ---------------
 
 explore: fact_monthly_revenues {
+  label: "Revenues & Costs"
 
 join: bwa_costs {
   view_label: "Cost Data"

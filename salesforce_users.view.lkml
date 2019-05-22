@@ -27,7 +27,7 @@ view: salesforce_users {
   }
 
   dimension: name {
-    label: "Owner Name"
+    label: "Assigned to"
     description: "Salesrep, Successrep, Presalesrep etc."
     type: string
     sql: ${TABLE}.name ;;

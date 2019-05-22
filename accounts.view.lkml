@@ -8,6 +8,10 @@ view: accounts {
     hidden: yes
     type: string
     sql: ${TABLE}.id ;;
+    link: {
+      label: "View in Salesforce"
+      url: "https://eu16.lightning.force.com/lightning/r/Account/{{value}}/view"
+    }
   }
 
   dimension: account_channel_c {
@@ -303,6 +307,7 @@ view: accounts {
   }
 
   dimension: name {
+    label: "Account Name"
     type: string
     sql: ${TABLE}.name ;;
   }
@@ -344,14 +349,14 @@ view: accounts {
   }
 
   dimension: count_presales_c {
-    label: "Presales Lead Conversion"
+    label: "Presales Conversion"
     description: "Presales Team has been actively engaged to convert this Lead."
     type: yesno
     sql:CASE WHEN ${TABLE}.count_presales_c=1 THEN true ELSE false END ;;
   }
 
   dimension: candis_companies_c {
-    label: "Number of active CANDIS Accounts"
+    label: "Active CANDIS Accounts"
     type: number
     sql: ${TABLE}.candis_companies_c ;;
   }
@@ -364,11 +369,13 @@ view: accounts {
 # ---------------- measures ---------------------
 
   measure: count {
+    label: "Total Accounts"
     type: count
     drill_fields: [id, name, opportunities.count]
   }
 
   measure: overall_account_nps_c {
+    label: "NPS"
     type: average
     sql: ${TABLE}.overall_account_nps_c ;;
   }
@@ -394,6 +401,15 @@ view: accounts {
       name,
       active_child_accounts_c,
       account_status_c
+    ]
+  }
+  set: account_source_information {
+    fields: [
+      id,
+      parent_id,
+      referral_account_c,
+      count_presales_c,
+      private_domain
     ]
   }
 }

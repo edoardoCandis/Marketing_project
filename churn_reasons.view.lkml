@@ -85,17 +85,20 @@ view: churn_reasons {
   }
 
   measure: attributed_gross_dollar_churn {
+    label: "Gross Dollar Churn (Gross MRR)"
     type: number
     sql: ${TABLE}.attributed_gross_dollar_churn ;;
   }
 
   measure: attributed_logo_churn {
+    label: "Logo Churn (Customers)"
     type: sum
     value_format_name: eur
     sql: ${TABLE}.attributed_logo_churn ;;
   }
 
   measure: attributed_net_dollar_churn {
+    label: "Net Dollar Churn (Net MRR)"
     type: sum
     value_format_name: eur
     sql: ${TABLE}.attributed_net_dollar_churn ;;
