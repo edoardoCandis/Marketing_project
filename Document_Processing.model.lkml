@@ -26,6 +26,12 @@ include: "*.view.lkml"                       # include all views in this project
 explore: doc_processed_raw {
   group_label: "Document Processing"
   label: "Processed Documents"
+  always_filter: {
+    filters: {
+      field: received_quarter
+      value: "this quarter"
+    }
+    }
 # one could join document data confirmations here SELECT * FROM candis_server.documents_confirm_data WHERE is_processed=false)
 
 }
