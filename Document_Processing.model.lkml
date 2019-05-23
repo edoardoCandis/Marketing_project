@@ -26,24 +26,18 @@ include: "*.view.lkml"                       # include all views in this project
 explore: doc_processed_raw {
   label: "Documents Processed"
 # one could join document data confirmations here SELECT * FROM candis_server.documents_confirm_data WHERE is_processed=false)
-}
-
-explore: reviewers {
-  label: "AI Training"
-  always_filter: {
-    filters: {
-      field: active_reviewer
-      value: "yes"
-    }
-  }
-
-  # here you can the merge explores to calculate an escalation rate
-
 
 }
+
+
+
 explore: review_task_escalated {
+  group_label: "AI Training"
+  label: "Escalations"
+  view_label: "Escalated Task Information"
   join: reviewers {
     relationship: many_to_one
+    view_label: "Reviewer Information"
     type: left_outer
     sql_on:  ${reviewers.db_id}=${review_task_escalated.escalated_by} ;;
   }
@@ -56,8 +50,13 @@ explore: field_confirmations_error {
     sql_on: ${reviewers.email}=${field_confirmations_error.reviewer} ;;
   }
 }
+
 explore: review_task_resolved {
+  view_label: "Task Information"
+  group_label: "AI Training"
+  label: "Review Tasks"
   join: reviewers {
+    view_label: "Reviewer Information"
     relationship: many_to_one
     type: left_outer
     sql_on: ${reviewers.tracking_user_id}=${review_task_resolved.tracking_user_id} ;;
