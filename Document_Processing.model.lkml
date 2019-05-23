@@ -24,12 +24,24 @@ include: "*.view.lkml"                       # include all views in this project
 #}
 
 explore: doc_processed_raw {
-  label: "Documents Processed"
+  group_label: "Document Processing"
+  label: "Processed Documents"
 # one could join document data confirmations here SELECT * FROM candis_server.documents_confirm_data WHERE is_processed=false)
 
 }
 
+explore: field_confirmations_error {
+  group_label: "Document Processing"
+  label: "Processing Errors"
+  join: reviewers {
+    relationship: many_to_one
+    type: left_outer
+    sql_on: ${reviewers.email}=${field_confirmations_error.reviewer} ;;
+  }
+}
 
+
+# ---------- AI Training Explores -------------------------
 
 explore: review_task_escalated {
   group_label: "AI Training"
@@ -43,13 +55,6 @@ explore: review_task_escalated {
   }
 }
 
-explore: field_confirmations_error {
-  join: reviewers {
-    relationship: many_to_one
-    type: left_outer
-    sql_on: ${reviewers.email}=${field_confirmations_error.reviewer} ;;
-  }
-}
 
 explore: review_task_resolved {
   view_label: "Task Information"
