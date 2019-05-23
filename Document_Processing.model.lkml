@@ -43,13 +43,15 @@ explore: reviewers {
     type: left_outer
     sql_on: ${reviewers.tracking_user_id}=${review_task_resolved.tracking_user_id} ;;
   }
+  join: review_task_escalated {
+    relationship: one_to_many
+    type: left_outer
+    sql_on: ${reviewers.db_id}=${review_task_escalated.escalated_by} ;;
+  }
+  join: field_confirmations_error {
+    relationship: one_to_many
+    type: full_outer
+    sql_on: ${reviewers.email}=${field_confirmations_error.reviewer} ;;
+  }
+
 }
-
-explore: review_task_escalated{
-
-}
-
-explore: review_task_resolved  {}
-
-explore: document_field_confirmations {}
-

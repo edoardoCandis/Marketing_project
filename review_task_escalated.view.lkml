@@ -167,8 +167,17 @@ view: review_task_escalated {
     drill_fields: [id, context_library_name]
   }
 
+  measure: escalated_tasks {
+    label: "Tasks escalated"
+    type: count_distinct
+    sql: ${id} ;;
+  }
+
+
   measure: average_task_viewing_duration {
     type: average
-    sql: ${TABLE}.task_viewing_duration ;;
+    label: "Avg. View Time (s)"
+    value_format: "0.00"
+    sql: ${TABLE}.task_viewing_duration/1000 ;;
   }
 }

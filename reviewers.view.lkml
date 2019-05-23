@@ -4,6 +4,7 @@ view: reviewers {
       a.created_at,
       a.db_id,
       a.display_name,
+      a.email,
       a.tracking_user_id,
       CASE WHEN b.email IS NULL then false ELSE true END as active_reviewer,
       b.weekly_hours
@@ -31,6 +32,11 @@ view: reviewers {
     hidden: yes
     type: string
     sql: ${TABLE}.tracking_user_id ;;
+  }
+
+  dimension: email {
+    type: string
+    sql: ${TABLE}.email ;;
   }
 
   dimension: display_name {

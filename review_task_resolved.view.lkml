@@ -127,6 +127,7 @@ view: review_task_resolved {
 
   measure: avg_completion_time {
     type: average
+    value_format: "0.00"
     label: "Avg. Completion Time (s)"
     sql: ${completion_time};;
   }
