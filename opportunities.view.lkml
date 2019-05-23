@@ -540,9 +540,12 @@ dimension_group: demo_booked_date_c {
   }
 
   dimension: followup_owner_c {
-    label: "Followup Owner"
+    label: "Followup Assigned to"
     type: string
-    sql: ${TABLE}.followup_owner_c ;;
+    # hardcoding the names here to avoid having to join presales twice in the same explore
+    sql: CASE WHEN ${TABLE}.followup_owner_c='0051t000001yRQMAA2' THEN 'Gabi Schröthlin'
+              WHEN ${TABLE}.followup_owner_c='0051t000002eMZdAAM' THEN 'Kai Schröthlin'
+              WHEN ${TABLE}.followup_owner_c='0051t000002VY56AAG' THEN 'Chris Schaller' ELSE ${TABLE}.followup_owner_c END;;
   }
 
   dimension: incoming_invoices_per_month {
