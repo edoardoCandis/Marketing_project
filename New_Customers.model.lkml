@@ -113,7 +113,7 @@ explore: meetings {
 explore: leads {
   group_label: "Sales"
   label: "Presales Funnel [Focus: Leads]"
-  view_label: "Lead"
+  view_label: " Lead"
   description: "Primarily Lead information. Everything from creation until demo booked."
   sql_always_where: ${is_deleted}<>true ;;
 
@@ -144,7 +144,7 @@ explore: leads {
     }
 
   join: lead_owner {
-    view_label: "Lead"
+    view_label: " Lead"
     from: salesforce_users
     relationship: many_to_one
     sql_on: ${leads.owner_id}=${lead_owner.id} ;;
