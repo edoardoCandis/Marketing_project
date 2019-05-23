@@ -38,20 +38,28 @@ explore: reviewers {
   }
 
   # here you can the merge explores to calculate an escalation rate
-  join: review_task_resolved {
-    relationship: one_to_many
+
+
+}
+explore: review_task_escalated {
+  join: reviewers {
+    relationship: many_to_one
+    type: left_outer
+    sql_on:  ${reviewers.db_id}=${review_task_escalated.escalated_by} ;;
+  }
+}
+
+explore: field_confirmations_error {
+  join: reviewers {
+    relationship: many_to_one
+    type: left_outer
+    sql_on: ${reviewers.email}=${field_confirmations_error.reviewer} ;;
+  }
+}
+explore: review_task_resolved {
+  join: reviewers {
+    relationship: many_to_one
     type: left_outer
     sql_on: ${reviewers.tracking_user_id}=${review_task_resolved.tracking_user_id} ;;
   }
-  join: review_task_escalated {
-    relationship: one_to_many
-    type: left_outer
-    sql_on: ${reviewers.db_id}=${review_task_escalated.escalated_by} ;;
-  }
-  join: field_confirmations_error {
-    relationship: one_to_many
-    type: full_outer
-    sql_on: ${reviewers.email}=${field_confirmations_error.reviewer} ;;
-  }
-
 }
