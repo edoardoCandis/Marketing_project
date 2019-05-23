@@ -87,20 +87,14 @@ view: fact_account_sources {
     sql: ${TABLE}.secondary_referrer ;;
   }
 
-dimension: grouping_source {
-  label: "Source"
+  dimension: grouping_source {
     type: string
-    sql: CASE
-          WHEN lower(${TABLE}.act_source) LIKE '%referral%' THEN 'referral'
-          WHEN lower(${TABLE}.act_source) LIKE '%other%' THEN 'other'
-          WHEN lower(${TABLE}.act_source) LIKE '%facebook%' OR lower(${TABLE}.act_source) LIKE '%instagram%' THEN 'facebook'
-          WHEN lower(${TABLE}.act_source) LIKE '%google%' OR lower(${TABLE}.act_source) LIKE '%adwords%' THEN 'google'
-          WHEN lower(${TABLE}.act_source) LIKE '%bing%' OR lower(${TABLE}.act_source) LIKE '%linkedin%' OR lower(${TABLE}.act_source) LIKE '%xing%' THEN lower(${TABLE}.act_source)
-          WHEN lower(${TABLE}.act_source) LIKE '%com x%' OR lower(${TABLE}.act_source) LIKE 'comx' THEN 'com X'
-          WHEN lower(${TABLE}.act_source) LIKE 'bvmw list' THEN 'bvmw list'
-          WHEN ${TABLE}.act_source IS NULL THEN NULL
-          ELSE 'other' END;;
-}
+    label: "grouping source"
+    description: "Macro-Areas of sources"
+    sql: ${TABLE}.grouping_source ;;
+  }
+
+
 
 # --------------------- measures ------------------
   measure: count {
