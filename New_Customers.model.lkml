@@ -130,8 +130,8 @@ explore: leads {
     fields: []
     relationship: many_to_one
     sql_on: ${leads.converted_account_id}=${converted_lead_account.id} ;;
-    # we only care about presales accounts in this case.
-    sql_where: ${converted_lead_account.count_presales_c} OR converted_lead_account.id IS NULL ;;
+    # we only care about presales accounts that are companies in this case.
+    sql_where: (${converted_lead_account.record_type_id}='0121t000000LSGSAA4' AND ${converted_lead_account.count_presales_c}) OR converted_lead_account.id IS NULL ;;
     }
 
   join: converted_account_opportunity {
