@@ -163,6 +163,7 @@ view: review_task_escalated {
   }
 
   measure: count {
+    hidden: yes
     type: count
     drill_fields: [id, context_library_name]
   }

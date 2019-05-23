@@ -119,17 +119,25 @@ view: review_task_resolved {
   }
 
   # ------------------ dimensions in use -------------------------
+  measure: resolved_tasks {
+    label: "Number of resolved tasks"
+    type: count_distinct
+    sql: ${TABLE}.id;;
+  }
+
   measure: count {
-    label: "Tasks completed"
+    hidden: yes
     type: count
     drill_fields: []
   }
+
+
 
   measure: avg_completion_time {
     type: average
     value_format: "0.00"
     label: "Avg. Completion Time (s)"
-    sql: ${completion_time};;
+    sql: ${TABLE}.completion_time/1000;;
   }
 
 }
