@@ -11,7 +11,6 @@ datagroup: new_opportunities {
 persist_with: new_opportunities
 
 explore: opportunities {
-  fields: [ALL_FIELDS*,-opportunities.followup_owner_c]
   view_label: "Opportunity Information"
   # technically we need to think about only including salesreps:  AND ${users.user_role_id}='Salesrep' but this leads to problems at the start of the funnel.
   sql_always_where: ${close_date}>='2019-01-01'
@@ -59,7 +58,7 @@ explore: opportunities {
     view_label: "Opportunity Information"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${opportunities.owner_id} = ${users.id} ;;
+    sql_on: ${opportunities.owner_id} = ${users.id}  ;;
   }
 
   join: presales_reps {
@@ -70,6 +69,8 @@ explore: opportunities {
     sql_on: ${accounts.converted_lead_owner_id_c} = ${presales_reps.id} ;;
     sql_where: ${presales_reps.user_role}='Presales' ;;
   }
+
+
 
   #join: fact_demos_done_monthly {
   #
@@ -131,7 +132,7 @@ explore: leads {
     relationship: many_to_one
     sql_on: ${leads.converted_account_id}=${converted_lead_account.id} ;;
     # we only care about presales accounts that are companies in this case.
-    sql_where: (${converted_lead_account.record_type_id}='0121t000000LSGSAA4' AND ${converted_lead_account.count_presales_c}) OR converted_lead_account.id IS NULL ;;
+    sql_where:(${converted_lead_account.record_type_id}='0121t000000LSGXAA4' AND ${converted_lead_account.count_presales_c}) OR converted_lead_account.id IS NULL ;;
     }
 
   join: converted_account_opportunity {

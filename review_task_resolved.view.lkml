@@ -87,7 +87,7 @@ view: review_task_resolved {
 
 
   dimension_group: original_timestamp {
-    label: "Completed at"
+    label: "Completed"
     type: time
     timeframes: [
       raw,
@@ -118,9 +118,9 @@ view: review_task_resolved {
               WHEN ${tags} like '%all-document-data-extraction%' THEN 'all-document-data-extraction' END;;
   }
 
-  # ------------------ dimensions in use -------------------------
+  # ------------------ measures -------------------------
   measure: resolved_tasks {
-    label: "Number of resolved tasks"
+    label: "Total Tasks completed"
     type: count_distinct
     sql: ${TABLE}.id;;
   }
@@ -136,7 +136,7 @@ view: review_task_resolved {
   measure: avg_completion_time {
     type: average
     value_format: "0.00"
-    label: "Avg. Completion Time (s)"
+    label: "Avg. Completion Time (Seconds)"
     sql: ${TABLE}.completion_time/1000;;
   }
 

@@ -17,6 +17,7 @@ view: reviewers {
   }
 
   dimension_group: created_at {
+    hidden: yes
     type: time
     sql: ${TABLE}.created_at ;;
   }
@@ -35,6 +36,7 @@ view: reviewers {
   }
 
   dimension: email {
+    hidden: yes
     type: string
     sql: ${TABLE}.email ;;
   }
@@ -46,16 +48,20 @@ view: reviewers {
   }
 
   dimension: active_reviewer {
+    label: "Active"
+    description: "Is the Reviewer still working @Candis ?"
     type: yesno
     sql: ${TABLE}.active_reviewer ;;
   }
 
   dimension: weekly_hours {
+    hidden: yes
     type: number
     sql: ${TABLE}.weekly_hours ;;
   }
 
   measure: weekly_hours_capacity {
+    hidden: yes
     type: sum
     sql: ${TABLE}.weekly_hours ;;
   }
@@ -64,6 +70,7 @@ view: reviewers {
     fields: [
     display_name,
     tracking_user_id,
+    email,
     weekly_hours
     ]
   }
