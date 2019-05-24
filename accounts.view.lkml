@@ -348,12 +348,16 @@ view: accounts {
     sql: ${TABLE}.converted_lead_response_c ;;
   }
 
+# temporary adjustment because of website demo request.
   dimension: count_presales_c {
     label: "Presales Conversion"
     description: "Presales Team has been actively engaged to convert this Lead."
     type: yesno
-    sql:CASE WHEN ${TABLE}.count_presales_c=1 THEN true ELSE false END ;;
+    #sql:CASE WHEN ${TABLE}.count_presales_c=1 THEN true ELSE false END ;;
+    sql: CASE WHEN ${converted_lead_owner_id_c} IN ('0051t000001yRQMAA2','0051t000002eMZdAAM', '0051t000002VY56AAG') THEN true
+              WHEN ${TABLE}.count_presales_c=1 THEN true ELSE false END;;
   }
+
 
   dimension: candis_companies_c {
     label: "Active CANDIS Accounts"

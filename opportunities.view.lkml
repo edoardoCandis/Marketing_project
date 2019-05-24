@@ -394,13 +394,6 @@ view: opportunities {
     sql: ${TABLE}.competition_notes_c ;;
   }
 
-  dimension: competitor_score_c {
-    group_label: "Opportunity Scores"
-    label: "Pain Definition"
-    type: number
-    sql: ${TABLE}.competitor_score_c ;;
-  }
-
   dimension: contact_role_score_c {
     group_label: "Opportunity Scores"
     label: "Contact Role"
@@ -462,13 +455,6 @@ view: opportunities {
     label: "Decision Process"
     type: string
     sql: ${TABLE}.decision_process_c ;;
-  }
-
-  dimension: decision_process_score_c {
-    group_label: "Opportunity Scores"
-    label: "Decision Process"
-    type: number
-    sql: ${TABLE}.decision_process_score_c ;;
   }
 
   dimension: demo_booked_c {
@@ -586,13 +572,6 @@ dimension_group: demo_booked_date_c {
     sql: ${TABLE}.invoice_reconciliation_responsibility_c ;;
   }
 
-  dimension: invoice_volume_score {
-    group_label: "Opportunity Scores"
-    label: "Invoice Volume"
-    type: number
-    sql: ${TABLE}.invoice_volume_score_c ;;
-  }
-
   dimension: is_won {
     label: "Closed Won"
     group_label: "Key Funnel Events"
@@ -619,6 +598,13 @@ dimension_group: demo_booked_date_c {
     sql: ${TABLE}.opportunity_score_c ;;
   }
 
+  dimension: industry_score_c {
+    group_label: "Opportunity Scores"
+    label: "Industry"
+    type: number
+    sql: ${TABLE}.industry_score_c ;;
+  }
+
   dimension: other_tools_in_use {
     group_label: "Company Information"
     label: "Other Tools in use"
@@ -638,6 +624,13 @@ dimension_group: demo_booked_date_c {
     label: "Pain Definition"
     type: number
     sql: ${TABLE}.pain_definition_score_c ;;
+  }
+
+  dimension: share_digital_invoices_score_c {
+    group_label: "Opportunity Scores"
+    label: "Share Digital Invoices"
+    type: number
+    sql: ${TABLE}.share_digital_invoices_score_c ;;
   }
 
   dimension: painpoint_notes {
@@ -950,6 +943,56 @@ dimension_group: demo_booked_date_c {
        value: "true"
       }
     }
+
+# ------ opportunity scores
+      measure: company_size_score_avg {
+        group_label: "Opportunity Scores"
+        label: "Company Size"
+        type: average
+        sql: ${company_size_score_c} ;;
+      }
+
+      measure: contact_role_score_avg {
+        group_label: "Opportunity Scores"
+        label: "Contact Role"
+        type: average
+        sql: ${contact_role_score_c};;
+      }
+
+      measure: pain_defeinition_score_avg {
+        group_label: "Opportunity Scores"
+        label: "Pain Definition"
+        type: average
+        sql: ${pain_definition_score};;
+      }
+
+      measure: urgency_score_avg {
+        group_label: "Opportunity Scores"
+        label: "Urgency"
+        type: average
+        sql: ${urgency_score_c};;
+      }
+
+      measure: share_digital_invoices_score_avg {
+        group_label: "Opportunity Scores"
+        label: "Digital Invoices"
+        type: average
+        sql: ${share_digital_invoices_score_c};;
+      }
+
+      measure: industry_score_avg {
+        group_label: "Opportunity Scores"
+        label: "Industry"
+        type: average
+        sql: ${industry_score_c};;
+      }
+
+      measure: opportunity_score_avg {
+        group_label: "Opportunity Scores"
+        label: "Total Score"
+        type: average
+        sql: ${opportunity_score};;
+      }
 
 # -------Period Over Period Analysis
 
