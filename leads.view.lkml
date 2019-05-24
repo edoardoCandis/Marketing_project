@@ -446,6 +446,16 @@ dimension: idle_time {
     sql: lower(${TABLE}.status) ;;
   }
 
+  dimension: unqualified_reason {
+    type: string
+    sql: ${TABLE}.unqualified_reason_c ;;
+  }
+
+  dimension: presales_content_approach {
+    type: string
+    sql: ${TABLE}.presales_content_approach_c ;;
+  }
+
 
   dimension: group {
       #WHEN ${status} IN ('prospect','prequalified') THEN 'new'
