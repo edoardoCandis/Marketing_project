@@ -50,3 +50,18 @@ explore: cb_subscriptions {
     sql_on: ${cb_subscriptions.chargebeeapps_subcription_cancelled_at_c_month} =${fact_monthly_revenues.date_month};;
   }
 }
+
+explore: customer_interactions {
+  label: "Customer Interactions"
+always_join: [tags]
+join: tags {
+  type: left_outer
+  relationship: many_to_one
+  sql_on: ${customer_interactions._tag} = ${tags.id};;
+  fields: [tags.name]
+}
+}
+
+explore: nps_responses {
+label: "NPS Responses"
+}
