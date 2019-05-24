@@ -14,10 +14,13 @@ view: field_confirmations_error {
         left join (select
                     document_id,
                     field,
+                    min(confirmed_at) as confirmed_at,
                     CASE WHEN count(distinct value) > 1 THEN CONCAT(document_id, field) ELSE NULL END AS is_corrected,
                     CASE WHEN count(distinct value) > 1 THEN document_id ELSE NULL END AS is_corrected_doc
                     from mongodb.document_field_confirmations
                     group by 1,2) b on a.document_id = b.document_id and a.field = b.field
+        where a.confirmed_at = b.confirmed_at
+
  ;;
   }
 
