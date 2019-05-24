@@ -946,50 +946,50 @@ dimension_group: demo_booked_date_c {
 
 # ------ opportunity scores
       measure: company_size_score_avg {
-        group_label: "Opportunity Scores"
-        label: "Company Size"
+        group_label: "Scoring Metrics"
+        label: "Avg. Company Size Score"
         type: average
         sql: ${company_size_score_c} ;;
       }
 
       measure: contact_role_score_avg {
-        group_label: "Opportunity Scores"
-        label: "Contact Role"
+        group_label: "Scoring Metrics"
+        label: "Avg. Contact Role Score"
         type: average
         sql: ${contact_role_score_c};;
       }
 
       measure: pain_defeinition_score_avg {
-        group_label: "Opportunity Scores"
-        label: "Pain Definition"
+        group_label: "Scoring Metrics"
+        label: "Avg. Pain Definition Score"
         type: average
         sql: ${pain_definition_score};;
       }
 
       measure: urgency_score_avg {
-        group_label: "Opportunity Scores"
-        label: "Urgency"
+        group_label: "Scoring Metrics"
+        label: "Avg. Urgency Score"
         type: average
         sql: ${urgency_score_c};;
       }
 
       measure: share_digital_invoices_score_avg {
-        group_label: "Opportunity Scores"
-        label: "Digital Invoices"
+        group_label: "Scoring Metrics"
+        label: "Avg. Digital Invoices Score"
         type: average
         sql: ${share_digital_invoices_score_c};;
       }
 
       measure: industry_score_avg {
-        group_label: "Opportunity Scores"
-        label: "Industry"
+        group_label: "Scoring Metrics"
+        label: "Avg. Industry Score"
         type: average
         sql: ${industry_score_c};;
       }
 
       measure: opportunity_score_avg {
-        group_label: "Opportunity Scores"
-        label: "Total Score"
+        group_label: "Scoring Metrics"
+        label: " Avg. Total Score"
         type: average
         sql: ${opportunity_score};;
       }
