@@ -139,7 +139,7 @@ view: doc_processed_raw {
   measure: processing_time {
     type: average
     label: "Avg. Time to process (Hours)"
-    sql: ${processing_duration} ;;
+    sql: (${TABLE}.processing_duration/3600) ;;
   }
 
   # ----- Sets of fields for drilling ------
