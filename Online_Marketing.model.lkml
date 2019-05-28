@@ -83,10 +83,6 @@ explore: online_marketing_sources {
 
 # }
 # }
-#------------------------------------------
-explore: retention_table {
-  sql_always_where: ${created_month}>='2019-01' ;;
-}
 
 
 #------------------------------------------
