@@ -56,10 +56,16 @@ view: fact_source_cost_daily {
     #ELSE 0 END;;
   #}
 
+#  measure: total_cost {
+ #   type: number
+ #   value_format_name: eur
+ #   sql: ${TABLE}.source_cost_bing+${TABLE}.source_cost_facebook+${TABLE}.source_cost_google+${TABLE}.source_cost_linkedin+${TABLE}.source_cost_xing ;;
+ # }
+
   measure: total_cost {
-    type: sum
+    type: number
     value_format_name: eur
-    sql: ${TABLE}.source_cost_bing+${TABLE}.source_cost_facebook+${TABLE}.source_cost_google+${TABLE}.source_cost_linkedin+${TABLE}.source_cost_xing ;;
+    sql: ${source_cost_bing}+${source_cost_facebook}+${source_cost_google}+${source_cost_linkedin}+${source_cost_xing} ;;
   }
 
 

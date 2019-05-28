@@ -140,7 +140,6 @@ join:  online_marketing_sources {
 }
 
 explore: fact_source_cost_daily {
-  sql_always_where:  ;;
   label: "Onlinemarketing Spendings"
 }
 
