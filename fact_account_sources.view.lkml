@@ -51,7 +51,7 @@ view: fact_account_sources {
   }
 
   dimension: presales {
-    hidden: yes
+   # hidden: yes
     type: number
     sql: ${TABLE}.presales ;;
   }
