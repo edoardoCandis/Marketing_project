@@ -282,7 +282,7 @@ view: cb_subscriptions {
 
 
   dimension_group: chargebeeapps_subcription_cancelled_at_c {
-    label: "Churn or Deactivation"
+    label: "Churn/Deactivation"
     type: time
     timeframes: [
       raw,
@@ -360,6 +360,7 @@ dimension: last_net_mrr {
 
   measure: active_subscriptions {
     type: count_distinct
+    label: "Total active Subscriptions"
     sql: ${id} ;;
     filters:  {
       field: is_active
