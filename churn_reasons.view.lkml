@@ -68,7 +68,9 @@ view: churn_reasons {
   }
 
   dimension: subscription_stage_c {
-    hidden:yes
+    label: "Subscription Stage"
+    description: "Customer / Trial / Money Back"
+    hidden:no
     # should come from Subscription
     type: string
     sql: ${TABLE}.subscription_stage_c ;;
@@ -80,11 +82,21 @@ view: churn_reasons {
     sql: ${TABLE}.churn_reason_split ;;
   }
 
+
+
 # -------------- measures here ---------------
 
   measure: count {
+    hidden: yes
     type: count
     drill_fields: [subscription_id,case_id]
+  }
+
+  measure: churned_subscriptions{
+    label: "Churned Subscriptions"
+    hidden: no
+    type: count_distinct
+    sql: ${subscription_id} ;;
   }
 
   measure: attributed_gross_dollar_churn {
