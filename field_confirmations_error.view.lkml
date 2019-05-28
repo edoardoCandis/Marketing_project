@@ -4,7 +4,7 @@ view: field_confirmations_error {
         a.document_id,
         a.field,
         CONCAT(a.document_id, a.field) AS id,
-        a.confirmed_at::date,
+        b.min_confirmed_at::date,
         replace(replace(a.reviewer_email,'[',''),']','') as reviewer,
         CASE WHEN a.prediction <> ' ' THEN id ELSE NULL END AS is_auto, --if prediction field not empty >> machine confirmed
         is_corrected,
@@ -14,12 +14,12 @@ view: field_confirmations_error {
         left join (select
                     document_id,
                     field,
-                    min(confirmed_at) as confirmed_at,
+                    min(confirmed_at) as min_confirmed_at,
                     CASE WHEN count(distinct value) > 1 THEN CONCAT(document_id, field) ELSE NULL END AS is_corrected,
                     CASE WHEN count(distinct value) > 1 THEN document_id ELSE NULL END AS is_corrected_doc
                     from mongodb.document_field_confirmations
                     group by 1,2) b on a.document_id = b.document_id and a.field = b.field
-        where a.confirmed_at = b.confirmed_at
+--        where a.confirmed_at = b.min_confirmed_at
 
  ;;
   }
@@ -61,7 +61,7 @@ view: field_confirmations_error {
 
   dimension: confirmed_at {
     type: date
-    sql: ${TABLE}.confirmed_at ;;
+    sql: ${TABLE}.min_confirmed_at ;;
   }
 
   dimension: reviewer {

@@ -69,3 +69,8 @@ join: tags {
 explore: nps_responses {
 label: "NPS Responses"
 }
+
+#------------------------------------------
+explore: retention_table {
+  sql_always_where: ${created_month}>='2019-01' ;;
+}
