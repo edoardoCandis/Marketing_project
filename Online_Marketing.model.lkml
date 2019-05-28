@@ -141,5 +141,21 @@ join:  online_marketing_sources {
 }
 
 explore: fact_source_cost_daily {
+  sql_always_where:  ;;
   label: "Onlinemarketing Spendings"
+}
+
+explore: opportunities {
+  label: "Customer Acquisiton Sources"
+  sql_always_where: ${close_date}>='2019-01-01'
+                    AND NOT ${is_test}
+                    AND ${record_type_id}<>'Multiplier'
+                    AND ${is_deleted}<>true;;
+
+  join: account_sources {
+    from: fact_account_sources
+    type: full_outer
+    relationship: many_to_one
+    sql_on: ${opportunities.account_id}=${account_sources.account_id} ;;
+  }
 }
