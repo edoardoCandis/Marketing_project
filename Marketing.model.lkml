@@ -157,4 +157,11 @@ explore: opportunities {
     relationship: many_to_one
     sql_on: ${opportunities.account_id}=${account_sources.account_id} ;;
   }
+
+  join: fact_monthly_sales_and_method_cost {
+    type: full_outer
+    relationship: many_to_one
+    # this is technically not correct since we are joining cost of sale on created month instead of closed month. But for simplicity i will leave it like that for now.
+    sql_on: ${opportunities.created_month}=${fact_monthly_sales_and_method_cost.month_month} AND ${account_sources.lead_method}=${fact_monthly_sales_and_method_cost.lead_method} AND ${account_sources.presales}=1 ;;
+  }
 }
