@@ -29,12 +29,15 @@ persist_with: new_opportunities
 
 explore: cb_subscriptions {
   label: "Churn & Susbcriptions"
+  view_label: "Subscription Information"
   sql_always_where: ${is_deleted}<>true ;;
 
   join: plan_name {
+    view_label: "Subscription Information"
     from: products
     type: left_outer
     relationship: many_to_one
+    fields: [plan_name.product_basic_informatin*]
     sql_on: ${cb_subscriptions.chargebeeapps_subscription_plan_id}=${plan_name.id} ;;
   }
 
@@ -45,6 +48,7 @@ explore: cb_subscriptions {
   }
 
   join: fact_monthly_revenues {
+    fields: []
     type: left_outer
     relationship: many_to_one
     sql_on: ${cb_subscriptions.chargebeeapps_subcription_cancelled_at_c_month} =${fact_monthly_revenues.date_month};;

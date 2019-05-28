@@ -69,6 +69,12 @@ view: opportunities {
     sql: ${TABLE}.description ;;
   }
 
+  dimension: is_test {
+    type: yesno
+    hidden: yes
+    sql: CASE WHEN ${email_c} LIKE '%@candis.io%' OR ${email_c} LIKE '%@+test%' OR lower(${name}) LIKE '%test%' THEN true ELSE false END;;
+  }
+
   dimension: get_my_invoices_c {
     hidden: yes
     type: string
@@ -904,6 +910,7 @@ dimension_group: demo_booked_date_c {
     label: "   Total Demos booked"
     group_label: "Logo Metrics"
     type: count_distinct
+    drill_fields: [detail*]
     sql: ${id} ;;
     filters: {
       field: demo_booked_c

@@ -40,10 +40,11 @@ view: products {
   }
 
 
-  dimension: is_active {
-    hidden: yes
+  dimension: is_legacy {
+    label: "Legacy Plan"
+    description: "Yes -> the plan is no longer available"
     type: yesno
-    sql: ${TABLE}.is_active ;;
+    sql: NOT(${TABLE}.is_active) ;;
   }
 
   dimension: is_deleted {
@@ -55,11 +56,20 @@ view: products {
 
   dimension: name {
     label: "Product Name"
+    description: "Exact Product Name"
     type: string
     sql: ${TABLE}.name ;;
   }
 
+dimension: pricing_tier {
+  description: "2017 pricing, 2018 pricing etc."
+  sql: CASE WHEN ${name} LIKE '%Workflows%' THEN '2019'
+            WHEN ${name} LIKE '%2019%' THEN '2019'
+            WHEN ${name} LIKE '%OLD%' THEN '2017'
+            ELSE '2018' END ;;
+}
   dimension: Package {
+    description: "Startup, Basic, Pro etc."
     #type: string
     sql: CASE WHEN ${name} LIKE '%Light%' OR ${name} LIKE '%1€%' THEN 'Light'
               WHEN ${name} LIKE '%Startup%' THEN 'Startup'
@@ -76,7 +86,16 @@ view: products {
   }
 
   measure: count {
+    hidden: yes
     type: count
     drill_fields: [id, name]
   }
+
+set: product_basic_informatin {
+  fields: [
+    Package,
+    id
+  ]
+}
+
 }

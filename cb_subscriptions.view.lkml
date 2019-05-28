@@ -228,7 +228,21 @@ view: cb_subscriptions {
     sql: ${TABLE}.chargebeeapps_due_since_c ;;
   }
 
+  dimension: is_churn {
+    hidden: yes
+    type: yesno
+    label: "Churned"
+    description: "Only churn. Does not look at Cancellations during Trial"
+    sql: NOT ${is_active} AND ${subscription_stage_c}= 'customer' ;;
+  }
 
+  dimension: is_deactivation {
+    hidden: yes
+    type: yesno
+    label: "Deactivated"
+    description: "Only Cancellations within first 90 Days (Trial churn)"
+    sql: NOT ${is_active} AND ${subscription_stage_c}<> 'customer' ;;
+  }
 
   dimension: in_money_back_c {
     type: yesno
@@ -268,7 +282,7 @@ view: cb_subscriptions {
 
 
   dimension_group: chargebeeapps_subcription_cancelled_at_c {
-    label: "Churn or Deactivation"
+    label: "Churn/Deactivation"
     type: time
     timeframes: [
       raw,
@@ -298,33 +312,23 @@ view: cb_subscriptions {
     sql: ${TABLE}.chargebeeapps_subscription_created_at_c ;;
   }
 
+  dimension: is_active {
+    type: yesno
+    label: "Active"
+    sql:  chargebeeapps_subscription_status_c IN ('ACTIVE','NON_RENEWING') ;;
+  }
+
   dimension: chargebeeapps_subscription_status_c {
+    hidden: yes
+    # i dont think anybody actually cares about the sub status
+    label: "Status"
+    description: "Active, Cancelled etc."
     type: string
     sql: ${TABLE}.chargebeeapps_subscription_status_c ;;
   }
 
-dimension: is_active {
-  type: yesno
-  label: "Active"
-  sql:  chargebeeapps_subscription_status_c IN ('ACTIVE','NON_RENEWING') ;;
-}
-
-dimension: is_churn {
-  type: yesno
-  label: "Churned"
-  description: "Only churn. Does not look at Cancellations during Trial"
-  sql: NOT ${is_active} AND ${subscription_stage_c}= 'customer' ;;
-}
-
-  dimension: is_deactivation {
-    type: yesno
-    label: "Deactivated"
-    description: "Only Cancellations within first 90 Days (Trial churn)"
-    sql: NOT ${is_active} AND ${subscription_stage_c}<> 'customer' ;;
-  }
-
   dimension: product_billing_cycle_c {
-    label: "Billing Period"
+    label: "Billing Cycle"
     description: "Monthly or Yearly"
     type: string
     sql: ${TABLE}.product_billing_cycle_c ;;
@@ -339,6 +343,8 @@ dimension: is_churn {
 
 
   dimension: subscription_stage_c {
+    label: "Stage"
+    description: "Moneyback, Trial, Customer"
     type: string
     sql: ${TABLE}.subscription_stage_c ;;
   }
@@ -354,6 +360,7 @@ dimension: last_net_mrr {
 
   measure: active_subscriptions {
     type: count_distinct
+    label: "Total active Subscriptions"
     sql: ${id} ;;
     filters:  {
       field: is_active
@@ -459,7 +466,7 @@ measure: net_mrr_deactivations{
   }
 
   measure: gross_mrr_c {
-    label: "Subscription Gross MRR"
+    label: "Total Gross MRR"
     description: "Theoretical MRR. Remains if churned"
     type: sum
     value_format_name: eur
@@ -467,13 +474,16 @@ measure: net_mrr_deactivations{
   }
 
   measure: net_mrr_c{
-    label: "Subscription Net MRR"
+    label: "Total Net MRR"
+    #hidden: yes
     type: sum
     sql: ${last_net_mrr} ;;
     value_format_name: eur
   }
   measure: chargebeeapps_mrr_c {
     label: "Current Net MRR"
+    #hidden: yes
+    # one always has to filter for subscription= active
     description: "MRR after Coupons. 0 if churned"
     type: sum
     value_format_name: eur

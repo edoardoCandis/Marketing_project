@@ -2,6 +2,7 @@ view: churn_reasons {
   sql_table_name: success.churn_reasons ;;
 
   dimension: subscription_id {
+    hidden: yes
     type: string
     sql: ${TABLE}.subscription_id ;;
   }
@@ -9,14 +10,14 @@ view: churn_reasons {
   dimension: primary_key {
     primary_key: yes
     hidden: yes
-    sql: CONCAT(${subscription_id}, ${churn_reason_split}) ;;
+    sql: ${TABLE}.primary_key;;
   }
 
-  dimension: id {
+  dimension: case_id {
     # case ID
     type: string
     hidden: yes
-    sql: ${TABLE}.id ;;
+    sql: ${TABLE}.case_id ;;
   }
 
   dimension: month {
@@ -59,29 +60,31 @@ view: churn_reasons {
     sql: ${TABLE}.chargebeeapps_subscription_created_at_c ;;
   }
 
-  dimension: churn_reason_split {
-    type: string
-    sql: ${TABLE}.churn_reason_split ;;
-  }
-
   dimension: gross_mrr {
+    hidden: yes
+    # should come from Subscription
     type: number
     sql: ${TABLE}.gross_mrr ;;
   }
 
-
   dimension: subscription_stage_c {
     hidden:yes
-    # i think this we dont need since we can get it from the subscription
+    # should come from Subscription
     type: string
     sql: ${TABLE}.subscription_stage_c ;;
+  }
+
+  dimension: churn_reason_split {
+    label: "Churn Reason"
+    type: string
+    sql: ${TABLE}.churn_reason_split ;;
   }
 
 # -------------- measures here ---------------
 
   measure: count {
     type: count
-    drill_fields: [id]
+    drill_fields: [subscription_id,case_id]
   }
 
   measure: attributed_gross_dollar_churn {

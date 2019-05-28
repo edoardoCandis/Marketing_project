@@ -113,6 +113,13 @@ view: meetings {
     sql: ${TABLE}.invitee_uuid_c ;;
   }
 
+  dimension: is_test {
+    hidden: yes
+    #hidden: yes
+    type: yesno
+    sql: CASE WHEN ${description} LIKE '%@candis.io%' OR ${description} LIKE '%example%' THEN true ELSE false END ;;
+  }
+
   dimension: meeting_status_c {
     hidden: yes
     type: string
@@ -216,5 +223,12 @@ dimension: meeting_outcome {
     label: "Total Demos"
     type: count
     drill_fields: [id,meeting_status_c,what_id]
+  }
+
+  set: detail {
+    fields: [
+      id,
+      description
+    ]
   }
 }

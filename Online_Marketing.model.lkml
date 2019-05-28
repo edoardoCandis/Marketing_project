@@ -87,8 +87,7 @@ explore: online_marketing_sources {
 
 #------------------------------------------
 explore: leads {
-  sql_always_where: ${created_date} > '2019-01-01'
-  AND (${converted_account_opportunity.close_date} >='2019-01-01' OR ${converted_account_opportunity.close_date} is null)
+  sql_always_where: (${converted_account_opportunity.close_date} >='2019-01-01' OR ${converted_account_opportunity.close_date} is null)
   AND (${converted_account_opportunity.name} NOT LIKE '%test%' OR ${converted_account_opportunity.name} IS NULL)
   AND (${converted_account_opportunity.is_deleted}<>true OR ${converted_account_opportunity.is_deleted} IS NULL )
   AND (NOT ${accounts.referral_account_c}  OR ${accounts.referral_account_c} IS NULL);;
@@ -137,5 +136,21 @@ join:  online_marketing_sources {
 }
 
 explore: fact_source_cost_daily {
+  sql_always_where:  ;;
   label: "Onlinemarketing Spendings"
+}
+
+explore: opportunities {
+  label: "Customer Acquisiton Sources"
+  sql_always_where: ${close_date}>='2019-01-01'
+                    AND NOT ${is_test}
+                    AND ${record_type_id}<>'Multiplier'
+                    AND ${is_deleted}<>true;;
+
+  join: account_sources {
+    from: fact_account_sources
+    type: full_outer
+    relationship: many_to_one
+    sql_on: ${opportunities.account_id}=${account_sources.account_id} ;;
+  }
 }

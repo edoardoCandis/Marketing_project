@@ -14,7 +14,7 @@ explore: opportunities {
   view_label: "Opportunity Information"
   # technically we need to think about only including salesreps:  AND ${users.user_role_id}='Salesrep' but this leads to problems at the start of the funnel.
   sql_always_where: ${close_date}>='2019-01-01'
-                    AND ${name} NOT LIKE '%test%'
+                    AND NOT ${is_test}
                     AND ${record_type_id}<>'Multiplier'
                     AND ${is_deleted}<>true;;
   always_filter: {
@@ -105,7 +105,8 @@ explore: meetings {
   group_label: "Sales"
   label: "Demo Appointments"
   sql_always_where:  ${subject} LIKE '%webdemo%'
-                      AND ${is_deleted}<>true;;
+                      AND ${is_deleted}<>true
+                      AND NOT ${is_test};;
 
 }
 
