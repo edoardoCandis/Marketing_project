@@ -31,9 +31,20 @@ explore: doc_processed_raw {
       field: received_quarter
       value: "this quarter"
     }
-    }
-# one could join document data confirmations here SELECT * FROM candis_server.documents_confirm_data WHERE is_processed=false)
+  }
 
+# one could join document data confirmations here SELECT * FROM candis_server.documents_confirm_data WHERE is_processed=false)
+}
+
+explore: reprocess_document {
+  hidden: yes
+  # this is only used for the purpose of finding out the reprocessing share. For this you merge Explores anyway, so we just need to unhide it whenever we want to build something there
+  always_filter: {
+    filters: {
+      field: received_quarter
+      value: "this quarter"
+    }
+  }
 }
 
 explore: field_confirmations_error {
