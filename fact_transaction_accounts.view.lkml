@@ -25,9 +25,23 @@ view: fact_transaction_accounts {
     sql: ${TABLE}.bankcode ;;
   }
 
-  dimension: bankname {
+  dimension: bankname_detail {
+    hidden: yes
     type: string
-    sql: ${TABLE}.bankname ;;
+    sql: lower(${TABLE}.bankname) ;;
+  }
+
+  dimension: bank {
+    type: string
+    sql: CASE WHEN ${bankname_detail} LIKE '%commerzbank%' THEN 'commerzbank'
+              WHEN ${bankname_detail} LIKE '%deutsche bank%' THEN 'deutsche bank'
+              WHEN ${bankname_detail} LIKE '%sparkasse%' THEN 'sparkasse'
+              WHEN ${bankname_detail} LIKE '%volksbank%' THEN 'volksbank'
+              WHEN ${bankname_detail} LIKE '%raiffeisen%' THEN 'raiffeisenbank'
+              WHEN ${bankname_detail} LIKE '%postbank%' THEN 'postbank'
+              WHEN ${bankname_detail} LIKE '%gls%' THEN 'gls bank'
+              WHEN ${bankname_detail} LIKE '%vr-bank%' THEN 'vr bank'
+              ELSE ${bankname_detail} END;;
   }
 
   dimension: connectedby {
@@ -56,6 +70,10 @@ view: fact_transaction_accounts {
     sql: ${TABLE}.currency ;;
   }
 
+  dimension: is_connected {
+    type: yesno
+    sql: CASE WHEN ${disconnectedat_raw} IS NULL then true else false END ;;
+  }
   dimension_group: disconnectedat {
     hidden: no
     type: time
@@ -170,7 +188,7 @@ view: fact_transaction_accounts {
     label: "Total Transaction Accounts"
     type: count_distinct
     sql: ${transactionaccountid} ;;
-    drill_fields: [transactionaccountid,label,ownername, bankname, name]
+    drill_fields: [transactionaccountid,label,ownername, bankname_detail, name]
   }
 
   measure: companies_count {

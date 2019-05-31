@@ -30,5 +30,15 @@ explore: fact_labels {
 explore: fact_transaction_accounts {
   group_label: "Product Usage"
   label: "Transaction Accounts"
-  sql_always_where: NOT(${name}='Cash payment' AND ${label} IS NULL) ;;
+  sql_always_where: NOT(${name}='Cash payment' AND ${label} IS NULL) AND lower(${bankname_detail}) <>'demobank';;
+  always_filter: {
+    filters: {
+      field: is_connected
+      value: "yes"
+    }
+    filters: {
+      field: is_deleted
+      value: "no"
+    }
+  }
 }
