@@ -26,7 +26,6 @@ view: fact_transaction_accounts {
   }
 
   dimension: bankname {
-    hidden: yes
     type: string
     sql: ${TABLE}.bankname ;;
   }
@@ -88,7 +87,7 @@ view: fact_transaction_accounts {
   }
 
   dimension: ownerid {
-    label: "Owner id"
+    label: "Company ID"
     type: string
     sql: ${TABLE}.ownerid ;;
   }
@@ -133,6 +132,7 @@ view: fact_transaction_accounts {
   dimension: transactionaccountid {
     label: "Transaction Account id"
     type: string
+    primary_key: yes
     sql: ${TABLE}.transactionaccountid ;;
   }
 
@@ -166,13 +166,16 @@ view: fact_transaction_accounts {
     sql: ${TABLE}.usesequencenumber ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: [ownername, bankname, name]
-  }
   measure: accounts_count {
-    label: "Number of accounts"
+    label: "Total Transaction Accounts"
     type: count_distinct
     sql: ${transactionaccountid} ;;
+    drill_fields: [transactionaccountid,label,ownername, bankname, name]
+  }
+
+  measure: companies_count {
+    label: "Total Candis Accounts"
+    type: count_distinct
+    sql: ${ownerid} ;;
   }
 }

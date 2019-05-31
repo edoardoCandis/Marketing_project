@@ -30,4 +30,5 @@ explore: fact_labels {
 explore: fact_transaction_accounts {
   group_label: "Product Usage"
   label: "Transaction Accounts"
+  sql_always_where: NOT(${name}='Cash payment' AND ${label} IS NULL) ;;
 }
