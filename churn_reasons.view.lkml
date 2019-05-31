@@ -86,6 +86,7 @@ view: churn_reasons {
 
 # -------------- measures here ---------------
 
+
   measure: count {
     hidden: yes
     type: count
@@ -118,4 +119,11 @@ view: churn_reasons {
     value_format_name: eur
     sql: ${TABLE}.attributed_net_dollar_churn ;;
   }
+
+  measure: no_reaction_count {
+    label: "Number of churns with no reaction"
+    type: count_distinct
+    sql: CASE WHEN ${churn_reason_split} = 'No Reaction' THEN ${subscription_id} ELSE NULL END ;;
+  }
+
 }

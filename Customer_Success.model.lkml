@@ -53,6 +53,11 @@ explore: cb_subscriptions {
     relationship: many_to_one
     sql_on: ${cb_subscriptions.chargebeeapps_subcription_cancelled_at_c_month} =${fact_monthly_revenues.date_month};;
   }
+  join: top_churn_reasons {
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${churn_reasons.churn_reason_split} = ${top_churn_reasons.churn_reason_split} AND ${top_churn_reasons.subscription_stage_c} = ${churn_reasons.subscription_stage_c};;
+  }
 }
 
 explore: customer_interactions {
