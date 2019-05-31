@@ -18,13 +18,16 @@ include: "*.view.lkml"                       # include all views in this project
 #   }
 # }
 explore: fact_jobs {
+  group_label: "Product Usage"
   label: "Jobs"
 }
 
 explore: fact_labels {
+  group_label: "Product Usage"
   label: "Labels"
 }
 
 explore: fact_transaction_accounts {
+  group_label: "Product Usage"
   label: "Transaction Accounts"
 }
