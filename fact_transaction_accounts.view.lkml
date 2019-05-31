@@ -58,7 +58,7 @@ view: fact_transaction_accounts {
   }
 
   dimension_group: disconnectedat {
-    hidden: yes
+    hidden: no
     type: time
     timeframes: [
       raw,
