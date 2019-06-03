@@ -197,6 +197,7 @@ dimension: meeting_outcome {
       time,
       hour,
       hour_of_day,
+      day_of_week,
       date,
       week,
       month,
