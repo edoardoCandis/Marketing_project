@@ -86,6 +86,7 @@ explore: opportunities {
     sql_on: ${opportunities.id}=${meetings.what_id} ;;
     #only join Webdemos that where not deleted
     sql_where:  ${meetings.subject} LIKE '%webdemo%'
+                AND NOT ${is_test}
                 AND ${meetings.is_deleted}<>true;;
   }
 
@@ -106,8 +107,16 @@ explore: meetings {
   label: "Demo Appointments"
   sql_always_where:  ${subject} LIKE '%webdemo%'
                       AND ${is_deleted}<>true
-                      AND NOT ${is_test};;
+                      AND NOT ${is_test}
+                      AND ${assigned_to.user_role}='Salesrep';;
 
+  join: assigned_to {
+    from: salesforce_users
+    view_label: "Assigned to"
+    relationship: many_to_one
+    fields: [assigned_to.name]
+    sql_on: ${assigned_to.id}=${meetings.owner_id};;
+  }
 }
 
 # ------------------ new explore ------------------------------
