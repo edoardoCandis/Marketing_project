@@ -93,5 +93,6 @@ view: fact_account_sources {
   measure: count {
     type: count
     drill_fields: [campaign_name, accounts.name, accounts.id]
+
   }
 }

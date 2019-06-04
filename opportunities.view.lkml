@@ -1001,6 +1001,7 @@ view: opportunities {
     sql: ${opportunity_score};;
   }
 
+
 # -------Period Over Period Analysis
 
   parameter: previous_period_comparison_granularity {

@@ -600,5 +600,6 @@ view: accounts {
   measure: count {
     type: count
     drill_fields: [id, name, fact_account_sources.count, opportunities.count]
+
   }
 }

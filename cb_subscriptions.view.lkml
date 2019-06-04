@@ -1,6 +1,7 @@
 view: cb_subscriptions {
   sql_table_name: salesforce.cb_subscriptions ;;
 
+
   dimension: id {
     primary_key: yes
     type: string

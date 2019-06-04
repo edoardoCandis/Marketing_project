@@ -57,6 +57,7 @@ view: website_visits {
     sql: concat(${anonymous_id},${received_at_raw})
       ;;
   }
+
   dimension: source {
     type: string
     sql: ${TABLE}.source ;;

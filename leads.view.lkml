@@ -528,6 +528,7 @@ view: leads {
     value_format_name: decimal_0
     sql: CASE WHEN ${prequalified_date_date} IS NULL THEN DATEDIFF('Days', ${prequalified_date_date},${converted_date})
       ELSE DATEDIFF('Days', ${created_date},${converted_date}) END ;;
+
     filters: {
       field: status
       value: "demo requested"

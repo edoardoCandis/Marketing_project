@@ -60,6 +60,7 @@ view: fact_source_cost_daily {
     type: sum
     value_format_name: eur
     sql: ${TABLE}.source_cost_bing+${TABLE}.source_cost_facebook+${TABLE}.source_cost_google+${TABLE}.source_cost_linkedin+${TABLE}.source_cost_xing ;;
+
   }
 
 
