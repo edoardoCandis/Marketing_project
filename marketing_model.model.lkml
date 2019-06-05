@@ -67,7 +67,7 @@ explore: leads {
 
 explore: temp_adwords_comp_acq_campaign_spendings {}
 explore: temp_facebook_comp_acq_campaign_spendings {}
-
+explore: marketing_campaign_cost {}
 # explore: leads {
 #   sql_always_where: (${converted_account_opportunity.close_date} >='2019-01-01' OR ${converted_account_opportunity.close_date} is null)
 #       AND (${converted_account_opportunity.name} NOT LIKE '%test%' OR ${converted_account_opportunity.name} IS NULL)
