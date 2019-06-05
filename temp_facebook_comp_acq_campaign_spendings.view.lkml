@@ -33,7 +33,7 @@ view: temp_facebook_comp_acq_campaign_spendings {
 
   dimension: month {
     type: date_month
-    sql: ${TABLE}.month ;;
+    sql:concat(${TABLE}.month,'-01')::date ;;
   }
 
   measure: spendings {

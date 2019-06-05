@@ -8,7 +8,7 @@ view: temp_adwords_comp_acq_campaign_spendings {
 
   dimension: month {
     type: date_month
-    sql: ${TABLE}.month ;;
+    sql: concat(${TABLE}.month,'-01')::date ;;
   }
 
   dimension: name {
