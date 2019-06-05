@@ -428,34 +428,37 @@ view: opportunities {
 
   dimension: days_in_opportunity_funnel {
     group_label: "Funneltime"
+    label: "Time in Funnel (Days)"
     type: number
     sql: ${TABLE}.daysin_opportunity_funnel_c ;;
   }
 
   dimension: days_in_opportunity_funnel_bucket {
     group_label: "Funneltime"
+    label: "Time in Funnel (Weeks)"
     type: tier
-    tiers: [ 0,7,14,21,28,]
+    tiers: [7,14,21,30,45]
     style: integer
-    sql: ${days_in_opportunity_funnel}_funnel_c} ;;
+    sql: ${days_in_opportunity_funnel} ;;
   }
 
-  dimension: days_to_close_after_demo {
+  dimension: days_demo_to_close {
     group_label: "Funneltime"
     label: "Time Demo to Close (Days)"
     type: number
-    sql:  ${close_date}- ${demo_done_date_c_date} ;;
-
+    sql: COALESCE(DATEDIFF(day,${demo_done_date_c_date},${close_date}),0);;
   }
+
 
   dimension: weeks_to_close_after_demo {
     group_label: "Funneltime"
     label: "Time Demo to Close (Weeks)"
     type: tier
-    tiers: [ 0,7,14,21,28,35,42]
+    tiers: [7,15,31,46,60]
     style: integer
-    sql: : ${close_date}- ${demo_done_date_c_date} ;;
+    sql: ${days_demo_to_close};;
   }
+
   dimension: decision_process_c {
     group_label: "Sales Process Information"
     label: "Decision Process"
@@ -524,7 +527,8 @@ view: opportunities {
 
   dimension: company_size{
     group_label: "Company Information"
-    label: "Employee Groups"
+    label: "Employees"
+    description: "25,50,100"
     type: tier
     tiers: [ 25,100,200]
     style: integer
@@ -758,13 +762,7 @@ view: opportunities {
     sql: ${TABLE}.urgency_score_c ;;
   }
 
-  dimension: days_demo_to_close {
-    group_label: "Funneltime"
-    label: "Time Demo to Close (Days)"
-    type: number
-    # if datediff is negative then take 0.
-    sql: IF( ${close_date}<${check_demo_done_c},0,DATEDIFF('DAY', ${demo_done_date_c_date}, ${close_date}));;
-  }
+
 
 
 
@@ -902,6 +900,7 @@ view: opportunities {
     group_label: "Logo Metrics"
     type: count_distinct
     sql: ${id} ;;
+    drill_fields: [detail*]
     filters: {
       field: check_demo_done_c
       value: "yes" } }
